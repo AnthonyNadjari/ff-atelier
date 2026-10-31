@@ -1,0 +1,165 @@
+{
+  "id": "buvard",
+  "version": 1,
+  "source": {
+    "url": "https://www.florawellnesscafe.com/",
+    "nom": "Flora Café",
+    "metier": "café de quartier à Modesto, Californie (café, matcha, fleurs du vendredi, événements)",
+    "fiche": "docs/veille/styles/buvard.md",
+    "mesures": "docs/veille/styles/atomes/mesures/buvard.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "adobe-caslon-pro",
+      "libre": "libreCaslonText",
+      "graisse": 400,
+      "interlignage": 1.02,
+      "casse": "none",
+      "interlettrage": -0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "adobe-caslon-pro",
+      "libre": "libreCaslonText",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": {
+      "famille": "machine à écrire (carte, prix, étiquettes)",
+      "libre": "courierPrime"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 34.7,
+        "ordinateur": 48
+      },
+      "h2": {
+        "telephone": 27.7,
+        "ordinateur": 36
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Adobe Caslon Pro (non libre) pour les titres et le texte : Libre Caslon Text ; certains titres en italique sur la source, refusés (GOUT § 2). La carte, les prix et les étiquettes en machine à écrire : Courier Prime, capitales sans interlettrage."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#f2ecd9",
+      "texte": "#5f1e1b",
+      "fonds": [
+        {
+          "hex": "#f2ecd9",
+          "part": 0.929
+        },
+        {
+          "hex": "#5f1e1b",
+          "part": 0.064
+        },
+        {
+          "hex": "#b53530",
+          "part": 0.007
+        },
+        {
+          "hex": "#ce4c46",
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#5f1e1b",
+          "part": 0.641
+        },
+        {
+          "hex": "#f2ecd9",
+          "part": 0.211
+        },
+        {
+          "hex": "#601f1b",
+          "part": 0.137
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.011
+        }
+      ],
+      "proches": 9686718
+    },
+    "clair": {
+      "fond": "#f2ecd9",
+      "surface": "#f7f2e3",
+      "texte": "#5f1e1b",
+      "texte2": "#86504a",
+      "accent": "#b03530",
+      "accent2": "#93292a",
+      "bordure": "#d9c7b0",
+      "encre": "#5f1e1b"
+    },
+    "sombre": null,
+    "remarque": "Papier crème #f2ecd9 (93 % des fonds, chroma 0,026), lie-de-vin #5f1e1b (6 % des fonds : le pied ; 64 % des textes), rouge de tampon #b53530 assombri en #b03530 (5,2:1) pour les étiquettes. Pas de grain de papier (GOUT § 2). Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 56,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 40
+    },
+    "conteneur": 1440,
+    "mesure": 59,
+    "rythme": "uni",
+    "remarque": "Pleine largeur dans des marges de 40 px ; photos cadrées dans les marges ; carte en colonnes serrées ; filets tremblés entre les blocs."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Étiquettes rouges pleines à angles droits en machine à écrire ; aucune carte ; filets tremblés tirés à la main."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "2:1",
+      "4:5",
+      "3:4"
+    ],
+    "pleinCadre": 8,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photo du lieu cadrée dans les marges ; grande photo à titre posé dessus ; photos verticales sous les articles ; photos de gens, de tasses et de fleurs, en lumière naturelle."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "linear"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "filet-tremble-qui-se-trace",
+    "remarque": "Rien de bibliothèque ; transitions 0,4 s linear (113 éléments). Gardé : les étiquettes et liens qui changent de rouge en 0,4 s linéaire ; ajouté dans l'esprit : les filets tremblés qui se tracent à leur arrivée."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "photo-cadree"
+}

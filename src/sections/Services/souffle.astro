@@ -1,0 +1,58 @@
+---
+/**
+ * Services "souffle" (style souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md § Le geste
+ * signature) : LES SÉRIES. Sur le sapin, juste sous le premier écran et sans titre au-dessus (comme la source, le titre est
+ * dit pour les lecteurs d'écran), une rangée de photos VERTICALES (3:4) dans le conteneur, trois par ligne à l'ordinateur,
+ * séparées de 24 px ; chaque photo est le lien vers la page de la prestation et porte sa légende en bas à gauche, en
+ * grotesque blanche de 15 px (« Découvrir » et le nom), sur un dégradé sapin qui monte du bas. Au téléphone, une photo par
+ * ligne, pleine largeur, 4:5.
+ * Le geste (profil existant « photo-qui-s-approche », docs/veille/styles/MOUVEMENTS.md) : au survol ou au focus clavier, la
+ * photo s'approche lentement dans son cadre (scale 1 -> 1,045 en 0,9 s) et un filet se trace sous la légende, seulement avec
+ * un pointeur fin et hors mouvement réduit ; rien au défilement, rien au toucher qui cache une information.
+ * Rien d'inventé : une prestation sans photo garde sa case en aplat sapin plus clair avec son nom en garalde (jamais une
+ * photo de banque à sa place) ; le prix, s'il est donné, suit le nom.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+const lien = (slug: string) => (site.servicePages ? `/services/${slug}` : '/#contact');
+---
+
+<section id="services" class="souffle-series bg-bg pb-[calc(var(--section-y)*0.5)] pt-6 text-fg md:pt-8" aria-labelledby="souffle-series-titre">
+  <Titre id="souffle-series-titre" class="sr-only" title={site.wording.servicesTitle} />
+  <p class="sr-only">{metierEtVille()}</p>
+  <ul class="container-ff grid gap-5 md:grid-cols-3 md:gap-6">
+    {services.map((s) => (
+      <li>
+        <a href={lien(s.slug)} class="souffle-case group relative block overflow-hidden">
+          {s.image ? (
+            <Img src={s.image.src} alt={s.image.alt} class="souffle-case-photo absolute inset-0 h-full w-full object-cover" sizes="(min-width: 76rem) 380px, (min-width: 48rem) 31vw, 92vw" loading="lazy" />
+          ) : (
+            <span class="souffle-case-vide absolute inset-0 flex items-center justify-center p-8 text-center font-display text-3xl">{s.title}</span>
+          )}
+          <span class="souffle-legende absolute inset-x-0 bottom-0 flex flex-col gap-0.5 px-5 pb-5 pt-16 text-[0.95rem]">
+            <span><span class="souffle-legende-mot">Découvrir</span> {s.title}</span>
+            {s.priceFrom && <span class="text-sm opacity-90">{s.priceFrom}</span>}
+            <span class="souffle-filet" aria-hidden="true"></span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .souffle-case { aspect-ratio: 4 / 5; background: var(--bg-2); color: var(--fg); text-decoration: none; }
+  @media (min-width: 48rem) { .souffle-case { aspect-ratio: 3 / 4; } }
+  .souffle-case-vide { background: var(--line); }
+  .souffle-case-photo { transition: transform var(--motion-duration) var(--ease-brand); }
+  .souffle-legende { background: linear-gradient(to top, color-mix(in oklab, var(--bg) 70%, transparent), transparent); }
+  .souffle-filet { display: block; height: 1px; margin-top: 0.6rem; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--motion-duration) var(--ease-brand); }
+  @media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .souffle-case:hover .souffle-case-photo, .souffle-case:focus-visible .souffle-case-photo { transform: scale(1.045); }
+    .souffle-case:hover .souffle-filet, .souffle-case:focus-visible .souffle-filet { transform: scaleX(1); }
+  }
+  .souffle-series :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

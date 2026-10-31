@@ -1,0 +1,18 @@
+---
+/**
+ * Titre de section posé tel quel : la balise (h2 par défaut), ses attributs (id, class…) et le texte en `title`
+ * (HTML permis, comme SectionHeading). Pour les sections dont le titre a sa propre mise en page et ne peut pas prendre
+ * l'en-tête commun (SectionHeading ajoute un conteneur, une taille et une apparition) : le titre vient quand même de
+ * `site.wording` par la même porte (`title={site.wording.servicesTitle}`, tests/sections.test.mjs). Les attributs
+ * restants sont recopiés, y compris celui du style délimité de la section appelante : ses règles s'y appliquent.
+ */
+interface Props {
+  title: string;
+  level?: 'h2' | 'h3';
+  [key: string]: unknown;
+}
+const { title, level = 'h2', ...rest } = Astro.props;
+const Tag = level;
+---
+
+<Tag {...rest} set:html={title} />

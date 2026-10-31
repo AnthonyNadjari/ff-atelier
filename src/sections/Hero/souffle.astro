@@ -1,0 +1,62 @@
+---
+/**
+ * Hero "souffle" (style réel souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md
+ * § Construction, bloc 2) : sous la barre sapin, UNE PIÈCE EN GRAND. La source pose sa table de verre à droite d'une photo
+ * pleine largeur et son texte à gauche, sur le velours sombre du fauteuil ; on garde ce partage, sans compter sur la photo
+ * du client pour porter le texte : à l'ordinateur, le texte sur le sapin dans les cinq premières colonnes (la phrase,
+ * business.tagline, en garalde fine blanche de 42 px ; le métier à la ville, l'ancienneté et la note en grotesque de 15 px ;
+ * deux boutons pleins à angles droits côte à côte : blanc « Voir les pièces », rose de verre la porte Devis ou Appeler),
+ * et la photo de la pièce (images.hero) de la 6e colonne jusqu'au bord droit de l'écran, sur toute la hauteur du premier
+ * écran (90 % de l'écran), cadrée sur l'objet. AU TÉLÉPHONE, comme la source : la photo d'abord (carrée, pour que la pièce
+ * tienne entière), puis le texte sur le sapin et les deux boutons pleine largeur l'un sous l'autre.
+ * Mouvement : aucun (la source n'anime rien à l'arrivée ; profil « photo-qui-s-approche », porté par les séries).
+ * Données : sans images.hero, le texte seul sur le sapin (jamais une photo de banque présentée comme celle du client).
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const sous = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+].filter(Boolean).join(', ') + '.';
+const note = google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`;
+const seconde = hasContactDoor(site) ? { href: '/#contact', label: site.wording.devis } : { href: tel(), label: `Appeler le ${site.contact.phoneDisplay}` };
+---
+
+<section id="hero" class="hero-souffle relative bg-bg text-fg md:grid md:grid-cols-12">
+  {hero && (
+    <div class="souffle-photo relative overflow-hidden md:order-2 md:col-span-7 md:col-start-6">
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.souffle} priority />
+    </div>
+  )}
+  <div class:list={['souffle-texte md:order-1 md:col-span-5 md:col-start-1 md:row-start-1 md:self-center', !hero && 'souffle-sans-photo md:col-span-8']}>
+    <h1 class="souffle-phrase hero-titre" set:html={site.business.tagline} />
+    <p class="mt-5 max-w-[34rem] text-[0.95rem] leading-relaxed">{sous}{note && <span class="mt-1 block md:mt-0 md:inline"> {note}.</span>}</p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row md:mt-9">
+      <a href="/#services" class="souffle-bouton souffle-bouton-blanc">Voir les pièces</a>
+      <a href={seconde.href} class="souffle-bouton souffle-bouton-rose">{seconde.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .souffle-photo { aspect-ratio: 1 / 1; }
+  .souffle-texte { padding: 2.25rem clamp(1rem, 5vw, 1.5rem) 2.75rem; }
+  @media (min-width: 48rem) {
+    .hero-souffle { min-height: max(32rem, calc(90svh - 72px)); }
+    .souffle-photo { aspect-ratio: auto; min-height: 100%; }
+    /* Le texte part de la marge du conteneur (160 px à 1 440 px sur la source). */
+    .souffle-texte { padding: 3rem 2.5rem 3rem max(1.5rem, calc((100vw - 70rem) / 2)); }
+  }
+  .souffle-sans-photo { padding-block: clamp(4rem, 12vw, 9rem); }
+  .souffle-phrase { font-size: clamp(1.6rem, 1rem + 2vw, 2.65rem); line-height: 1.08; max-width: 18ch; text-wrap: balance; }
+  .souffle-bouton { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: 0.8rem 1.75rem; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: background var(--motion-ui) var(--ease-brand); }
+  .souffle-bouton-blanc { background: var(--fg); color: var(--bg); }
+  .souffle-bouton-blanc:hover { background: var(--menthe); }
+  .souffle-bouton-rose { background: var(--accent); color: var(--on-accent); }
+  .souffle-bouton-rose:hover { background: var(--accent-2); }
+  .hero-souffle :global(.ff-illustration) { top: 0.75rem; bottom: auto; }
+</style>

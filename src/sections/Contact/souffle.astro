@@ -1,0 +1,65 @@
+---
+/**
+ * Contact "souffle" (style souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md § Construction,
+ * blocs 6 et 7) : deux bandes, comme la source.
+ * 1. LA PLAQUE MENTHE DANS LA BANDE SAPIN (« Custom Made Works ») : sur le sapin, une plaque menthe à angles droits qui tient
+ *    le conteneur ; à gauche, sans marge, une photo verticale sur toute la hauteur de la plaque (5/12) ; à droite, centrés
+ *    verticalement, le titre du contact (wording.contactTitle) en garalde de 30 px, la phrase (wording.contactText, sinon le
+ *    métier à la ville), le téléphone, l'e-mail et un bouton plein sapin à angles droits (Appeler). Au téléphone : la photo
+ *    en haut de la plaque, le texte dessous.
+ * 2. LE BANDEAU MENTHE CENTRÉ (« Enter Tavolini's world », court comme la source) : la porte Devis en titre de garalde
+ *    centré, l'adresse et les horaires en une ligne, et un seul bouton plein sapin (Écrire à l'atelier, l'e-mail avec
+ *    l'objet du devis ; sinon Appeler). Pas de formulaire générique : la page finit courte, sur le style.
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée ; photo du client seulement (une photo de galerie que la lettre
+ * n'a pas montrée). Mouvement : aucun.
+ */
+import { site, tel, mailto, fullAddress, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const photoLettre = site.about.portrait ?? site.proof.gallery.find((g) => g.src !== site.images.hero?.src);
+const photo = site.proof.gallery.find((g) => g.src !== site.images.hero?.src && g.src !== photoLettre?.src);
+---
+
+<section id="contact" class="souffle-commande bg-bg py-[calc(var(--section-y)*0.9)]" aria-labelledby="souffle-contact-titre">
+  <div class="container-ff">
+    <div class:list={['souffle-plaque grid', photo && 'md:grid-cols-12']}>
+      {photo && (
+        <figure class="relative aspect-[4/5] overflow-hidden md:col-span-5 md:aspect-auto md:min-h-[33rem]">
+          <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 40vw, 92vw" loading="lazy" />
+        </figure>
+      )}
+      <div class="px-5 py-10 md:col-span-6 md:col-start-7 md:self-center md:px-0 md:py-16">
+        <h2 id="souffle-contact-titre" class="souffle-plaque-titre" set:html={site.wording.contactTitle} />
+        <p class="mt-6 max-w-[42ch] text-[0.95rem] leading-relaxed">{site.wording.contactText ?? metierEtVille()}</p>
+        <ul class="mt-6 space-y-1 text-[0.95rem]">
+          <li><a href={tel()} class="underline underline-offset-4">{site.contact.phoneDisplay}</a></li>
+          {site.contact.email && <li><a href={mailto()} class="break-all underline underline-offset-4">{site.contact.email}</a></li>}
+        </ul>
+        <a href={tel()} class="souffle-bouton-sapin mt-8">Appeler l’atelier</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="souffle-bandeau py-12 md:py-14" aria-labelledby="souffle-ecrire-titre">
+  <div class="container-ff flex flex-col items-center gap-5 text-center">
+    <h2 id="souffle-ecrire-titre" class="souffle-bandeau-titre">{site.wording.devis}</h2>
+    {(adresse || horaires.length > 0) && (
+      <p class="max-w-[44rem] text-sm text-[color:var(--sur-menthe-2)]">
+        {adresse}{adresse && horaires.length > 0 && '. '}{horaires.map((h) => `${h.days} : ${h.hours}`).join(' ; ')}
+      </p>
+    )}
+    <a href={site.contact.email ? `${mailto()}?subject=${encodeURIComponent(site.wording.devis)}` : tel()} class="souffle-bouton-sapin">{site.contact.email ? 'Écrire à l’atelier' : `Appeler le ${site.contact.phoneDisplay}`}</a>
+  </div>
+</section>
+
+<style>
+  .souffle-plaque { background: var(--menthe); color: var(--sur-menthe); }
+  .souffle-plaque-titre { font-size: clamp(1.6rem, 1.3rem + 0.9vw, 2rem); line-height: 1.12; }
+  .souffle-bouton-sapin { display: inline-flex; align-items: center; min-height: 3rem; padding: 0.8rem 1.75rem; background: var(--sur-menthe); color: var(--menthe); font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: opacity var(--motion-ui) var(--ease-brand); }
+  .souffle-bouton-sapin:hover { opacity: 0.88; }
+  .souffle-bandeau { background: var(--menthe); color: var(--sur-menthe); }
+  .souffle-bandeau-titre { font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.8rem); }
+</style>

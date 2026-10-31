@@ -1,0 +1,33 @@
+---
+/**
+ * Footer "bande" (styles farine, pochoir et buvard, 30 oct 2026, tour 19 ; sources impastofornoantico.com : « Privacy
+ * Policy, FAQs » dans le pied brun ; haven-annecy.fr : une barre brun très foncé sous les colonnes, « © Haven 2026 - All
+ * rights reserved », « Join us, Contact us, Legals » ; florawellnesscafe.com : une bande rouge d'une ligne sous le pied
+ * lie-de-vin). UNE SEULE LIGNE sur l'encre de la direction (--ink), en petit corps : le © et le nom, les mentions, la
+ * confidentialité, les crédits photos s'il y en a, le crédit du studio. À poser sous une section contact qui fait déjà
+ * office de pied (coordonnées, horaires, liens) : Contact/farine, Contact/pochoir, Contact/buvard. Sans section contact,
+ * la ligne garde le téléphone pour que la page ne finisse jamais sans lui.
+ * Rien d'inventé : chaque lien disparaît sans sa page.
+ */
+import { site, tel, hasCredits } from '@/lib/site';
+const year = new Date().getFullYear();
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="pied-bande bg-ink text-on-ink">
+  <div class="pied-bande-ligne flex flex-col gap-3 py-5 text-xs md:flex-row md:flex-wrap md:items-center md:justify-between">
+    <p>©&nbsp;{year} {site.business.name}</p>
+    <ul class="flex flex-wrap gap-x-6 gap-y-2">
+      {sansSectionContact && <li id="contact"><a href={tel()} class="underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a></li>}
+      <li><a href="/mentions-legales" class="underline-offset-4 hover:underline">Mentions légales</a></li>
+      <li><a href="/confidentialite" class="underline-offset-4 hover:underline">Confidentialité</a></li>
+      {hasCredits && <li><a href="/credits" class="underline-offset-4 hover:underline">Crédits photos</a></li>}
+    </ul>
+    <p>Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+    {site.legal.demo && <p class="w-full">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>
+
+<style>
+  .pied-bande-ligne { width: 100%; padding-inline: clamp(1.125rem, 3.3vw, 3rem); border-top: 1px solid color-mix(in oklab, var(--on-ink) 22%, transparent); }
+</style>

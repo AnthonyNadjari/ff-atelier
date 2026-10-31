@@ -1,0 +1,41 @@
+---
+/**
+ * About "souffle" (style souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md § Construction,
+ * bloc 5) : LA LETTRE SUR LA MENTHE. Bande menthe d'eau pleine largeur ; dans le conteneur, à gauche une photo verticale
+ * (4:5, 5/12 de la largeur, collée au bord gauche du conteneur), à droite (de la 7e à la 11e colonne), descendue à la
+ * hauteur du milieu de la photo : le premier paragraphe de l'histoire en garalde de 28 px (la « duality » de la source),
+ * puis le reste en grotesque de 15 px, et un lien « Nous écrire → ». Au téléphone : la photo pleine largeur, puis le texte.
+ * Rien d'inventé : photo du client seulement (about.portrait, sinon une photo de la galerie) ; sans photo, le texte seul
+ * dans la colonne de droite. Mouvement : aucun.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const [premier, ...suite] = paragraphs(a.story);
+const photo = a.portrait ?? site.proof.gallery.find((g) => g.src !== site.images.hero?.src);
+---
+
+<section id="about" class="souffle-lettre py-[var(--section-y)]" aria-label={a.title ?? 'L’atelier'}>
+  <div class="container-ff grid gap-10 md:grid-cols-12 md:gap-6">
+    {photo && (
+      <figure class="relative aspect-[4/5] overflow-hidden md:col-span-4">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 34vw, 92vw" loading="lazy" />
+      </figure>
+    )}
+    <div class="md:col-span-5 md:col-start-7 md:self-center">
+      {a.title && <h2 class="souffle-lettre-titre font-body">{a.title}</h2>}
+      {premier && <p class:list={['souffle-lettre-grand font-[family-name:var(--font-display)]', a.title && 'mt-6']}>{premier}</p>}
+      {suite.map((p) => <p class="mt-6 text-[0.95rem] leading-relaxed text-[color:var(--sur-menthe-2)]">{p}</p>)}
+      <p class="mt-8 text-[0.95rem]"><a href="/#contact" class="souffle-lien">Nous écrire <span aria-hidden="true">→</span></a></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .souffle-lettre { background: var(--menthe); color: var(--sur-menthe); }
+  .souffle-lettre-titre { font-size: clamp(1.1rem, 1rem + 0.3vw, 1.25rem); font-weight: 500; letter-spacing: 0; color: var(--sur-menthe-2); }
+  .souffle-lettre-grand { font-size: clamp(1.45rem, 1.1rem + 1vw, 1.85rem); line-height: 1.22; letter-spacing: -0.02em; text-wrap: pretty; }
+  .souffle-lien { color: var(--sur-menthe); text-decoration: none; }
+  .souffle-lien:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+</style>

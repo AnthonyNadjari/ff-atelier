@@ -1,0 +1,52 @@
+---
+/**
+ * Contact "talus" (style talus, relevé sur taylorhare.com le 30 oct 2026, fiche docs/veille/styles/talus.md § Construction,
+ * blocs 6 et 7 : la fin de la source) : la page finit sur LE PANNEAU GRIS-BLEU (--ink) pleine largeur, un peu plus d'un
+ * écran : la phrase de contact (wording.contactTitle) en grand corps léger dans les colonnes 2 à 4, puis plus bas, décalée
+ * d'une colonne, la phrase d'invitation avec ses liens soulignés dans le texte (« appeler le … », « nous écrire ») comme
+ * le « get in touch » de la source, et rien d'autre : la source n'a pas de formulaire, et la porte Devis du premier écran
+ * arrive ici sur deux liens (une porte par intention, GOUT § 0 : pas de formulaire en bas de page). Puis, sur le
+ * papier, LA RANGÉE DES TROIS : trois colonnes égales, un mot en grand (Téléphone, la ville, Horaires) et sa ligne en
+ * petit dessous (le numéro, la rue, les horaires du jour), comme les trois bureaux de la source avec leur heure locale.
+ * Rien d'inventé : chaque colonne disparaît sans sa donnée. Mouvement : aucun.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+
+const adresse = site.contact.address;
+const horaires = site.contact.hours;
+const trois = [
+  { mot: 'Téléphone', ligne: site.contact.phoneDisplay, href: tel() },
+  adresse?.city && { mot: adresse.city, ligne: fullAddress(), href: undefined },
+  horaires.length > 0 && { mot: 'Horaires', ligne: horaires.map((h) => `${h.days} ${h.hours}`).join(' ; '), href: undefined },
+].filter(Boolean) as { mot: string; ligne: string; href?: string }[];
+---
+
+<section id="contact" class="talus-contact" aria-labelledby="talus-contact-titre">
+  <div class="bg-ink text-on-ink">
+    <div class="talus-gouttiere grid gap-10 py-[var(--section-y)] md:min-h-[64svh] md:grid-cols-6 md:gap-0">
+      <div class="md:col-span-3 md:col-start-2">
+        <h2 id="talus-contact-titre" class="talus-grande" set:html={site.wording.contactTitle} />
+        <p class="talus-grande mt-10 md:ml-[33.333%] md:mt-16">
+          {site.wording.contactText ? <>{site.wording.contactText} </> : null}
+          Vous pouvez <a href={tel()} class="underline decoration-1 underline-offset-[0.2em] hover:decoration-2">appeler le {site.contact.phoneDisplay}</a>{site.contact.email ? <>, ou <a href={mailto()} class="underline decoration-1 underline-offset-[0.2em] hover:decoration-2">nous écrire</a></> : null}.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="talus-trois" aria-label="Téléphone, adresse et horaires">
+  <ul class="talus-gouttiere grid gap-10 py-16 text-center md:grid-cols-3 md:gap-6 md:py-20">
+    {trois.map((t) => (
+      <li>
+        <p class="talus-mot">{t.href ? <a href={t.href} class="hover:underline underline-offset-4">{t.mot}</a> : t.mot}</p>
+        <p class="mx-auto mt-2 max-w-[30ch] text-[0.9375rem] leading-relaxed">{t.ligne}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .talus-gouttiere { padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  .talus-grande { font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2.1rem); line-height: 1.2; max-width: 26ch; }
+  .talus-mot { font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); line-height: 1.1; }
+</style>

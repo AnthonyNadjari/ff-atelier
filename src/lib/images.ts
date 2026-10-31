@@ -44,7 +44,17 @@ export const HERO_SIZES: Record<string, string> = {
   calque: '100vw', // photo plein écran sous la barre de cellules (style calque)
   enduit: '100vw', // photo plein écran, phrase en bas à gauche (style enduit)
   ocre: '(min-width: 48rem) 50vw, 100vw', // diptyque bord à bord sous la ligne du titre (style ocre)
+  barbotine: '100vw', // photo de l'atelier plein écran, plaques posées dessus, nom géant en bas (style barbotine)
+  souffle: '(min-width: 48rem) 58vw, 100vw', // la pièce en grand à droite du texte, carrée au téléphone (style souffle)
+  farine: '40vw', // photo en noir et blanc au milieu des noms géants (style farine)
+  pochoir: '100vw', // le nom en lettres remplies de photos (style pochoir ; images posées en fond des lettres, pas d'<img> au premier écran)
+  buvard: '100vw', // photo cadrée dans les marges de la page, 2:1 (style buvard)
   chapitre: '100vw', // photo du lieu en plein cadre sous le nom de bord à bord (style chapitre)
+  talus: '100vw', // photo plein cadre, le nom posé dessus (style talus)
+  baume: '(min-width: 64rem) 560px, (min-width: 48rem) 46vw, 88vw', // photo dans son cadre devant la plaque sauge (style baume)
+  dune: '(min-width: 48rem) 100vw, 100vw', // photo lavée presque plein écran, ailes au bord (style dune)
+  rideau: '100vw', // grand vide noir puis écran plein de photo, nom centré (style rideau)
+  cartouche: '100vw', // en-tête au nom géant puis photo pleine largeur (style cartouche)
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

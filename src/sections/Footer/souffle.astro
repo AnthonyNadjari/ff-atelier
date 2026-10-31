@@ -1,0 +1,53 @@
+---
+/**
+ * Footer "souffle" (style souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md § Construction,
+ * bloc 8) : LE PIED SAPIN ALLÉGÉ. Sur le sapin (--ink), à gauche le nom du client en garalde, le métier à la ville et
+ * l'e-mail souligné ; à droite trois courtes colonnes de liens en grotesque (les pièces : une page par prestation ;
+ * l'atelier : présentation et contact ; les informations : mentions, confidentialité, crédits) ; un filet, puis la ligne
+ * du copyright. Ni horaires en tableau, ni icônes : les horaires sont dans le bandeau menthe juste au-dessus.
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée.
+ */
+import { site, mailto, tel, metierEtVille, hasCredits } from '@/lib/site';
+
+const year = new Date().getFullYear();
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="bg-ink text-on-ink">
+  <div class="container-ff grid gap-12 pt-16 pb-10 md:grid-cols-12 md:pt-20" id={sansSectionContact ? 'contact' : undefined}>
+    <div class="md:col-span-5">
+      <p class="font-display text-3xl leading-none">{site.business.name}</p>
+      <p class="mt-4 text-sm text-muted">{metierEtVille()}</p>
+      <p class="mt-4 text-sm">
+        {site.contact.email ? <a href={mailto()} class="break-all underline underline-offset-4">{site.contact.email}</a> : <a href={tel()} class="underline underline-offset-4">{site.contact.phoneDisplay}</a>}
+      </p>
+    </div>
+    <div class="grid grid-cols-2 gap-8 text-[0.95rem] sm:grid-cols-3 md:col-span-7">
+      {site.servicePages && site.services.length > 0 && (
+        <div>
+          <p class="text-xs text-muted">Les pièces</p>
+          <ul class="mt-4 space-y-3">{site.services.map((s) => <li><a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a></li>)}</ul>
+        </div>
+      )}
+      <div>
+        <p class="text-xs text-muted">L’atelier</p>
+        <ul class="mt-4 space-y-3">
+          <li><a href="/#about" class="hover:underline underline-offset-4">Présentation</a></li>
+          <li><a href="/#contact" class="hover:underline underline-offset-4">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-xs text-muted">Informations</p>
+        <ul class="mt-4 space-y-3">
+          <li><a href="/mentions-legales" class="hover:underline underline-offset-4">Mentions légales</a></li>
+          <li><a href="/confidentialite" class="hover:underline underline-offset-4">Confidentialité</a></li>
+          {hasCredits && <li><a href="/credits" class="hover:underline underline-offset-4">Crédits photos</a></li>}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-ff border-t border-line py-6 text-xs text-muted">
+    <p>©&nbsp;{year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+    {site.legal.demo && <p class="mt-2">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>

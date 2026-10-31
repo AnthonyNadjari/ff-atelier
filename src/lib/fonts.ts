@@ -62,12 +62,18 @@ export const FONTS = {
   hostGrotesk: { family: "'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif", pkg: '@fontsource-variable/host-grotesk', role: 'both', mood: 'neo-suisse, sobre, architecture' },
   // 29 oct 2026 (style ocre, lrnce.com) : Harmonia Sans (non libre) -> Mulish, géométrique humaniste des étiquettes en capitales.
   mulish: { family: "'Mulish Variable', system-ui, sans-serif", pkg: '@fontsource-variable/mulish', role: 'body', mood: 'geometrique doux, etiquettes' },
+  // 30 oct 2026 (style pochoir, haven-annecy.fr) : PF DIN Text (non libre) -> Barlow, grotesque DIN libre ; script des heures -> Sacramento.
+  barlow: { family: "'Barlow', 'Arial Narrow', system-ui, sans-serif", pkg: '@fontsource/barlow/latin.css', role: 'both', mood: 'DIN, signaletique douce, cafe' },
+  sacramento: { family: "'Sacramento', cursive", pkg: '@fontsource/sacramento/latin.css', role: 'display', mood: 'script monoligne, heures ecrites a la main' },
+  // 30 oct 2026 (style buvard, florawellnesscafe.com) : Adobe Caslon Pro (non libre) -> Libre Caslon Text ; machine a ecrire -> Courier Prime.
+  libreCaslonText: { family: "'Libre Caslon Text', Georgia, serif", pkg: '@fontsource/libre-caslon-text/latin.css', role: 'both', mood: 'caslon de livre, carte de cafe' },
   bungee: { family: "'Bungee', Impact, sans-serif", pkg: '@fontsource/bungee/latin.css', role: 'display', mood: 'urbain, signaletique' },
   // Mono
   // Large et fine (Nord de la source, remplacee) : petits intitules et boutons en capitales tres larges.
   lexendZetta: { family: "'Lexend Zetta Variable', system-ui, sans-serif", pkg: '@fontsource-variable/lexend-zetta', role: 'mono', mood: 'tres large, fin, enseigne' },
   // 29 oct 2026 (style pinceau) : Space Mono de la source (liste IA) -> Azeret Mono, chasse fixe de ticket et de carte.
   azeretMono: { family: "'Azeret Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/azeret-mono', role: 'mono', mood: 'ticket de caisse, carte de bar' },
+  courierPrime: { family: "'Courier Prime', 'Courier New', monospace", pkg: '@fontsource/courier-prime/latin.css', role: 'mono', mood: 'machine a ecrire, carte et etiquettes' },
   intelOneMono: { family: "'Intel One Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/intel-one-mono', role: 'mono', mood: 'lisible, technique' },
   jetbrains: { family: "'JetBrains Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/jetbrains-mono', role: 'mono', mood: 'technique' },
   spaceMono: { family: "'Space Mono', ui-monospace, monospace", pkg: '@fontsource/space-mono/latin.css', role: 'mono', mood: 'retro tech' },

@@ -1,0 +1,151 @@
+{
+  "id": "rideau",
+  "version": 1,
+  "source": {
+    "url": "https://holographik.space/",
+    "nom": "Holographik Space",
+    "metier": "lieu de 180 m² à Zagreb : salle louée pour présentations, soirées, expositions, concerts et tournages, et bar à café ouvert à tous",
+    "fiche": "docs/veille/styles/rideau.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rideau.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "KH Teka",
+      "libre": "familjenGrotesk",
+      "graisse": 500,
+      "interlignage": 0.95,
+      "casse": "none",
+      "interlettrage": -0.022,
+      "italique": false
+    },
+    "texte": {
+      "famille": "KH Teka",
+      "libre": "familjenGrotesk",
+      "graisse": 400,
+      "interlignage": 1.15
+    },
+    "mono": {
+      "famille": "(nom en capitales à chasse fixe de la barre)",
+      "libre": "fragmentMono"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 29,
+        "ordinateur": 69.1
+      },
+      "h2": {
+        "telephone": 29,
+        "ordinateur": 69.1
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 13
+      }
+    },
+    "remarque": "KH Teka (non libre) : titres d'écran en 500 de 29 à 90 px, serrés (-0,022em, interlignage 0,95), texte en 13-14 px ; Familjen Grotesk, une seule famille ; le nom de la barre en capitales à chasse fixe : Fragment Mono."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#ffffff",
+      "fonds": [
+        {
+          "hex": "#000000",
+          "part": 0.864
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.136
+        },
+        {
+          "hex": "#f1f1f1",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "part": 0.586
+        },
+        {
+          "hex": "#000000",
+          "part": 0.414
+        }
+      ],
+      "proches": 0
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#141414",
+      "texte": "#ffffff",
+      "texte2": "#a3a3a3",
+      "accent": "#ffffff",
+      "accent2": "#e2e2e2",
+      "bordure": "#2b2b2b",
+      "encre": "#f1f1f1"
+    },
+    "remarque": "Fonds mesurés #ffffff (52 %) et #000000 (48 %) ; les écrans pleins de photo sous un voile noir font l'essentiel de la hauteur de page : la page est reprise en noir d'un bout à l'autre (l'intro blanche de la source passe sur le noir), texte blanc, second plan #a3a3a3 (8,3:1), et un seul clair, #f1f1f1, pour le pied (bloc --ink). Sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 222,
+      "ordinateur": 364
+    },
+    "gouttiere": {
+      "telephone": 26,
+      "ordinateur": 279
+    },
+    "conteneur": 867,
+    "mesure": 60,
+    "rythme": "uni",
+    "remarque": "Toute la largeur : gouttière de 10 à 20 px ; les écrans sont bord à bord ; l'intro tient dans une ligne de 860 px ; un grand vide noir au-dessus de l'intro (~350 px)."
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "La source arrondit ses boutons et sa barre en pilule (refusé, GOUT § 2) : plaques à 4 px, barre à 6 px ; étiquettes sur plaque noire à 40 % ; aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2"
+    ],
+    "pleinCadre": 12,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Un écran plein de photo ou de vidéo par événement (100svh, 133vw au téléphone), voile noir à 20 %, étiquette et titre centrés ; vidéos en boucle refusées (photo du client)."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "linear"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "titre-qui-se-floute-en-sortant",
+    "remarque": "Aucune bibliothèque : un script pose le flou (16 px au plus) et l'opacité des titres quand ils sortent par le haut ; titres qui pâlissent à 72 % au survol (0,2 s) ; vidéos en boucle. Gardé : le flou en sortant, en CSS lié à la vue."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

@@ -1,0 +1,53 @@
+{
+  "nom": "cartouche-fleuriste",
+  "titre": "Cartouche fleuriste",
+  "description": "La direction cartouche pour une fleuriste, une pâtisserie ou une cave : barre de navigation, premier écran photo et texte côte à côte, les avis en cartouches sur papier quadrillé tout de suite, l'histoire à la machine à écrire et le portrait à son cartouche, les créations ou produits en cartes photo, les communes, les étapes, le bandeau d'appel, puis la bande cobalt et le pied en cases.",
+  "metiers": [
+    "fleuriste",
+    "pâtissier",
+    "caviste"
+  ],
+  "look": {
+    "direction": "cartouche",
+    "motion": "subtle",
+    "scale": "compact",
+    "layout": {
+      "nav": "bar",
+      "hero": "split",
+      "sections": [
+        {
+          "type": "proof",
+          "variant": "cartouche"
+        },
+        {
+          "type": "about",
+          "variant": "cartouche"
+        },
+        {
+          "type": "services",
+          "variant": "photo-cards"
+        },
+        {
+          "type": "zones",
+          "variant": "chips"
+        },
+        {
+          "type": "process",
+          "variant": "steps"
+        },
+        {
+          "type": "cta",
+          "variant": "band"
+        },
+        {
+          "type": "contact",
+          "variant": "cartouche"
+        }
+      ],
+      "footer": "minimal",
+      "divider": "none",
+      "tone": "alternate",
+      "actionBar": false
+    }
+  }
+}

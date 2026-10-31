@@ -1,0 +1,82 @@
+---
+/**
+ * Proof "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * bloc 8 « Klienseink mondták ») : sur le blanc rosé, un GRAND GUILLEMET PÊCHE en fond à gauche (décor, aria-hidden), le
+ * titre centré, puis la piste des avis qu'on FAIT GLISSER À LA MAIN (défilement natif aimanté, jamais d'autoplay, GOUT
+ * § 4) : des cartes blanches à coins adoucis et ombre réelle, le texte de l'avis, l'auteur en gras, la ville et l'origine
+ * en petit ; dessous, deux flèches précédent / suivant (contour, 8 px de rayon) qui font avancer d'une carte. La note
+ * Google, si le client l'a, en tête sous le titre avec son lien.
+ * Rien sans avis : la section disparaît. Aucune étoile dessinée (la note est écrite).
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const avis = site.proof.testimonials;
+const google = site.proof.google;
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="baume-avis relative overflow-hidden py-[var(--section-y)]" aria-labelledby="baume-avis-titre" data-baume-avis>
+    <span class="baume-guillemet font-[family-name:var(--font-display)]" aria-hidden="true">“</span>
+    <div class="container-ff relative">
+      <h2 id="baume-avis-titre" class="baume-h2 mx-auto text-center">Ce qu’en disent nos patients</h2>
+      {google && (
+        <p class="mt-3 text-center text-[0.9375rem]"><a href={google.url} target="_blank" rel="noopener" class="font-semibold underline underline-offset-4">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a></p>
+      )}
+      {avis.length > 0 && (
+        <>
+          <ul class="baume-piste mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-6" tabindex="0" aria-label="Avis, faire glisser pour lire la suite">
+            {avis.map((t) => (
+              <li class="card baume-carte-avis flex shrink-0 snap-start flex-col p-6">
+                <blockquote class="text-[0.9375rem] leading-relaxed"><p>{t.text}</p></blockquote>
+                <p class="mt-auto pt-5 font-semibold">{t.author}</p>
+                <p class="text-sm text-muted">{[t.city, t.source].filter(Boolean).join(', ')}</p>
+              </li>
+            ))}
+          </ul>
+          {avis.length > 1 && (
+            <div class="flex justify-end gap-3">
+              <button type="button" class="baume-fleche" data-avis-pas="-1" aria-label="Avis précédent"><Icon name="ArrowLeft" size={18} /></button>
+              <button type="button" class="baume-fleche" data-avis-pas="1" aria-label="Avis suivant"><Icon name="ArrowRight" size={18} /></button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-baume-avis]').forEach((bloc) => {
+      const piste = bloc.querySelector<HTMLElement>('.baume-piste');
+      if (!piste) return;
+      bloc.querySelectorAll<HTMLButtonElement>('[data-avis-pas]').forEach((b) => {
+        b.addEventListener('click', () => {
+          const carte = piste.querySelector<HTMLElement>('li');
+          const pas = (carte?.offsetWidth ?? 300) + 20;
+          piste.scrollBy({ left: Number(b.dataset.avisPas) * pas, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .baume-h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); max-width: 22ch; }
+  .baume-guillemet {
+    position: absolute; left: clamp(-1rem, 4vw, 6rem); top: 1rem;
+    font-weight: 800; font-size: clamp(12rem, 22vw, 20rem); line-height: 1;
+    color: color-mix(in oklab, var(--baume-peche) 35%, var(--bg));
+    pointer-events: none;
+  }
+  .baume-piste { scrollbar-width: thin; }
+  .baume-carte-avis { width: min(84vw, 22rem); min-height: 15rem; }
+  .baume-fleche {
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+    border: 1px solid var(--fg); border-radius: var(--radius); background: var(--surface); color: var(--fg);
+    transition: background 0.2s linear;
+  }
+  .baume-fleche:hover { background: var(--baume-peche); }
+</style>

@@ -1,0 +1,85 @@
+/* Direction FARINE : style réel relevé sur https://www.impastofornoantico.com/ (Impasto Forno Antico, boulangerie de la
+   famille Villani à Avondale Heights, Melbourne ; via Awwwards, veille du 30 oct 2026, fiche docs/veille/styles/farine.md,
+   atomes docs/veille/styles/atomes/farine.json). On reprend le style et la construction (les noms des pains en capitales
+   géantes autour d'une photo en noir et blanc qui les traverse, bande brune à grande photo, photos en quinconce, phrase
+   éclatée sur une photo pleine largeur, double bande des noms qui défile, pied brun au nom très large), jamais les textes,
+   images, logos ni le code de la source.
+   Une page de farine : crème #efefe7 partout (réchauffé d'un cheveu), un seul brun pain brûlé #312426 en bandes, en
+   texte et en boutons, aucune autre couleur que celle des photos. Les titres en grotesque étroite et légère, en
+   capitales ; le texte courant en serif de livre ; rien d'arrondi, aucune ombre.
+   Polices : Aaux Next (non libre, 400) -> Archivo à chasse variable (libre, OFL), axe wdth 86 % en graisse 330 pour les
+   noms et les titres, 125 % en graisse 800 pour le nom du pied ; FF Scala (non libre) -> Spectral (serif humaniste libre).
+   Couleurs relevées : fond #efefe7 (45 % des fonds), brun #312426 (55 % des fonds : bandes brunes, pied ; 37 % des
+   textes), crème sur le brun. Le crème est réchauffé (#f0ede2, chroma OKLCH 0,016 au lieu de 0,009) pour tenir le régime
+   clair teinté doux ; le gris de second plan est un brun éclairci (#685c56, 5,6:1 sur le crème). */
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource/spectral/latin-400.css';
+@import '@fontsource/spectral/latin-500.css';
+
+[data-direction='farine'] {
+  --accent-h: 352;
+  --accent-s: 16%;
+  --accent-l: 17%;
+  --bg: #f0ede2;
+  --bg-2: #e6e2d4;
+  --surface: #f7f5ee;
+  --fg: #312426;
+  --muted: #685c56;
+  --line: #d2cbbd;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) + 9%));
+  --on-accent: #f0ede2;
+  --ink: #312426;
+  --on-ink: #f0ede2;
+  --font-display: 'Archivo Variable', 'Arial Narrow', Arial, sans-serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-mono: 'Archivo Variable', 'Arial Narrow', Arial, sans-serif;
+  --display-weight: 330;
+  --display-tracking: -0.01em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --motion-duration: 0.7s;
+  --motion-ui: 0.375s;
+  /* Courbes mesurées sur la source : interface 0,375 s cubic-bezier(0.625, 0.05, 0, 1), scène 0,7 s. */
+  --ease-brand: cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+[data-direction='farine'] body { font-size: 1.0625rem; }
+[data-direction='farine'] ::selection { background: var(--fg); color: var(--bg); }
+/* Titres : grotesque étroite et légère en capitales (la source : 64 à 168 px, graisse 400, interlignage 1,0). Jamais
+   d'italique (GOUT § 2). Le h3 reste en casse normale, un cran plus gras, pour que h1, h2 et h3 ne soient pas tous pareils. */
+[data-direction='farine'] :is(h1, h2) { font-family: var(--font-display); font-stretch: 86%; font-weight: 330; line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; }
+[data-direction='farine'] h3 { font-family: var(--font-display); font-stretch: 92%; font-weight: 480; line-height: 1.15; text-transform: none; }
+[data-direction='farine'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons de la source : des liens de texte en grotesque (« View Products », « More about us ») qui se soulignent au
+   survol ; le bouton plein reste une plaque brune droite, sans arrondi. */
+[data-direction='farine'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-stretch: 92%;
+  font-weight: 450;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), border-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='farine'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='farine'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='farine'] .btn-ghost {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding-inline: 0;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='farine'] .btn-ghost:hover { text-decoration-color: currentColor; }
+[data-direction='farine'] .card { background: var(--surface); border-radius: 0; border: 1px solid var(--line); box-shadow: none; }
+[data-direction='farine'] .rule { border-top: 1px solid var(--line); }
+[data-direction='farine'] .eyebrow { color: var(--fg); font-family: var(--font-display); font-stretch: 92%; font-size: 0.9375rem; font-weight: 450; letter-spacing: 0; text-transform: none; }

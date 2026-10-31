@@ -1,0 +1,44 @@
+---
+/**
+ * About "farine" (style farine, relevé sur impastofornoantico.com le 30 oct 2026, fiche docs/veille/styles/farine.md
+ * § Construction, bloc 2) :
+ * LA BANDE BRUNE : sur le brun (--ink), la grande photo du travail (about.portrait, sinon la première photo de la
+ *    galerie) posée dans les colonnes 5 à 12 sur 12, format 7:5, sans cadre ; dessous, à gauche (3/12) une phrase courte
+ *    de grotesque en casse normale (le métier à la ville et l'ancienneté, h2), à droite (colonnes 4 à 8) l'histoire
+ *    (about.story) en serif de lecture et le lien vers les prestations. Au téléphone : la photo pleine largeur, puis la
+ *    phrase, puis l'histoire.
+ * (La phrase éclatée sur une photo pleine largeur, bloc 4 de la source, est dans Services/farine, à sa place dans le
+ * déroulé : entre les photos en quinconce et la double bande des noms.)
+ * Mouvement : aucun.
+ * Rien d'inventé : sans photo, la bande garde la phrase et l'histoire en pleine largeur.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const galerie = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+const photo = a.portrait ?? galerie[0];
+const phrase = `${metierEtVille().replace(/\.$/, '')}${site.business.since ? `, depuis ${site.business.since}` : ''}.`;
+---
+
+<section id="about" class="farine-bande bg-ink text-on-ink section-y" aria-labelledby="farine-about-titre">
+  <div class="farine-large grid gap-8 md:grid-cols-12 md:gap-x-8 md:gap-y-14">
+    {photo && (
+      <figure class="relative m-0 aspect-[7/5] overflow-hidden md:col-span-8 md:col-start-5">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 66vw, 92vw" loading="lazy" />
+      </figure>
+    )}
+    <h2 id="farine-about-titre" class="farine-court md:col-span-3">{phrase}</h2>
+    <div class="farine-texte md:col-span-5 md:col-start-4">
+      {paras.map((p) => <p>{p}</p>)}
+      <div class="mt-6"><Button href="/#services" variant="ghost" size="sm" class="text-on-ink">{site.wording.servicesTitle}</Button></div>
+    </div>
+  </div>
+</section>
+<style>
+  .farine-large { width: 100%; padding-inline: clamp(1.125rem, 3.3vw, 3rem); }
+  .farine-court { font-size: clamp(1.4rem, 1.1rem + 0.9vw, 2rem); line-height: 1.1; font-stretch: 92%; font-weight: 420; text-transform: none; max-width: 16ch; }
+  .farine-texte { font-size: 1rem; line-height: 1.55; max-width: 46ch; display: grid; gap: 1rem; }
+</style>

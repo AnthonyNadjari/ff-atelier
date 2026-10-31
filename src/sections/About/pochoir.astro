@@ -1,0 +1,56 @@
+---
+/**
+ * About "pochoir" (style pochoir, relevé sur haven-annecy.fr le 30 oct 2026, fiche docs/veille/styles/pochoir.md
+ * § Construction, blocs 3 et 7) : LE PANNEAU TERRE CUITE posé dans les marges (il ne touche pas les bords de l'écran,
+ * coins à 6 px), texte crème. En haut, centrée, la phrase de l'entreprise (about.title) écrite à la main (script
+ * monoligne, 40 à 64 px) ; dessous, deux colonnes séparées par un filet vertical crème : l'histoire (about.story), le
+ * premier paragraphe en DIN demi-gras à gauche, la suite à droite, avec le lien vers les prestations sous une flèche.
+ * Au téléphone : une colonne, un court filet horizontal entre les deux.
+ * Mouvement : la phrase écrite se découvre de gauche à droite à son entrée (data-reveal="wipe" du moteur, une fois),
+ * comme une ligne qu'on écrit.
+ * Rien d'inventé : sans about.title, pas de phrase écrite ; un seul paragraphe = une seule colonne centrée.
+ */
+import { site, paragraphs } from '@/lib/site';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const [premier, ...suite] = paras;
+const titre = a.title?.replace(/<[^>]+>/g, '');
+---
+
+<section id="about" class="pochoir-large py-[var(--section-y)]" aria-label={titre ?? site.business.name}>
+  <div class="pochoir-panneau bg-accent text-on-accent">
+    {titre && <h2 class="pochoir-ecrit font-[family-name:var(--font-script)]" data-reveal="wipe">{titre}</h2>}
+    <div class:list={['mt-10 grid gap-10 md:mt-14', suite.length > 0 && 'md:grid-cols-2 md:gap-0']}>
+      <div class:list={['pochoir-col', suite.length === 0 && 'mx-auto max-w-[46ch] text-center']}>
+        <p class="text-lg font-semibold leading-snug md:text-xl">{premier}</p>
+      </div>
+      {suite.length > 0 && (
+        <div class="pochoir-col pochoir-col-2">
+          {suite.map((p) => <p class="leading-relaxed">{p}</p>)}
+          <a href="/#services" class="pochoir-fleche mt-6 inline-flex items-center gap-3 font-semibold">{site.wording.servicesTitle}<span aria-hidden="true">→</span></a>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pochoir-large { width: 100%; padding-inline: clamp(1.125rem, 3vw, 2.75rem); }
+  .pochoir-panneau { border-radius: var(--radius-card); padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4.5rem); }
+  .pochoir-ecrit {
+    margin: 0 auto; max-width: 22ch; text-align: center; text-wrap: balance;
+    font-weight: 400; font-size: clamp(2.6rem, 1.6rem + 3.2vw, 4.5rem); line-height: 1.05;
+  }
+  .pochoir-col { display: grid; gap: 1rem; align-content: start; }
+  @media (min-width: 48rem) {
+    .pochoir-col { padding-inline: clamp(1.5rem, 3.5vw, 3.5rem); }
+    .pochoir-col-2 { border-left: 1px solid color-mix(in oklab, var(--on-accent) 70%, transparent); }
+  }
+  @media (max-width: 47.99rem) {
+    .pochoir-col-2 { padding-top: 2.5rem; position: relative; }
+    .pochoir-col-2::before { content: ''; position: absolute; top: 0; left: 50%; width: 4rem; margin-left: -2rem; border-top: 1px solid var(--on-accent); }
+  }
+  .pochoir-fleche span { transition: transform var(--motion-ui) var(--ease-brand); }
+  .pochoir-fleche:hover span { transform: translateX(4px); }
+</style>

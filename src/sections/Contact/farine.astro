@@ -1,0 +1,69 @@
+---
+/**
+ * Contact "farine" (style farine, relevé sur impastofornoantico.com le 30 oct 2026, fiche docs/veille/styles/farine.md
+ * § Construction, bloc 7, le pied brun de la source) : la page finit SUR LE BRUN (--ink), sans bandeau d'appel ni carte.
+ * En haut à gauche, la phrase de contact (wording.contactTitle) en grotesque de casse normale, les liens Appeler et Écrire
+ * (pas de formulaire : la source n'en a pas, son pied est fait de coordonnées) ; à droite, en petit
+ * corps, les colonnes de la source : les pages des prestations, puis l'adresse, le téléphone et l'e-mail, puis les
+ * horaires. En bas, le NOM du client en capitales très larges et grasses (Archivo à chasse 125 %, graisse 800), crème
+ * sur le brun, de bord à bord. Puis la ligne des mentions (Footer/bande).
+ * Rien d'inventé : chaque colonne disparaît sans sa donnée. Mouvement : aucun.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import Button from '@/components/Button.astro';
+
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok', youtube: 'YouTube', pinterest: 'Pinterest' };
+const nom = site.business.name;
+// Archivo très large (wdth 125 %) en capitales grasses : environ 0,86 em par lettre ; le nom tient dans 94 % de la largeur.
+const taille = Math.min(19, 94 / (Math.max(nom.length, 5) * 0.86)).toFixed(2);
+---
+
+<section id="contact" class="farine-fin bg-ink text-on-ink" aria-labelledby="farine-contact-titre">
+  <div class="farine-large grid gap-12 pt-[var(--section-y)] pb-12 md:grid-cols-12 md:gap-x-8">
+    <div class="md:col-span-5">
+      <h2 id="farine-contact-titre" class="farine-contact-phrase" set:html={site.wording.contactTitle} />
+      {site.wording.contactText && <p class="mt-4 max-w-[40ch] text-base">{site.wording.contactText}</p>}
+      <div class="mt-6 flex flex-wrap gap-x-8 gap-y-2">
+        <Button href={tel()} variant="ghost" size="sm" class="text-on-ink">Appeler le {site.contact.phoneDisplay}</Button>
+        {site.contact.email && <Button href={mailto()} variant="ghost" size="sm" class="text-on-ink">Écrire</Button>}
+      </div>
+    </div>
+    <div class="grid content-start gap-10 text-sm leading-relaxed sm:grid-cols-2 md:col-span-6 md:col-start-7 md:grid-cols-3">
+      <ul aria-label="Pages">
+        <li><a href="/" class="farine-lien">Accueil</a></li>
+        {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="farine-lien">{s.title}</a></li>)}
+        {reseaux.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" class="farine-lien">{noms[k] ?? k}</a></li>)}
+      </ul>
+      <ul>
+        {adresse && <li>{adresse}</li>}
+        <li class="mt-2"><a href={tel()} class="farine-lien">{site.contact.phoneDisplay}</a></li>
+        {site.contact.email && <li><a href={mailto()} class="farine-lien break-all">{site.contact.email}</a></li>}
+      </ul>
+      {horaires.length > 0 && (
+        <dl class="grid content-start gap-y-2">
+          {horaires.map((h) => (
+            <div>
+              <dt>{h.days}</dt>
+              <dd>{h.hours}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  </div>
+  <p class="farine-nom font-[family-name:var(--font-display)]" aria-hidden="true" style={`font-size: ${taille}vw;`}>{nom}</p>
+</section>
+
+<style>
+  .farine-large { width: 100%; padding-inline: clamp(1.125rem, 3.3vw, 3rem); }
+  .farine-contact-phrase { font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.25rem); line-height: 1.05; font-stretch: 92%; font-weight: 420; text-transform: none; max-width: 18ch; }
+  .farine-lien { display: inline-block; padding-block: 0.2rem; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.3em; transition: text-decoration-color var(--motion-ui) var(--ease-brand); }
+  .farine-lien:hover { text-decoration-color: currentColor; }
+  .farine-nom {
+    margin: 0; padding: 0 clamp(1.125rem, 3.3vw, 3rem) clamp(1rem, 2vw, 2rem); white-space: nowrap;
+    font-stretch: 125%; font-weight: 800; text-transform: uppercase; line-height: 0.86; letter-spacing: -0.02em;
+  }
+</style>

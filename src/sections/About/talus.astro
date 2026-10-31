@@ -1,0 +1,48 @@
+---
+/**
+ * About "talus" (style talus, relevé sur taylorhare.com le 30 oct 2026, fiche docs/veille/styles/talus.md § Construction,
+ * bloc 4, « Foundations in the land ») : sur le papier en six colonnes, une petite photo collée au BORD GAUCHE de l'écran
+ * (deux colonnes, en haut du bloc) ; en face, dans les colonnes 4 à 6, le titre de la présentation en grand corps léger
+ * puis l'histoire ; juste dessous, une grande photo (colonnes 3 à 5) qui touche la petite par son coin haut gauche, comme
+ * l'escalier des prestations (collage resserré : aucune rangée vide). Au téléphone : la petite photo à 60 % contre le bord gauche, le titre et le
+ * texte, la grande photo à 82 % contre le bord droit.
+ * Données : la petite photo = la première photo de réalisation qui n'est pas celle du premier écran, la grande = le
+ * portrait du client s'il en a un, sinon la suivante ; sans photo, le texte seul dans ses colonnes. Rien d'inventé.
+ * Mouvement : aucun.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story).slice(0, 3);
+const galerie = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+const petite = galerie[0];
+const grande = a.portrait ?? galerie[1];
+---
+
+<section id="about" class="talus-about pt-[var(--section-y)]" aria-labelledby="talus-about-titre">
+  <div class="grid md:grid-cols-6">
+    {petite && (
+      <figure class="relative aspect-[4/3] w-[60%] overflow-hidden md:col-span-2 md:col-start-1 md:row-start-1 md:w-auto">
+        <Img src={petite.src} alt={petite.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 33vw, 60vw" loading="lazy" />
+      </figure>
+    )}
+    <div class="talus-gouttiere py-10 md:col-span-3 md:col-start-4 md:row-start-1 md:py-0 md:pb-10">
+      <h2 id="talus-about-titre" class="talus-titre" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+      <div class="mt-6 max-w-[46ch] space-y-4 text-base leading-relaxed md:text-[1.0625rem]">
+        {paras.map((p) => <p set:html={p} />)}
+      </div>
+    </div>
+    {grande && (
+      <figure class="relative ml-auto aspect-[3/2] w-[82%] overflow-hidden md:col-span-3 md:col-start-3 md:row-start-2 md:ml-0 md:w-auto">
+        <Img src={grande.src} alt={grande.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 50vw, 82vw" loading="lazy" />
+      </figure>
+    )}
+  </div>
+</section>
+
+<style>
+  .talus-gouttiere { padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  .talus-titre { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); line-height: 1.12; max-width: 16ch; }
+  .talus-about figure :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

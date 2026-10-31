@@ -1,0 +1,49 @@
+---
+/**
+ * Proof "barbotine" (style barbotine, relevé sur laboroflovestudio.com le 30 oct 2026, fiche docs/veille/styles/barbotine.md
+ * § Construction, bloc 6) : LES CARTES VERTES À PHOTO (« Why Choose Us? » de la source) : seulement si le client a au moins deux photos de
+ *    réalisations que le premier écran et la présentation n'ont pas montrées. Titre centré en serif vert
+ *    (wording.galleryTitle), puis une grille de deux colonnes (une au téléphone) de cartes vertes à 12 px de rayon : la
+ *    photo à 9 px de rayon en haut, puis la légende du client en serif (type de pièce, sinon lieu) et sa ligne de détails
+ *    (lieu, mesure, client) en petit. Quatre au plus.
+ * Les avis sur cartes jaunes viennent après l'invitation, comme sur la source : ils sont dans Contact/barbotine.
+ * Rien d'inventé : sans deux photos libres, pas de section. Mouvement : aucun.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const dejaVues = new Set([site.images.hero?.src, (site.about.portrait ?? site.proof.gallery.find((g) => g.src !== site.images.hero?.src))?.src].filter(Boolean));
+const cartes = site.proof.gallery.filter((g) => !dejaVues.has(g.src)).slice(0, 4);
+const legende = (g: (typeof cartes)[number]) => g.kind ?? g.place ?? g.alt;
+const details = (g: (typeof cartes)[number]) => [g.kind ? g.place : undefined, g.size, g.client].filter(Boolean).join(', ');
+---
+
+{cartes.length >= 2 && (
+  <section id="proof" class="barbotine-reals section-y" aria-labelledby="barbotine-reals-titre">
+    <div class="container-ff">
+      <h2 id="barbotine-reals-titre" class="barbotine-proof-titre mx-auto text-center">{site.wording.galleryTitle}</h2>
+      <ul class="mx-auto mt-12 grid max-w-[76rem] gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
+        {cartes.map((g) => (
+          <li class="barbotine-carte-verte">
+            <figure>
+              <div class="relative aspect-[16/9] overflow-hidden rounded-[calc(var(--radius-card)-3px)]">
+                <Img src={g.src} alt={g.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 76rem) 560px, (min-width: 48rem) 45vw, 88vw" loading="lazy" />
+              </div>
+              <figcaption class="mt-6">
+                <span class="block font-display text-xl md:text-2xl">{legende(g)}</span>
+                {details(g) && <span class="mt-1.5 block text-sm">{details(g)}</span>}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .barbotine-proof-titre { color: var(--accent); font-size: clamp(2.3rem, 1.6rem + 2.8vw, 3.9rem); line-height: 1.02; max-width: 20ch; text-wrap: balance; }
+  .barbotine-carte-verte { background: var(--email-1); color: var(--on-email); border-radius: var(--radius-card); padding: 1.1rem 1.1rem 1.6rem; }
+  @media (min-width: 48rem) { .barbotine-carte-verte { padding: 1.5rem 1.5rem 2rem; } }
+  .barbotine-reals :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

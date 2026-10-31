@@ -1,0 +1,78 @@
+/* Direction SOUFFLE : style réel relevé sur https://tavolini.com/ (Tavolini, petites tables de verre soufflées à la main à
+   Murano, studio à Genève ; site Framer fait par Camille Haidar ; veille du 30 oct 2026, fiche docs/veille/styles/souffle.md,
+   atomes docs/veille/styles/atomes/souffle.json). On reprend le style et la construction (barre sapin au nom centré, photo
+   de l'objet dans son intérieur sous la barre avec la phrase et deux boutons à gauche, séries en trois photos verticales
+   légendées sur le sapin, presse en logos, lettre en garalde de grand corps à côté d'une photo sur la menthe, plaque menthe
+   de la commande posée dans la bande sapin, bandeau menthe centré, pied sapin à colonnes), jamais les textes, images,
+   logos ni le code de la source.
+   Une page de verrier : vert sapin très profond #12372c (63 % des surfaces) et une menthe d'eau très pâle #ebfff4 en
+   alternance, un rose de verre #f2c5ef en seul signal (le second bouton du premier écran, le nom), blanc pour le texte sur
+   le sapin ; une garalde fine en grand corps pour les titres et la lettre, une grotesque nette pour le texte ; rayon 0,
+   aucune ombre : la couleur et la lumière viennent des photos de verre.
+   Polices : Cormorant (police « signe IA », GOUT § 2) -> EB Garamond (garalde libre, OFL, la plus proche en dessin et en
+   graisse) ; Karla (celle de la source, libre) pour le texte.
+   Couleurs relevées : #12372c sapin (63 % des fonds), #ebfff4 menthe (23 %), #ffffff texte sur sapin (37 % des textes),
+   #f2c5ef rose (bouton), #1a1a1a (pied du Framer, non repris). Le texte du sapin est un blanc à peine verdi (#f4fbf7,
+   12,4:1) ; le gris de second plan, un vert clair (#a9c4bb, 7:1) ; sur la menthe, le sapin (12,5:1) et un vert gris
+   (#4d6b62, 5,6:1). */
+@import '@fontsource-variable/eb-garamond';
+@import '@fontsource-variable/karla';
+
+[data-direction='souffle'] {
+  --accent-h: 306;
+  --accent-s: 63%;
+  --accent-l: 86%;
+  color-scheme: dark;
+  --bg: #12372c;
+  --bg-2: #0e2d24;
+  --surface: #1b4438;
+  --fg: #f4fbf7;
+  --muted: #a9c4bb;
+  --line: #3a5f53;
+  --accent: #f2c5ef;
+  --accent-2: #f7dcf5;
+  --on-accent: #12372c;
+  --ink: #12372c;
+  --on-ink: #f4fbf7;
+  /* La menthe d'eau et son encre (About, Contact, bandeau) : texte sapin, second plan vert gris. */
+  --menthe: #ebfff4;
+  --sur-menthe: #12372c;
+  --sur-menthe-2: #4d6b62;
+  --font-display: 'EB Garamond Variable', Garamond, Georgia, serif;
+  --font-body: 'Karla Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Karla Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.025em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 8vw, 8rem);
+  --motion-duration: 0.9s;
+  --motion-ui: 0.35s;
+  /* Framer (aucune transition CSS lue) : une sortie douce, longue, pour la photo qui s'approche au survol. */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='souffle'] body { font-weight: 400; letter-spacing: -0.01em; }
+[data-direction='souffle'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Titres en garalde fine, interlignage serré, légèrement resserrée (mesuré : -1,26 px pour 42 px) ; jamais d'italique. */
+[data-direction='souffle'] :is(h1, h2) { font-weight: 400; line-height: 1.08; letter-spacing: -0.025em; }
+[data-direction='souffle'] h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; }
+[data-direction='souffle'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons de la source : rectangles pleins à angles droits, sans bordure, en grotesque de 14 px (blanc, rose ou sapin). */
+[data-direction='souffle'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='souffle'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='souffle'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='souffle'] .btn-ghost { border: 1px solid currentColor; border-radius: 0; background: transparent; }
+[data-direction='souffle'] .card { background: var(--surface); border-radius: 0; border: 0; box-shadow: none; }
+[data-direction='souffle'] .rule { border-top: 1px solid var(--line); }
+[data-direction='souffle'] .eyebrow { color: var(--muted); font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; letter-spacing: 0; text-transform: none; }

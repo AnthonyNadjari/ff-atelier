@@ -1,0 +1,177 @@
+{
+  "id": "cartouche",
+  "version": 1,
+  "source": {
+    "url": "https://www.hotel-gilbert.at/",
+    "nom": "Hotel Gilbert",
+    "metier": "petit hôtel indépendant de la Breite Gasse à Vienne (chambres, appartements, restaurant-bar &flora, café)",
+    "fiche": "docs/veille/styles/cartouche.md",
+    "mesures": "docs/veille/styles/atomes/mesures/cartouche.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "SaolDisplay-Regular",
+      "libre": "gloock",
+      "graisse": 400,
+      "interlignage": 1.05,
+      "casse": "uppercase",
+      "interlettrage": 0.014,
+      "italique": false
+    },
+    "texte": {
+      "famille": "PrestigeEliteStd",
+      "libre": "courierPrime",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": {
+      "famille": "PrestigeEliteStd (machine à écrire)",
+      "libre": "courierPrime"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 60,
+        "ordinateur": 120
+      },
+      "h2": {
+        "telephone": 60,
+        "ordinateur": 60
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Trois voix : Saol Display (non libre, serif d'affiche à fort contraste, le nom et les grands titres en capitales) -> Gloock ; Knockout Junior Featherweight (non libre, grotesque étroite en capitales des titres de cartouche) -> Oswald ; Prestige Elite (non libre, machine à écrire, tout le texte et les liens) -> Courier Prime. Les liens de la source sont en italique : refusé (GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#1624b6",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.201
+        },
+        {
+          "hex": "#545041",
+          "part": 0.08
+        },
+        {
+          "hex": "#1624b6",
+          "part": 0.069
+        },
+        {
+          "hex": "#969594",
+          "part": 0.053
+        },
+        {
+          "hex": "#e19d6b",
+          "part": 0.053
+        },
+        {
+          "hex": "#5d5146",
+          "part": 0.042
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1624b6",
+          "part": 0.569
+        },
+        {
+          "hex": "#555555",
+          "part": 0.298
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.126
+        },
+        {
+          "hex": "#404040",
+          "part": 0.006
+        },
+        {
+          "hex": "#fefefe",
+          "part": 0.002
+        }
+      ],
+      "proches": 15326025
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#ffffff",
+      "texte": "#1624b6",
+      "texte2": "#555555",
+      "accent": "#1624b6",
+      "accent2": "#f4f5fb",
+      "bordure": "#1624b6",
+      "encre": "#1624b6"
+    },
+    "sombre": null,
+    "remarque": "Blanc #ffffff (43 % des fonds), un seul cobalt #1624b6 (8 % des fonds en bandes, 56 % des textes, tous les filets), gris #555555 (31 % des textes, 7,5:1), blanc sur le cobalt ; bleu de papier #f4f5fb pour le quadrillage. Les aplats de photo (#545041, #969594, #e19d6b) viennent des photos. Coloré doux (bandes d'encre cobalt)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 128
+    },
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 390
+    },
+    "conteneur": 1105,
+    "mesure": 46,
+    "rythme": "uni",
+    "remarque": "Toute la largeur pour l'en-tête et les bandes, coupées en cases par des filets cobalt ; texte centré en colonne étroite (46 caractères) ; photos larges, cartouches sur 4/12."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Tout à angles droits et à filet cobalt de 1 px : cartouches, liens encadrés à longue flèche au trait, cases du pied ; seul arrondi, le tampon rond (label) posé à cheval sur la photo."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2",
+      "4:3",
+      "16:9+"
+    ],
+    "pleinCadre": 21,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photos larges (carrousels sur la source), chacune avec un cartouche blanc à filet posé à cheval sur son bord bas ou son côté ; photo pleine largeur sous l'en-tête ; aucune photo voilée."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "cartouche-qui-se-pose",
+    "remarque": "jQuery et Elementor ; carrousels à points, bandeau défilant à la machine à écrire (refusé : un seul feu, et le défilement automatique n'apporte rien), survols en 0,3-0,4 s. Gardé : le cartouche qui se pose, la flèche qui s'allonge."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

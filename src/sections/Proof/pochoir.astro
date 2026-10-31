@@ -1,0 +1,55 @@
+---
+/**
+ * Proof "pochoir" (style pochoir, 30 oct 2026 ; la source haven-annecy.fr ne montre pas d'avis : on reprend la grammaire
+ * de son pied, fiche docs/veille/styles/pochoir.md § Construction, bloc 8) : sur le rose, deux colonnes séparées par un
+ * filet vertical terre cuite. À gauche, la note Google en DIN très gras (64 px), « sur Google, N avis » et le lien vers
+ * les avis ; à droite, deux ou trois avis en corps de lecture, chacun avec son auteur et sa ville, séparés par un filet
+ * court. Au téléphone : la note, un filet horizontal, puis les avis.
+ * Rien d'inventé : sans avis ni note, pas de section ; ni étoile, ni carte.
+ */
+import { site } from '@/lib/site';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="pochoir-large py-[var(--section-y)]" aria-labelledby="pochoir-avis-titre">
+    <div class="pochoir-avis grid md:grid-cols-12">
+      <div class="pochoir-avis-g md:col-span-4 md:col-start-2">
+        <h2 id="pochoir-avis-titre" class="text-xl">Avis</h2>
+        {google && (
+          <>
+            <p class="pochoir-note font-[family-name:var(--font-display)] mt-4">{google.rating.toFixed(1).replace('.', ',')}/5</p>
+            <p class="mt-1 font-semibold">sur Google, {google.count} avis</p>
+            <a href={google.url} target="_blank" rel="noopener" class="pochoir-fleche mt-6 inline-flex items-center gap-3 font-semibold text-accent">Lire les avis<span aria-hidden="true">→</span></a>
+          </>
+        )}
+      </div>
+      {avis.length > 0 && (
+        <ul class="pochoir-avis-d grid content-start gap-8 md:col-span-6">
+          {avis.map((t) => (
+            <li class="pochoir-un-avis">
+              <blockquote class="text-lg leading-relaxed">«&nbsp;{t.text}&nbsp;»</blockquote>
+              <p class="mt-2 text-sm font-semibold">{t.author}{t.city && <span class="font-normal text-muted">, {t.city}</span>}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .pochoir-large { width: 100%; padding-inline: clamp(1.125rem, 3vw, 2.75rem); }
+  .pochoir-note { font-weight: 800; font-size: clamp(3rem, 2rem + 3vw, 4.5rem); line-height: 0.9; color: var(--accent); }
+  .pochoir-un-avis + .pochoir-un-avis { padding-top: 2rem; border-top: 1px solid var(--line); }
+  @media (min-width: 48rem) {
+    .pochoir-avis-d { padding-left: clamp(2rem, 4vw, 4rem); border-left: 1px solid var(--accent); }
+  }
+  @media (max-width: 47.99rem) {
+    .pochoir-avis-d { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid var(--accent); }
+  }
+  .pochoir-fleche span { transition: transform var(--motion-ui) var(--ease-brand); }
+  .pochoir-fleche:hover span { transform: translateX(4px); }
+</style>

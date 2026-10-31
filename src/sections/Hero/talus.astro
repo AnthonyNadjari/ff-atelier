@@ -1,0 +1,68 @@
+---
+/**
+ * Hero "talus" (style talus, relevé sur taylorhare.com le 30 oct 2026, fiche docs/veille/styles/talus.md § Construction,
+ * blocs 0 et 2 ; reprise du 30 oct après le juge neuf : « pas de premier écran plein cadre comme la source »). LE PREMIER
+ * ÉCRAN EST LA PHOTO, PLEIN CADRE, de bord à bord et sur toute la hauteur de l'écran, comme l'ouverture de la source (on en
+ * garde l'image et le logo posé dessus, on refuse la vidéo et le calque qui bloque) : le NOM du client en grotesque légère
+ * très grande, crème, posé à gauche au tiers haut de l'image (la place du logo « 'III. » de la source) ; en bas à droite,
+ * sur un voile qui monte du bas, le métier à la ville, l'ancienneté, la note quand le client les a, puis « Appeler le … »
+ * et Devis en liens soulignés. Puis, SUR LE PAPIER juste sous la photo (comme le bloc qui suit l'ouverture de la source),
+ * la phrase (business.tagline, h1) en grand corps léger sur les quatre colonnes de gauche. La photo tient 84 à 86 % de
+ * l'écran : le haut de la phrase se lit dès l'arrivée.
+ * Le triangle terre cuite du coin et la barre en petit (nav/talus) sont posés sur la photo.
+ * Mouvement : aucun à l'entrée (profil « escalier-qui-se-rejoint ») ; la photo ne bouge pas.
+ * Données : sans images.hero, l'écran est un aplat gris-bleu (--ink) de même taille, le nom et la phrase en encre ;
+ * jamais une photo de banque présentée comme celle du client.
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+].filter(Boolean) as string[];
+const nom = site.business.name;
+---
+
+<section id="hero" class="hero-talus relative -mt-12 md:-mt-14">
+  <div class:list={['talus-cadre-photo relative flex flex-col overflow-hidden', hero ? 'talus-sur-photo' : 'bg-ink text-on-ink']}>
+    {hero && (
+      <div class="absolute inset-0">
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.talus} priority />
+        <div class="talus-voile-haut absolute inset-x-0 top-0 h-1/2" aria-hidden="true"></div>
+        <div class="talus-voile absolute inset-x-0 bottom-0 h-2/5" aria-hidden="true"></div>
+      </div>
+    )}
+    <p class="talus-nom font-[family-name:var(--font-display)] talus-gouttiere relative mt-[20svh] md:mt-[16svh]" aria-hidden="true">{nom}</p>
+    <div class="talus-gouttiere relative mt-auto pb-6 pt-10 text-[0.9375rem] leading-relaxed md:ml-[66.667%] md:pb-8 md:text-base">
+      <p class="max-w-[30ch]">{faits.join(', ')}.</p>
+      <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+        <a href={tel()} class="underline decoration-1 underline-offset-4 hover:decoration-2" data-porte="call">Appeler le {site.contact.phoneDisplay}</a>
+        {hasContactDoor(site) && <a href="/#contact" class="underline decoration-1 underline-offset-4 hover:decoration-2" data-porte="devis">{site.wording.devis}</a>}
+      </div>
+    </div>
+  </div>
+  <div class="talus-gouttiere grid pt-8 md:grid-cols-6 md:pt-12">
+    <h1 class="talus-phrase hero-titre md:col-span-4" set:html={site.business.tagline} />
+  </div>
+</section>
+
+<style>
+  .talus-gouttiere { padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  /* Sur la photo, tout est en crème (le papier de la page) ; le voile vert-noir ne monte que sous le texte. */
+  .talus-cadre-photo { min-height: 84svh; }
+  @media (min-width: 48rem) { .talus-cadre-photo { min-height: 86svh; } }
+  .talus-sur-photo { color: var(--bg); }
+  .talus-voile-haut { background: linear-gradient(to bottom, color-mix(in oklab, var(--fg) 45%, transparent), transparent); }
+  .talus-voile { background: linear-gradient(to top, color-mix(in oklab, var(--fg) 70%, transparent), transparent); }
+  /* Le nom à la place du logo de la source : grotesque légère, très grande, deux lignes au plus. */
+  .talus-nom { font-weight: 350; font-size: clamp(3.4rem, 1.5rem + 9vw, 10.5rem); line-height: 0.92; letter-spacing: -0.035em; max-width: 9ch; }
+  .talus-phrase { font-size: clamp(1.6rem, 1.1rem + 1.9vw, 2.75rem); line-height: 1.12; font-weight: 400; max-width: 24ch; text-wrap: balance; }
+  .talus-phrase :global(*) { font-weight: inherit; }
+  .hero-talus :global(.ff-illustration) { top: 4rem; bottom: auto; }
+</style>

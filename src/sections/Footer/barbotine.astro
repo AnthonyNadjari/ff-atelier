@@ -1,0 +1,68 @@
+---
+/**
+ * Footer "barbotine" (style barbotine, relevé sur laboroflovestudio.com le 30 oct 2026, fiche docs/veille/styles/barbotine.md
+ * § Construction, bloc 9) : LE PIED VERT AU NOM CENTRÉ. Sur l'émail vert de la marque (--ink), le logo du client s'il en
+ * a un, sinon son nom en serif d'affichage crème, centré, sur deux lignes au plus ; sous un filet crème, trois colonnes :
+ * le contact (adresse en serif de grand corps, e-mail et téléphone soulignés), le plan (l'accueil et les pages des
+ * prestations), les réseaux à droite ; sous un second filet, le copyright à gauche et les mentions à droite.
+ * Rien d'inventé : chaque colonne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, hasCredits } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const year = new Date().getFullYear();
+const a = site.contact.address;
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok', youtube: 'YouTube', pinterest: 'Pinterest' };
+const logo = site.images.logo;
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="barbotine-pied bg-ink text-on-ink">
+  <div class="container-ff pt-20 pb-8 md:pt-28">
+    <div class="text-center">
+      {logo ? <Img src={logo.src} alt={logo.alt} class="mx-auto h-28 w-auto" sizes="240px" loading="lazy" /> : <p class="barbotine-pied-nom mx-auto font-display">{site.business.name}</p>}
+    </div>
+    <div class="mt-16 grid gap-10 border-t border-current/60 pt-10 md:mt-24 md:grid-cols-3" id={sansSectionContact ? 'contact' : undefined}>
+      <div>
+        <p class="text-sm font-bold">Contact</p>
+        <p class="mt-4 font-display text-2xl leading-tight">
+          {a.street && <span class="block">{a.street}</span>}
+          <span class="block">{a.postalCode} {a.city}</span>
+        </p>
+        <ul class="mt-5 space-y-1 text-sm">
+          {site.contact.email && <li><a href={mailto()} class="break-all underline underline-offset-4">{site.contact.email}</a></li>}
+          <li><a href={tel()} class="underline underline-offset-4">{site.contact.phoneDisplay}</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-bold">Plan du site</p>
+        <ul class="mt-4 space-y-1.5 text-base">
+          <li><a href="/" class="hover:underline underline-offset-4">Accueil</a></li>
+          {site.servicePages && site.services.map((s) => <li><a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a></li>)}
+        </ul>
+      </div>
+      {reseaux.length > 0 && (
+        <div class="md:text-right">
+          <p class="text-sm font-bold">Réseaux</p>
+          <ul class="mt-4 space-y-1.5 text-sm">
+            {reseaux.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" class="underline underline-offset-4">{noms[k] ?? k}</a></li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+    <div class="mt-14 flex flex-col gap-3 border-t border-current/60 pt-6 text-sm md:flex-row md:items-center md:justify-between">
+      <p>©&nbsp;{year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+      <ul class="flex flex-wrap gap-x-6 gap-y-1">
+        <li><a href="/mentions-legales" class="hover:underline underline-offset-4">Mentions légales</a></li>
+        <li><a href="/confidentialite" class="hover:underline underline-offset-4">Confidentialité</a></li>
+        {hasCredits && <li><a href="/credits" class="hover:underline underline-offset-4">Crédits photos</a></li>}
+      </ul>
+    </div>
+    {site.legal.demo && <p class="mt-4 text-xs">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>
+
+<style>
+  .barbotine-pied-nom { font-size: clamp(3rem, 2rem + 4vw, 5.5rem); line-height: 0.95; max-width: 12ch; text-wrap: balance; }
+</style>

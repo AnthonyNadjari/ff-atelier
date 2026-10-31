@@ -1,0 +1,81 @@
+---
+/**
+ * Proof "rideau" (style rideau, fiche docs/veille/styles/rideau.md § Construction) : la source empile une dizaine d'écrans,
+ * c'est l'empilement qui fait l'effet. On le continue avec les preuves du client :
+ * 1. UN ÉCRAN PAR AVIS recopié, sur une photo de la galerie qui n'a pas encore été montrée (sinon sur le noir) : voile noir,
+ *    au centre la petite étiquette (l'auteur et sa ville) et l'avis en grotesque moyenne (jusqu'à 56 px), qui se floute en
+ *    sortant par le haut ; en tête, la note Google en petit et le lien vers la fiche.
+ * 2. PUIS UN ÉCRAN PAR PHOTO RESTANTE de la galerie (le travail, le lieu : les « événements » de la source), étiquette
+ *    wording.galleryTitle (sinon « Au salon ») et sa légende (le texte alternatif écrit pour le client) centrée.
+ * Rien d'inventé : avis recopiés seulement (trois au plus), photos du client seulement ; sans avis, sans note et sans
+ * galerie, pas de section ; ni étoile, ni carte.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+const vues = new Set([site.images.hero?.src, ...site.services.map((s) => s.image?.src)].filter(Boolean));
+const libres = site.proof.gallery.filter((g) => !vues.has(g.src));
+const photosAvis = avis.length;
+const realisations = libres.slice(photosAvis, photosAvis + 6);
+const etiquette = site.wording.galleryTitle ?? 'Au salon';
+---
+
+{(avis.length > 0 || google || realisations.length > 0) && (
+  <section id="proof" class="rideau-avis" aria-labelledby="rideau-avis-titre">
+    <div class="rideau-marges flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pt-[var(--section-y)] pb-5">
+      <h2 id="rideau-avis-titre" class="rideau-h2">{avis.length > 0 || google ? 'Avis' : etiquette}</h2>
+      {google && (
+        <p class="text-sm text-muted">
+          {google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis,{' '}
+          <a href={google.url} target="_blank" rel="noopener" class="text-fg underline underline-offset-4">les lire</a>
+        </p>
+      )}
+    </div>
+    <ul>
+      {avis.map((t, i) => {
+        const photo = libres[i];
+        return (
+          <li class:list={['rideau-ecran relative overflow-hidden', !photo && 'rideau-ecran-nu']}>
+            {photo && <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />}
+            <span class="rideau-voile" aria-hidden="true"></span>
+            <figure class="rideau-centre">
+              <figcaption class="rideau-etiquette">{t.author}{t.city && `, ${t.city}`}</figcaption>
+              <blockquote class="rideau-citation font-[family-name:var(--font-display)]" data-rideau-flou>«&nbsp;{t.text}&nbsp;»</blockquote>
+            </figure>
+          </li>
+        );
+      })}
+      {realisations.map((g) => (
+        <li class="rideau-ecran relative overflow-hidden">
+          <Img src={g.src} alt="" class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+          <span class="rideau-voile rideau-voile-leger" aria-hidden="true"></span>
+          <figure class="rideau-centre">
+            <span class="rideau-etiquette">{etiquette}</span>
+            <figcaption class="rideau-citation font-[family-name:var(--font-display)]" data-rideau-flou>{g.alt}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .rideau-marges { width: 100%; padding-inline: clamp(0.625rem, 1.4vw, 1.25rem); }
+  .rideau-h2 { font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.75rem); line-height: 1.12; }
+  .rideau-ecran { height: 133.333vw; }
+  .rideau-ecran-nu { height: 90vw; background: var(--bg-2); }
+  @media (min-width: 40rem) { .rideau-ecran { height: 100svh; } .rideau-ecran-nu { height: 70svh; } }
+  .rideau-voile { position: absolute; inset: 0; background: var(--bg); opacity: 0.45; }
+  .rideau-voile-leger { opacity: 0.25; }
+  .rideau-centre { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding-inline: 1rem; text-align: center; color: var(--fg); }
+  .rideau-etiquette { border-radius: var(--radius); background: color-mix(in srgb, var(--bg) 40%, transparent); padding: 0.2rem 0.55rem; font-size: 0.8125rem; line-height: 1.2; }
+  .rideau-citation { font-weight: 500; font-size: clamp(1.5rem, 3.2vw, 3.5rem); line-height: 1.02; letter-spacing: -0.018em; max-width: 24ch; text-wrap: balance; }
+  @keyframes rideau-flou { to { filter: blur(16px); opacity: 0.2; } }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-rideau-flou] { animation: rideau-flou linear both; animation-timeline: view(); animation-range: exit 10% exit 100%; }
+    }
+  }
+</style>

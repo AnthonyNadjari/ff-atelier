@@ -1,0 +1,104 @@
+/* Direction DUNE : style réel relevé sur https://steuermann.haus/ (Haus Steuermann, maison de vacances en deux ailes,
+   Steuermann West et Steuermann Ost, au village de Nieblum sur l'île de Föhr ; veille du 30 oct 2026, tour 19, fiche
+   docs/veille/styles/dune.md, atomes docs/veille/styles/atomes/dune.json). On reprend le style et la construction (photo
+   lavée pêche et bleu presque plein écran, les deux ailes nommées au bord de l'écran, titre et texte en deux colonnes,
+   photos posées par paires qui se chevauchent, l'hôte en médaillon et le chemin pour venir, la page qui finit sur la
+   dune), jamais les textes, images, logos ni le code de la source.
+   Une maison d'île : un blanc chaud, un gris-bleu d'ardoise pour le texte, une grotesque fine en graisse normale, aucun
+   cadre, aucune ombre ; la couleur vient des photos LAVÉES (ciel pêche en haut, herbe et mer gris-bleu en bas) posées à
+   côté de photos naturelles.
+   Polices : Neue Haas Grotesk Display et Text (non libres, graisse 400) -> Hanken Grotesk (grotesque suisse libre, OFL),
+   une seule famille comme la source.
+   Couleurs relevées : fond #ffffff (68 % des fonds), gris lavande #efeff2 (21 %), texte courant #6c757f (98 % des
+   caractères), titres #373741 ; ciel pêche des photos lavées ~#f3dcc3, sol gris-bleu ~#6d8199. Le blanc est réchauffé
+   vers le ciel pêche des photos (#f8f2ea, chroma OKLCH 0,014) : sans les vidéos lavées de la source, un blanc nu ne
+   garderait rien de la lumière de la page. Le gris du texte est assombri (#5d6570, 5,3:1 sur le fond ; la source
+   mesure 4,68:1 sur blanc). */
+@import '@fontsource-variable/hanken-grotesk';
+
+[data-direction='dune'] {
+  --accent-h: 215;
+  --accent-s: 12%;
+  --accent-l: 24%;
+  --bg: #f8f2ea;
+  --bg-2: #efeff2;
+  --surface: #ffffff;
+  --fg: #373741;
+  --muted: #5d6570;
+  --line: #dcd8d2;
+  --accent: #373741;
+  --accent-2: #4f5a68;
+  --on-accent: #ffffff;
+  --ink: #373741;
+  --on-ink: #ffffff;
+  /* Le lavis des photos (Hero, About, Services, Contact dune) : ciel pêche en haut, sol gris-bleu en bas. */
+  --lavis-ciel: #f3dcc3;
+  --lavis-sol: #6d8199;
+  --font-display: 'Hanken Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Hanken Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Hanken Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 400;
+  --display-tracking: 0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 9vw, 8rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.4s;
+  /* Courbe mesurée sur la source (transform 0,4 s et 0,7 s des tiroirs) : cubic-bezier(0.18, 0.08, 0.26, 1.01). */
+  --ease-brand: cubic-bezier(0.18, 0.08, 0.26, 1.01);
+}
+
+[data-direction='dune'] body { font-weight: 400; color: var(--muted); }
+[data-direction='dune'] ::selection { background: var(--lavis-ciel); color: var(--fg); }
+/* Titres en graisse normale, interlignage 1,16 mesuré, couleur d'ardoise ; jamais d'italique (GOUT § 2). */
+[data-direction='dune'] :is(h1, h2, h3) { color: var(--fg); font-weight: 400; line-height: 1.16; letter-spacing: 0.01em; }
+[data-direction='dune'] h3 { font-weight: 600; font-size: 0.875rem; line-height: 1.4; letter-spacing: 0; }
+[data-direction='dune'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : la source n'a que des liens en petit corps suivis d'une flèche (« Mehr zu Steuermann West → »). Le plein
+   reste une plaque d'ardoise à angles droits pour le formulaire ; le fantôme devient le lien à flèche. */
+[data-direction='dune'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='dune'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='dune'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='dune'] .btn-ghost { border: 0; background: transparent; color: var(--fg); padding-inline: 0; }
+[data-direction='dune'] .btn-ghost::after { content: '→'; margin-left: 0.75rem; transition: transform var(--motion-ui) var(--ease-brand); }
+[data-direction='dune'] .btn-ghost:hover::after { transform: translateX(4px); }
+[data-direction='dune'] .card { background: var(--surface); border-radius: 0; border: 0; box-shadow: none; }
+[data-direction='dune'] .rule { border-top: 1px solid var(--line); }
+[data-direction='dune'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+
+/* Le lavis (classe posée par les sections dune sur le cadre d'une photo) : la photo passe en niveaux de gris éclaircis,
+   puis un dégradé ciel pêche -> sol gris-bleu la recolore en mode « color » (garde la lumière de la photo, change sa
+   teinte) : le ciel devient pêche, l'herbe et la mer gris-bleu, comme les vidéos de la source. Une photo sur deux
+   seulement : l'autre reste naturelle à côté d'elle. */
+[data-direction='dune'] .dune-lavis { isolation: isolate; }
+[data-direction='dune'] .dune-lavis img { filter: grayscale(1) contrast(0.92) brightness(1.06); }
+/* Le ciel : un voile pêche en multiplication sur le haut de la photo (les blancs du ciel prennent la couleur, que le mode
+   « color » seul ne donne pas à un blanc). */
+[data-direction='dune'] .dune-lavis::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--lavis-ciel) 0%, var(--lavis-ciel) 35%, transparent 75%);
+  mix-blend-mode: multiply;
+}
+[data-direction='dune'] .dune-lavis::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--lavis-ciel) 15%, var(--lavis-sol) 85%);
+  mix-blend-mode: color;
+}

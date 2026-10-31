@@ -216,6 +216,14 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   tableau, `/trajet`, `/trajet/<slug>` ; pas de bloc services ni questions sur ces deux accueils ; aucune donnée = aucune page ;
   `ff ressemblance` les voit comme « journal daté » et « plan ou schéma » (`src/lib/journal.ts`, `src/lib/trajet.ts`,
   `tests/architectures-carnet.test.mjs`).
+  `recoltes` (optionnel, architecture `calendrier-recoltes`, coquille `recoltes`) → « En ce moment, en <mois> » à côté du h1 (le mois
+  du visiteur choisi dans le navigateur, sans script celui du build), le répondeur de la liste du jour, puis le calendrier de l'année
+  en vrai tableau (une rangée par produit, douze mois, le mois courant marqué), `/calendrier` mois par mois, `/recoltes/<slug>` ;
+  `matieres` (optionnel, architecture `nuancier-matieres`, coquille `matieres`) → « Pour quel usage ? » à côté du h1, le nuancier
+  (la photo de chaque matière en carré), l'échelle du client en barres (une matière sans `valeur` n'y est jamais placée),
+  `/matieres` en tableau comparé, `/matieres/<slug>` ; pas de bloc services ni questions sur ces deux accueils ; aucune donnée =
+  aucune page ; `ff ressemblance` les voit comme « calendrier annuel » et « nuancier » (`src/lib/recoltes.ts`,
+  `src/lib/matieres.ts`, `tests/architectures-recoltes.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

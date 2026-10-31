@@ -1,0 +1,59 @@
+---
+/**
+ * About "dune" (style dune, relevé sur steuermann.haus le 30 oct 2026, fiche docs/veille/styles/dune.md § Construction,
+ * bloc 3) : LA PAIRE DE PHOTOS QUI SE CHEVAUCHENT, puis l'histoire en deux colonnes.
+ * 1. Dans la colonne de gauche de la page (de 2 à 7 sur 12), deux photos du client : la première, petite et lavée (ciel
+ *    pêche, sol gris-bleu), posée en haut à gauche ; la seconde, naturelle et plus grande, posée PAR-DESSUS en bas à droite,
+ *    qui la recouvre d'un tiers ; sous elle, la légende en petit (le nom du lieu en gras, le métier et la ville en gris).
+ * 2. Le titre (about.title) à gauche en grotesque fine, l'histoire (about.story) à droite en corps de lecture ; à partir du
+ *    deuxième paragraphe, la première ligne est rentrée (comme la source), pas d'espace entre les paragraphes.
+ * Rien d'inventé : photos de la galerie du client (about.portrait d'abord), sans photo pas de paire ; une seule photo =
+ * elle seule, naturelle.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const heroSrc = site.images.hero?.src;
+const photos = [a.portrait, ...site.proof.gallery].filter((p, i, t) => p && p.src !== heroSrc && t.findIndex((q) => q?.src === p.src) === i).slice(0, 2) as { src: string; alt: string }[];
+const [arriere, avant] = photos.length === 2 ? photos : [undefined, photos[0]];
+---
+
+<section id="about" class="dune-about section-y" aria-labelledby="dune-about-titre">
+  <div class="dune-marges grid gap-12 md:grid-cols-12 md:gap-6">
+    <h2 id="dune-about-titre" class="dune-h2 md:col-span-4 md:col-start-2" set:html={a.title ?? site.business.name} />
+    <div class="dune-histoire text-base leading-relaxed md:col-span-5 md:col-start-7 md:text-[1.1875rem] md:leading-[1.47]">
+      {paras.map((p) => <p>{p}</p>)}
+    </div>
+    {avant && (
+      <div class="dune-paire md:col-span-8 md:col-start-2">
+        {arriere && (
+          <figure class="dune-paire-arriere dune-lavis relative overflow-hidden">
+            <Img src={arriere.src} alt={arriere.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 25vw, 60vw" loading="lazy" />
+          </figure>
+        )}
+        <figure class:list={['dune-paire-avant', !arriere && 'dune-paire-seule']}>
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <Img src={avant.src} alt={avant.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 34vw, 80vw" loading="lazy" />
+          </div>
+          <figcaption class="mt-3 max-w-[28ch] text-xs leading-relaxed">
+            <span class="block font-semibold text-fg">{site.business.name}</span>
+            {metierEtVille().replace(/\.$/, '')}
+          </figcaption>
+        </figure>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .dune-marges { width: 100%; padding-inline: clamp(2.75rem, 9vw, 8rem); }
+  .dune-h2 { font-size: clamp(1.6rem, 1.2rem + 1.1vw, 2.3rem); max-width: 14ch; text-wrap: balance; }
+  .dune-histoire p + p { text-indent: 2.5em; }
+  /* La paire : la petite photo lavée en haut à gauche, la grande naturelle par-dessus en bas à droite (recouvre un tiers). */
+  .dune-paire { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .dune-paire-arriere { grid-column: 1 / span 6; grid-row: 1; aspect-ratio: 3 / 2; }
+  .dune-paire-avant { grid-column: 4 / span 9; grid-row: 1; margin-top: 22%; position: relative; z-index: 1; }
+  .dune-paire-seule { grid-column: 1 / span 10; margin-top: 0; }
+</style>

@@ -1,0 +1,810 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://taylorhare.com/",
+  "nom": "talus",
+  "date": "2026-10-30",
+  "identite": {
+    "title": "TaylorHare Architects",
+    "siteName": "",
+    "lang": "en-GB",
+    "description": "TaylorHare is a RIBA award winning chartered architects practice, registered with the AA in Denmark, the ARB in the United Kingdom and the AIA in the USA.",
+    "technologies": [
+      "WordPress",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#132019",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 44,
+      "images": 10,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video.lazy"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#homepage-loader-overlay",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7477,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Isola Book\"",
+        "taille": 28.3922,
+        "graisse": "400",
+        "interlignage": 1.19,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Isola Book",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Book.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Book Slanted",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-BookSlanted.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Regular",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Regular.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Regular Slanted",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-RegularSlanted.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Regular.woff2",
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Book.woff2",
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-BookSlanted.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Isola Book",
+          "n": 29
+        },
+        {
+          "famille": "Isola Regular",
+          "n": 11
+        },
+        {
+          "famille": "Isola Book Slanted",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f3eee8",
+      "texte": "#132019",
+      "fondsBruts": [
+        {
+          "hex": "#f3eee8",
+          "n": 1,
+          "poids": 10766880
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#132019",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#e4644b",
+          "n": 2,
+          "poids": 1022090.625
+        },
+        {
+          "hex": "#5a6f48",
+          "n": 1,
+          "poids": 225
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#132019",
+          "n": 48,
+          "poids": 1525
+        }
+      ],
+      "nbImages": 15,
+      "nbVideos": 2,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f3eee8",
+          "n": 1,
+          "poids": 10766880,
+          "part": 0.749
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.09
+        },
+        {
+          "hex": "#132019",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.09
+        },
+        {
+          "hex": "#e4644b",
+          "n": 2,
+          "poids": 1022090.625,
+          "part": 0.071
+        },
+        {
+          "hex": "#5a6f48",
+          "n": 1,
+          "poids": 225,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#132019",
+          "n": 48,
+          "poids": 1525,
+          "part": 1
+        }
+      ],
+      "contraste": 14.58
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "Barba",
+          "preuve": "window.barba"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 15
+        },
+        {
+          "valeur": "opacity 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 13
+        },
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "-webkit-transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "width 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "height 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "fill 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 3
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.logo-top-left",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "width 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "height 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.home",
+      "sections": [],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "+45 5069 4273",
+            "href": "tel:+4550694273",
+            "bouton": false
+          },
+          {
+            "texte": "+44 (0) 1227 668 073",
+            "href": "tel:+441227668073",
+            "bouton": false
+          },
+          {
+            "texte": "+1 (619) 994-3799",
+            "href": "tel:+16199943799",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 6,
+        "href": "tel:+4550694273"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BORDERS",
+          "href": "/project-category/borders/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#cursor-dot",
+          "position": "fixed",
+          "hauteur": 15,
+          "largeur": 15,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "div#site-title",
+          "position": "fixed",
+          "hauteur": 34,
+          "largeur": 266,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "div#homepage-loader-overlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#nav-button_top-left",
+          "position": "fixed",
+          "hauteur": 75,
+          "largeur": 75,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#nav-button_bottom-right",
+          "position": "fixed",
+          "hauteur": 71,
+          "largeur": 71,
+          "enBas": true,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#smooth-wrapper",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 235
+        },
+        {
+          "selecteur": "div.team-member-overlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.nav-menu-overlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 568,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.nav-menu-overlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 568,
+          "enBas": false,
+          "mots": 4
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/talus-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#132019",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 44,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video.lazy"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#homepage-loader-overlay",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5592,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Isola Book\"",
+        "taille": 20.5,
+        "graisse": "400",
+        "interlignage": 1.19,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Isola Book",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Book.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Book Slanted",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-BookSlanted.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Regular",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Regular.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Isola Regular Slanted",
+          "url": "/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-RegularSlanted.woff2",
+          "feuille": "taylorhare.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Book.woff2",
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-BookSlanted.woff2",
+        "https://taylorhare.com/wp-content/themes/taylorhare/assets/fonts/IsolaWeb-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Isola Book",
+          "n": 29
+        },
+        {
+          "famille": "Isola Regular",
+          "n": 13
+        },
+        {
+          "famille": "Isola Book Slanted",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#a7b9bd",
+      "texte": "#132019",
+      "fondsBruts": [
+        {
+          "hex": "#a7b9bd",
+          "n": 1,
+          "poids": 2180880
+        },
+        {
+          "hex": "#f3eee8",
+          "n": 4,
+          "poids": 1109361.09375
+        },
+        {
+          "hex": "#e4644b",
+          "n": 2,
+          "poids": 658320
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#132019",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#132019",
+          "n": 50,
+          "poids": 1516
+        }
+      ],
+      "nbImages": 6,
+      "nbVideos": 2,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#a7b9bd",
+          "n": 1,
+          "poids": 2180880,
+          "part": 0.473
+        },
+        {
+          "hex": "#f3eee8",
+          "n": 4,
+          "poids": 1109361.09375,
+          "part": 0.241
+        },
+        {
+          "hex": "#e4644b",
+          "n": 2,
+          "poids": 658320,
+          "part": 0.143
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.071
+        },
+        {
+          "hex": "#132019",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.071
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#132019",
+          "n": 50,
+          "poids": 1516,
+          "part": 1
+        }
+      ],
+      "contraste": 8.27
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "Barba",
+          "preuve": "window.barba"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "-webkit-transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "width 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "height 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "fill 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "opacity 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "n": 3
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.logo-top-left",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "width 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)",
+          "height 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main",
+      "sections": [
+        {
+          "selecteur": "div#home-page",
+          "titre": "Architecture is about much more than buildings. We create pl",
+          "top": 0,
+          "hauteur": 4614,
+          "ecrans": 5.5,
+          "mots": 188,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "footer",
+          "titre": "DK",
+          "top": 4614,
+          "hauteur": 978,
+          "ecrans": 1.2,
+          "mots": 50,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "+45 5069 4273",
+            "href": "tel:+4550694273",
+            "bouton": false
+          },
+          {
+            "texte": "+44 (0) 1227 668 073",
+            "href": "tel:+441227668073",
+            "bouton": false
+          },
+          {
+            "texte": "+1 (619) 994-3799",
+            "href": "tel:+16199943799",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 6,
+        "href": "tel:+4550694273"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BORDERS",
+          "href": "/project-category/borders/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#site-title",
+          "position": "fixed",
+          "hauteur": 24,
+          "largeur": 192,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "div#homepage-loader-overlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#nav-button_top-left",
+          "position": "fixed",
+          "hauteur": 70,
+          "largeur": 70,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#nav-button_bottom-right",
+          "position": "fixed",
+          "hauteur": 70,
+          "largeur": 70,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.team-member-overlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.nav-menu-overlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.nav-menu-overlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 4
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "TaylorHare Architects",
+  "dureeS": 23.7
+}

@@ -1,0 +1,56 @@
+---
+/**
+ * Proof "farine" (style farine, relevé sur impastofornoantico.com le 30 oct 2026, fiche docs/veille/styles/farine.md
+ * § Construction, bloc 6 « Made daily ») : sur le crème, à gauche (colonnes 1 à 5) un titre en capitales étroites sur
+ * deux lignes (la note Google quand le client l'a : « 4,8/5 sur Google », sinon « Avis »), puis un ou deux avis en serif
+ * de lecture avec leur auteur et le lien vers Google ; à droite (colonnes 8 à 12), une grande photo verticale (3:4) de la
+ * galerie, qui monte plus haut que le texte. Au téléphone : le texte puis la photo à 82 % calée à droite.
+ * Rien d'inventé : sans avis ni note, pas de section ; sans photo libre, le texte seul ; ni étoile, ni carte.
+ */
+import { site } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 2);
+// Photos déjà montrées : le premier écran, puis celles d'About/farine (le portrait ou la première de la galerie, puis la suivante).
+const galerie = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+const photoAbout = site.about.portrait ?? galerie[0];
+const large = galerie.find((g) => g.src !== photoAbout?.src);
+const dejaVues = new Set([photoAbout?.src, site.about.title ? large?.src : undefined].filter(Boolean));
+const photo = galerie.find((g) => !dejaVues.has(g.src));
+const note = google ? `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google` : 'Avis';
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="farine-avis section-y" aria-labelledby="farine-avis-titre">
+    <div class="farine-large grid gap-12 md:grid-cols-12 md:gap-x-8">
+      <div class:list={['md:col-span-5 md:pt-24', !photo && 'md:col-span-8']} data-reveal>
+        <h2 id="farine-avis-titre" class="farine-avis-titre">{note}</h2>
+        {google && <p class="mt-3 text-base text-muted">{google.count} avis</p>}
+        {avis.length > 0 && (
+          <ul class="mt-10 grid gap-8">
+            {avis.map((t) => (
+              <li>
+                <blockquote class="text-base leading-relaxed md:text-[1.0625rem]">«&nbsp;{t.text}&nbsp;»</blockquote>
+                <p class="mt-3 text-sm text-muted">{t.author}{t.city && `, ${t.city}`}, avis {t.source}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {google && <div class="mt-8"><Button href={google.url} variant="ghost" size="sm" target="_blank" rel="noopener">Lire les avis sur Google</Button></div>}
+      </div>
+      {photo && (
+        <figure class="farine-avis-photo relative m-0 aspect-[3/4] overflow-hidden md:col-span-5 md:col-start-8">
+          <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 40vw, 80vw" loading="lazy" />
+        </figure>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .farine-large { width: 100%; padding-inline: clamp(1.125rem, 3.3vw, 3rem); }
+  .farine-avis-titre { font-size: clamp(2rem, 1.2rem + 2.4vw, 3.25rem); line-height: 1; max-width: 11ch; hyphens: none; }
+  @media (max-width: 47.99rem) { .farine-avis-photo { width: 82%; margin-left: auto; } }
+</style>

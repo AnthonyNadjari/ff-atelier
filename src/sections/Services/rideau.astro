@@ -1,0 +1,65 @@
+---
+/**
+ * Services "rideau" (style rideau, relevé sur holographik.space le 30 oct 2026, fiche docs/veille/styles/rideau.md
+ * § Construction, bloc 4, le geste signature) : LES ÉCRANS, l'un après l'autre. Chaque service est un écran plein de sa
+ * photo (100 % de la hauteur à l'ordinateur, 4:3 debout au téléphone), voile noir à 20 %, et au centre sa petite
+ * étiquette (le prix « à partir de » s'il est donné, sinon le titre de la section) puis son TITRE en grotesque moyenne
+ * jusqu'à 90 px, serré, blanc, sa phrase en petit dessous ; tout l'écran est un lien vers la page du service (le titre
+ * pâlit à 72 % au survol, 0,2 s, et prend un contour au focus clavier, comme la source). Le titre se floute et s'efface en
+ * sortant par le haut de l'écran (profil « titre-qui-se-floute-en-sortant » : jusqu'à 16 px de flou, CSS lié à la vue).
+ * Un titre de section en petit au-dessus du premier écran (wording.servicesTitle) et le métier à la ville.
+ * Rien d'inventé : un service sans photo garde un écran noir avec son titre (plus court : 60 % de la hauteur) ; prix
+ * seulement s'il est donné ; aucune icône.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+---
+
+<section id="services" class="rideau-services" aria-labelledby="rideau-services-titre">
+  <div class="rideau-marges flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pt-[var(--section-y)] pb-5">
+    <Titre id="rideau-services-titre" class="rideau-h2" title={site.wording.servicesTitle} />
+    <p class="text-sm text-muted">{metierEtVille().replace(/\.$/, '')}</p>
+  </div>
+  <ul>
+    {services.map((s) => (
+      <li>
+        <a href={`/services/${s.slug}`} class:list={['rideau-ecran relative block overflow-hidden', !s.image && 'rideau-ecran-nu']}>
+          {s.image && <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />}
+          <span class="rideau-voile" aria-hidden="true"></span>
+          <span class="rideau-centre">
+            <span class="rideau-etiquette">{s.priceFrom ?? site.wording.servicesTitle.replace(/<[^>]+>/g, '')}</span>
+            <span class="rideau-titre-ecran" data-rideau-flou>
+              <h3 class="rideau-h3 font-display">{s.title}</h3>
+              <span class="mx-auto mt-4 block max-w-[40ch] text-sm font-normal tracking-normal md:text-base">{s.short}</span>
+            </span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .rideau-marges { width: 100%; padding-inline: clamp(0.625rem, 1.4vw, 1.25rem); }
+  .rideau-h2 { font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.75rem); line-height: 1.12; }
+  .rideau-ecran { height: 133.333vw; }
+  .rideau-ecran-nu { height: 80vw; background: var(--bg-2); }
+  @media (min-width: 40rem) { .rideau-ecran { height: 100svh; } .rideau-ecran-nu { height: 60svh; } }
+  .rideau-voile { position: absolute; inset: 0; background: var(--bg); opacity: 0.2; }
+  .rideau-centre { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding-inline: 1rem; text-align: center; color: var(--fg); }
+  .rideau-etiquette { border-radius: var(--radius); background: color-mix(in srgb, var(--bg) 40%, transparent); padding: 0.2rem 0.55rem; font-size: 0.8125rem; line-height: 1.2; }
+  .rideau-titre-ecran { display: block; width: 100%; }
+  .rideau-h3 { font-weight: 500; font-size: clamp(1.8rem, 4.8vw, 5.6rem); line-height: 0.95; letter-spacing: -0.022em; max-width: 20ch; margin-inline: auto; text-wrap: balance; transition: opacity var(--motion-ui) var(--ease-brand); }
+  .rideau-ecran:hover .rideau-h3 { opacity: 0.72; }
+  .rideau-ecran:focus-visible { outline: none; }
+  .rideau-ecran:focus-visible .rideau-h3 { outline: 2px solid currentColor; outline-offset: 8px; }
+  @keyframes rideau-flou { to { filter: blur(16px); opacity: 0.2; } }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-rideau-flou] { animation: rideau-flou linear both; animation-timeline: view(); animation-range: exit 10% exit 100%; }
+    }
+  }
+</style>

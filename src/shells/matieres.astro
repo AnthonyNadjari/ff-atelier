@@ -1,0 +1,212 @@
+---
+/**
+ * Coquille "matieres" : architecture `nuancier-matieres` (src/lib/architectures.ts ; sources Menuiserie et ébénisterie Pipault,
+ * Yonne : « Essence bois » dans la barre, dix essences avec leur photo, aubier, grain, densité, dureté, durabilité et usages ;
+ * Boud'bOis, bois massif local : « Nos essences disponibles » sur l'accueil, une fiche par essence avec son usage et son prix
+ * moyen ; docs/veille/architectures/nuancier-matieres.md).
+ * Le client choisit « en quoi ? » avant « combien ? » : l'accueil est le nuancier de l'atelier.
+ *   → en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0) ; à côté,
+ *     id="usages" : « Pour quel usage ? », chaque usage du client et ses matières, chacune vers sa page (un index, pas des
+ *     onglets : tout est lisible d'un coup, sans script) ;
+ *   → id="nuancier" (le bloc le plus haut) : le mur des matières, la photo de la matière en grand carré (le fil, le grain, la
+ *     trame), son nom, son origine ; une matière sans photo n'a pas de pastille, elle est nommée dessous ;
+ *   → id="echelle" : l'échelle du client (dureté, densité…) en barres, chaque matière à SA valeur, de la plus tendre à la plus
+ *     dure ; une matière sans valeur n'y est pas (jamais placée au hasard) ;
+ *   → les sections du layout (les avis s'il y en a) ; les questions sont sur /matieres : pas de fin de page d'usine ;
+ *   → id="contact" : l'atelier, les échantillons, l'adresse, les horaires, le téléphone ; le pied.
+ * Pages : /matieres (tableau comparé, avec les questions), /matieres/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans matières : le h1, l'appel et le contact restent, le nuancier disparaît et le build dit ce
+ * qui manque (donneesManquantes). Signes des sources NON repris : loupe au survol de la photo (Pipault : rien au téléphone),
+ * tableau de chiffres sans unité, « Voir le stock » répété sous chaque essence (Boud'bOis).
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, matieresCompletes, nuancierDesMatieres, matieresSurEchelle, matieresParUsage } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const mt = site.matieres;
+const toutes = matieresCompletes(mt?.liste);
+const pastilles = nuancierDesMatieres(toutes);
+const sansPhoto = toutes.filter((m) => !m.photo);
+const echelle = mt?.echelle ? matieresSurEchelle(toutes) : [];
+const usages = matieresParUsage(toutes);
+const nombre = (v: number) => v.toLocaleString('fr-FR', { maximumFractionDigits: 2 });
+const unite = mt?.echelle?.unite ? ` ${mt.echelle.unite}` : '';
+const lien = (slug: string) => `/matieres/${slug}`;
+const manque = donneesManquantes('nuancier-matieres', site);
+if (manque.length > 0) console.warn(`[coquille matieres] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="mt-page">
+  <section id="hero" class="container-ff mt-hero" aria-labelledby="mt-h1">
+    <div class="mt-texte">
+      <h1 id="mt-h1" class="mt-h1 font-display" set:html={site.business.tagline} />
+      <p class="mt-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {mt?.intro && <p class="mt-intro">{mt.intro}</p>}
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="mt-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="mt-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      {/* Le nuancier en tête : les quatre premières matières en échantillons posés côte à côte, comme sur l'établi. */}
+      {pastilles.length >= 3 && (
+        <ul class="mt-apercu" aria-label="Le nuancier, en bref">
+          {pastilles.slice(0, 4).map((m, i) => (
+            <li style={`--mt-i: ${i}`}><a href={lien(m.slug)} class="mt-apercu-lien"><Img src={(m.photo as { src: string }).src} alt="" class="mt-apercu-img" sizes="(min-width: 64rem) 9rem, 22vw" priority /><span class="mt-apercu-nom">{m.nom}</span></a></li>
+          ))}
+        </ul>
+      )}
+    </div>
+    {usages.length > 0 && (
+      <nav id="usages" class="mt-usages" aria-labelledby="mt-usages-t">
+        <h2 id="mt-usages-t" class="mt-usages-t font-display">Pour quel usage ?</h2>
+        <dl class="mt-index">
+          {usages.map((u) => (
+            <div class="mt-index-l">
+              <dt class="mt-usage">{u.usage}</dt>
+              <dd><ul class="mt-noms">{u.matieres.map((m) => <li><a href={lien(m.slug)} class="mt-nom">{m.nom}</a></li>)}</ul></dd>
+            </div>
+          ))}
+        </dl>
+      </nav>
+    )}
+  </section>
+
+  {toutes.length > 0 && (
+    <section id="nuancier" class="mt-nuancier" aria-labelledby="mt-nuancier-t">
+      <div class="container-ff mt-nuancier-in">
+        <div class="mt-tete">
+          <h2 id="mt-nuancier-t" class="mt-h2 font-display">{site.wording.matieres}</h2>
+          <p class="mt-muted">{toutes.length} matières. <a href="/matieres" class="mt-lien">Les comparer</a></p>
+        </div>
+        {pastilles.length > 0 && (
+          <ul class="mt-mur">
+            {pastilles.map((m, i) => (
+              <li class="mt-pastille">
+                <a href={lien(m.slug)} class="mt-pastille-lien">
+                  <span class="mt-ech"><Img src={(m.photo as { src: string }).src} alt={(m.photo as { alt: string }).alt} class="mt-ech-img" sizes="(min-width: 64rem) 22vw, (min-width: 48rem) 30vw, 46vw" priority={i < 2} /></span>
+                  <span class="mt-pastille-nom font-display">{m.nom}</span>
+                  {(m.origine || m.autreNom) && <span class="mt-pastille-sous">{[m.autreNom, m.origine].filter(Boolean).join(', ')}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        {sansPhoto.length > 0 && <p class="mt-aussi">Aussi&nbsp;: {sansPhoto.map((m, i) => <>{i > 0 && ', '}<a href={lien(m.slug)} class="mt-lien-texte">{m.nom}</a></>)}.</p>}
+      </div>
+    </section>
+  )}
+
+  {echelle.length >= 2 && mt?.echelle && (
+    <section id="echelle" class="mt-echelle" aria-labelledby="mt-echelle-t">
+      <div class="container-ff mt-echelle-in">
+        <div class="mt-tete">
+          <h2 id="mt-echelle-t" class="mt-h2 font-display">{mt.echelle.nom}{mt.echelle.unite ? ` (${mt.echelle.unite})` : ''}</h2>
+          <p class="mt-muted">Chaque matière à sa valeur{mt.echelle.bas && mt.echelle.haut ? `, de la plus ${mt.echelle.bas} à la plus ${mt.echelle.haut}` : ''}.</p>
+        </div>
+        <ol class="mt-barres">
+          {echelle.map(({ matiere: m, part }) => (
+            <li class="mt-barre-l">
+              <a href={lien(m.slug)} class="mt-barre-nom">{m.nom}</a>
+              <span class="mt-barre-trait" aria-hidden="true"><span class="mt-barre-fait" style={`inline-size: ${Math.max(part, 3)}%`}></span></span>
+              <span class="mt-barre-val tabular-nums">{nombre(m.valeur!)}{unite}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="mt-contact" aria-labelledby="mt-contact-t">
+    <div class="container-ff mt-contact-in">
+      <div class="mt-col">
+        <h2 id="mt-contact-t" class="mt-h2 font-display">L’atelier</h2>
+        {mt?.echantillons && <p class="mt-ech-phrase">{mt.echantillons}</p>}
+        <p class="mt-adresse">{fullAddress()}</p>
+        <p><a href={tel()} class="mt-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      <Horaires class="mt-semaine tabular-nums" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .mt-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 4vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem) clamp(2rem, 6vh, 4rem); }
+  .mt-texte { display: grid; gap: 1rem; align-content: start; }
+  .mt-h1 { font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .mt-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 42ch; }
+  .mt-intro { max-inline-size: 48ch; color: var(--color-muted); }
+  .mt-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .mt-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .mt-lien-texte { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; font-weight: 600; }
+  .mt-tel:focus-visible, .mt-lien:focus-visible, .mt-lien-texte:focus-visible, .mt-nom:focus-visible, .mt-pastille-lien:focus-visible, .mt-barre-nom:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .mt-muted { color: var(--color-muted); }
+  /* Les échantillons du premier écran : un peu tournés et décalés, ombre portée réelle (des plaquettes posées, pas des vignettes). */
+  .mt-apercu { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.5rem, 2vw, 1rem); max-inline-size: 36rem; padding-block-start: 0.5rem; }
+  .mt-apercu li { transform: translateY(calc(var(--mt-i) * 0.35rem)); }
+  .mt-apercu-lien { display: grid; gap: 0.3rem; }
+  .mt-apercu-img { display: block; inline-size: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-ui, 4px); box-shadow: var(--shadow-card); }
+  .mt-apercu-nom { font-size: 0.85rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .mt-apercu-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  /* Démo seulement (images.illustration) : la mention « Photo d'illustration » tient dans un échantillon étroit. */
+  .mt-apercu :global(.ff-illustration) { inset-inline: 0.2rem auto; max-inline-size: calc(100% - 0.4rem); white-space: normal; font-size: 0.6rem; line-height: 1.1; }
+  /* « Pour quel usage ? » : l'index du nuancier, à filets, comme la table d'un catalogue d'échantillons. */
+  .mt-usages { min-inline-size: 0; display: grid; gap: 0.75rem; align-content: start; padding-block-start: 0.9rem; border-block-start: 4px solid var(--color-fg); }
+  .mt-usages-t { font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.06; }
+  .mt-index-l { display: grid; grid-template-columns: minmax(6.5rem, 34%) minmax(0, 1fr); column-gap: 1rem; align-items: baseline; padding-block: 0.15rem; border-block-end: 1px solid var(--color-line); }
+  .mt-usage { font-weight: 700; }
+  .mt-noms { display: flex; flex-wrap: wrap; column-gap: 0.9rem; }
+  .mt-nom { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .mt-h2 { font-size: clamp(1.8rem, 4.8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .mt-tete { display: grid; gap: 0.4rem; max-inline-size: 60ch; }
+  .mt-nuancier { padding-block: clamp(2rem, 6vh, 4.5rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .mt-nuancier-in { display: grid; gap: clamp(1.25rem, 3vh, 2rem); }
+  /* Le mur : chaque pastille est un échantillon posé (la photo de la matière en carré, une ombre portée réelle). */
+  .mt-mur { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 2rem) clamp(0.75rem, 2.5vw, 1.75rem); }
+  .mt-pastille-lien { display: grid; gap: 0.45rem; }
+  .mt-ech { display: block; overflow: hidden; border-radius: var(--radius-ui, 4px); box-shadow: var(--shadow-card); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .mt-ech-img { display: block; inline-size: 100%; aspect-ratio: 1; object-fit: cover; }
+  .mt-pastille-nom { font-size: clamp(1.15rem, 2.2vw, 1.5rem); line-height: 1.05; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .mt-pastille-sous { font-size: 0.9rem; color: var(--color-muted); }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .mt-pastille-lien:hover .mt-ech { transform: translateY(-4px); }
+  }
+  .mt-aussi { color: var(--color-muted); }
+  .mt-echelle { padding-block: clamp(2rem, 6vh, 4.5rem); }
+  .mt-echelle-in { display: grid; gap: clamp(1.25rem, 3vh, 2rem); }
+  /* L'échelle : une barre par matière, longueur proportionnelle à SA valeur (la plus haute = toute la largeur). */
+  .mt-barres { display: grid; gap: 0.35rem; }
+  .mt-barre-l { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'nom val' 'trait trait'; column-gap: 1rem; align-items: center; padding-block-end: 0.4rem; border-block-end: 1px solid var(--color-line); }
+  .mt-barre-nom { grid-area: nom; display: inline-flex; align-items: center; min-block-size: 44px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .mt-barre-val { grid-area: val; font-weight: 600; }
+  .mt-barre-trait { grid-area: trait; display: block; block-size: 0.75rem; background: var(--color-surface); }
+  .mt-barre-fait { display: block; block-size: 100%; background: var(--color-accent); }
+  .mt-contact { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .mt-contact :global(.horaires-jour) { opacity: 1; }
+  .mt-contact-in { display: grid; gap: 2rem; }
+  .mt-col { display: grid; gap: 0.75rem; align-content: start; }
+  .mt-ech-phrase { font-size: clamp(1.1rem, 2vw, 1.3rem); max-inline-size: 42ch; }
+  .mt-adresse { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .mt-mur { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .mt-barre-l { grid-template-columns: 11rem minmax(0, 1fr) 7rem; grid-template-areas: 'nom trait val'; padding-block-end: 0; }
+    .mt-barre-val { text-align: end; }
+    .mt-contact-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+  @media (min-width: 64rem) {
+    .mt-hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 3.5rem; align-items: start; }
+    .mt-mur { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+</style>

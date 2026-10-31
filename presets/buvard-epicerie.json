@@ -1,0 +1,54 @@
+{
+  "nom": "buvard-epicerie",
+  "titre": "Buvard épicerie",
+  "description": "La direction buvard pour une épicerie fine ou une cave qui raconte d'abord : barre minimale avec le téléphone, photo et texte côte à côte, la grande photo à titre posé dessus et l'histoire, les avis sous leurs photos, les produits en liste, les communes, les étapes numérotées, le bandeau d'appel, le contact, puis le pied lie-de-vin en colonnes.",
+  "metiers": [
+    "épicerie fine",
+    "cave à vin",
+    "fromager",
+    "librairie"
+  ],
+  "look": {
+    "direction": "buvard",
+    "motion": "subtle",
+    "scale": "compact",
+    "layout": {
+      "nav": "minimal",
+      "hero": "split",
+      "sections": [
+        {
+          "type": "about",
+          "variant": "buvard"
+        },
+        {
+          "type": "proof",
+          "variant": "buvard"
+        },
+        {
+          "type": "services",
+          "variant": "list"
+        },
+        {
+          "type": "zones",
+          "variant": "list"
+        },
+        {
+          "type": "process",
+          "variant": "numbered"
+        },
+        {
+          "type": "cta",
+          "variant": "band"
+        },
+        {
+          "type": "contact",
+          "variant": "buvard"
+        }
+      ],
+      "footer": "columns",
+      "divider": "none",
+      "tone": "alternate",
+      "actionBar": false
+    }
+  }
+}

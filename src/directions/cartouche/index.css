@@ -1,0 +1,84 @@
+/* Direction CARTOUCHE : style réel relevé sur https://www.hotel-gilbert.at/ (Hotel Gilbert, petit hôtel indépendant de la
+   Breite Gasse, à Vienne ; veille du 30 oct 2026, tour 19, fiche docs/veille/styles/cartouche.md, atomes
+   docs/veille/styles/atomes/cartouche.json). On reprend le style et la construction (le nom géant en serif contrastée entre
+   deux filets, des CARTOUCHES : plaques blanches à filet bleu posées à cheval sur le bas des photos, titre en capitales
+   étroites, texte à la machine à écrire, lien encadré qui mord le filet ; papier quadrillé de bleu ; bande cobalt ; pied en
+   cases filetées), jamais les textes, images, logos ni le code de la source.
+   Une papeterie d'hôtel : blanc, un seul bleu cobalt pour les titres, les filets et les bandes, gris pour le texte ; trois
+   voix : une serif d'affiche à fort contraste pour le nom et les grands titres, une grotesque étroite en capitales pour les
+   titres de cartouche, une machine à écrire pour tout le texte. Aucun arrondi sauf le tampon rond, aucune ombre.
+   Polices : Saol Display (non libre) -> Gloock ; Knockout Junior Featherweight (non libre) -> Oswald ; Prestige Elite
+   (non libre, machine à écrire) -> Courier Prime.
+   Couleurs relevées : fond #ffffff (43 % des fonds), cobalt #1624b6 (8 % des fonds, 56 % des textes), gris #555555 (31 % des
+   textes), blanc sur le cobalt. Le gris est gardé (7,5:1) ; un bleu de papier très pâle (#f4f5fb) pour le quadrillage. */
+@import '@fontsource/gloock/latin.css';
+@import '@fontsource-variable/oswald';
+@import '@fontsource/courier-prime/latin.css';
+
+[data-direction='cartouche'] {
+  --accent-h: 234;
+  --accent-s: 79%;
+  --accent-l: 40%;
+  --bg: #ffffff;
+  --bg-2: #f4f5fb;
+  --surface: #ffffff;
+  --fg: #1624b6;
+  --muted: #555555;
+  --line: #1624b6;
+  --accent: #1624b6;
+  --accent-2: #2a39c9;
+  --on-accent: #ffffff;
+  --ink: #1624b6;
+  --on-ink: #ffffff;
+  --font-display: 'Gloock', 'Didot', Georgia, serif;
+  --font-body: 'Courier Prime', 'Courier New', monospace;
+  --font-mono: 'Oswald Variable', 'Arial Narrow', sans-serif;
+  --display-weight: 400;
+  --display-tracking: 0.01em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --motion-duration: 0.4s;
+  --motion-ui: 0.3s;
+  /* Courbe mesurée sur la source (color 0,4 s) : cubic-bezier(0.4, 0, 0.2, 1). */
+  --ease-brand: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Machine à écrire : plus petite à l'œil qu'une grotesque au même corps ; 16 à 18 px (essai du 30 oct 2026 : « texte en
+   chasse fixe minuscule »). */
+[data-direction='cartouche'] body { color: var(--muted); font-size: clamp(1rem, 0.93rem + 0.3vw, 1.125rem); line-height: 1.55; }
+[data-direction='cartouche'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Grands titres en serif d'affiche, capitales (la source les écrit en capitales) ; titres de cartouche (h3) en grotesque
+   étroite, capitales, serrée ; jamais d'italique (GOUT § 2 : la source met ses liens en italique, refusé). */
+[data-direction='cartouche'] :is(h1, h2) { color: var(--fg); font-weight: 400; line-height: 1.05; letter-spacing: 0.01em; text-transform: uppercase; }
+[data-direction='cartouche'] h3 { color: var(--fg); font-family: var(--font-mono); font-weight: 400; line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; }
+[data-direction='cartouche'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : la source encadre ses liens d'un filet bleu, texte à la machine à écrire et longue flèche au trait qui
+   s'allonge au survol. Le plein est une plaque cobalt à angles droits. */
+[data-direction='cartouche'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='cartouche'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='cartouche'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='cartouche'] .btn-ghost { background: var(--surface); color: var(--fg); border: 1px solid var(--line); }
+[data-direction='cartouche'] .btn-ghost::after {
+  content: '';
+  width: 2.25rem;
+  height: 1px;
+  margin-left: 1rem;
+  background: currentColor;
+  transition: width var(--motion-ui) var(--ease-brand);
+}
+[data-direction='cartouche'] .btn-ghost:hover::after { width: 3.25rem; }
+[data-direction='cartouche'] .card { background: var(--surface); border-radius: 0; border: 1px solid var(--line); box-shadow: none; }
+[data-direction='cartouche'] .rule { border-top: 1px solid var(--line); }
+[data-direction='cartouche'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.8125rem; letter-spacing: 0; text-transform: none; }

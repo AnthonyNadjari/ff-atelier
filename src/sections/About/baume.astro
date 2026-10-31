@@ -1,0 +1,74 @@
+---
+/**
+ * About "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * bloc 7 « Terapeutáink ») : LES PRATICIENS, un par rangée. Le titre (about.title) centré, puis pour chaque membre de
+ * l'équipe (about.team) : son portrait dans un cadre aux coins adoucis avec une ombre réelle, posé DEVANT UNE PLAQUE PÊCHE
+ * de même taille décalée vers le bas et l'extérieur (le relief du premier écran, en pêche) ; en face, son nom en gras et
+ * son métier (role) en terre cuite ; la rangée suivante passe le portrait de l'autre côté. Sous les praticiens, l'histoire
+ * (about.story) et les engagements (about.values) en liste à puces pêche, comme les listes « Tapasztalataim » de la source.
+ * Praticiens sans photo : le portrait du client (about.portrait) devant sa plaque, l'histoire à côté et les praticiens
+ * nommés en petites cartes (nom, métier). Rien d'inventé : jamais de plaque vide ; sans histoire ni valeurs, ces lignes disparaissent.
+ * Mouvement : aucun.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story).slice(0, 2);
+// Une rangée par praticien qui a sa photo ; sans aucune, une rangée avec le portrait du client (ou la photo du cabinet)
+// et les praticiens nommés en liste à côté. Jamais une plaque vide.
+const avecPhoto = a.team.filter((m) => m.photo);
+const sansPhoto = a.team.filter((m) => !m.photo);
+const equipe = avecPhoto.length > 0 ? avecPhoto : a.portrait ? [{ name: '', role: '', photo: a.portrait }] : [];
+---
+
+<section id="about" class="baume-about pb-[var(--section-y)] pt-[calc(var(--section-y)+2rem)]" aria-labelledby="baume-about-titre">
+  <div class="container-ff">
+    <h2 id="baume-about-titre" class="baume-h2 mx-auto text-center" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+    <div class="mt-14 space-y-16 md:space-y-24">
+      {equipe.map((m, i) => (
+        <div class="grid items-center gap-10 md:grid-cols-12 md:gap-8">
+          <div class:list={['relative md:col-span-5', i % 2 === 1 && 'md:order-2 md:col-start-8']}>
+            <div class:list={['baume-portrait relative ml-4 mb-6 mr-6 md:mb-8', i % 2 === 1 ? 'baume-portrait-gauche' : '']}>
+              <div class="baume-plaque-peche absolute inset-0" aria-hidden="true"></div>
+              <figure class="baume-cadre relative aspect-[4/5] overflow-hidden">
+                {m.photo && <Img src={m.photo.src} alt={m.photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 36vw, 84vw" loading="lazy" />}
+              </figure>
+            </div>
+          </div>
+          <div class:list={['md:col-span-6', i % 2 === 1 ? 'md:order-1 md:col-start-1' : 'md:col-start-7']}>
+            {m.name && <h3 class="text-2xl">{m.name}</h3>}
+            {m.role && <p class="mt-1 font-semibold text-accent">{m.role}</p>}
+            {i === 0 && paras.map((p) => <p class="mt-4 max-w-[52ch] text-[0.9375rem] leading-relaxed" set:html={p} />)}
+            {i === 0 && sansPhoto.length > 0 && (
+              <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+                {sansPhoto.map((m) => <li class="card p-4"><p class="font-bold">{m.name}</p><p class="mt-1 text-sm font-semibold text-accent">{m.role}</p></li>)}
+              </ul>
+            )}
+            {i === 0 && a.values.length > 0 && (
+              <ul class="baume-puces mt-6 space-y-2 text-[0.9375rem]">
+                {a.values.map((v) => <li><span class="font-semibold">{v.title}</span>{v.text && <span class="text-muted"> : {v.text}</span>}</li>)}
+              </ul>
+            )}
+          </div>
+        </div>
+      ))}
+      {equipe.length === 0 && (
+        <div class="mx-auto max-w-[60ch] space-y-4 text-[0.9375rem] leading-relaxed">
+          {paras.map((p) => <p set:html={p} />)}
+          {sansPhoto.map((m) => <p><span class="font-bold">{m.name}</span>, <span class="text-accent">{m.role}</span></p>)}
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .baume-h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); max-width: 22ch; }
+  .baume-plaque-peche { background: var(--baume-peche); border-radius: var(--radius-card); transform: translate(-1.25rem, 1.75rem); }
+  .baume-portrait-gauche .baume-plaque-peche { transform: translate(1.25rem, 1.75rem); }
+  .baume-cadre { border-radius: var(--radius-card); box-shadow: var(--shadow-lift); background: var(--baume-menthe); }
+  .baume-puces li { position: relative; padding-left: 1.25rem; }
+  .baume-puces li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--baume-peche); }
+  .baume-cadre :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

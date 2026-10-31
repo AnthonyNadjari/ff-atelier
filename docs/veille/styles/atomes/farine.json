@@ -1,0 +1,158 @@
+{
+  "id": "farine",
+  "version": 1,
+  "source": {
+    "url": "https://www.impastofornoantico.com/",
+    "nom": "Impasto Forno Antico",
+    "metier": "boulangerie de la famille Villani à Avondale Heights, Melbourne (pains au levain, ciabatta, focaccia, viennoiseries)",
+    "fiche": "docs/veille/styles/farine.md",
+    "mesures": "docs/veille/styles/atomes/mesures/farine.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "aaux-next",
+      "libre": "archivo",
+      "graisse": 330,
+      "interlignage": 1.0,
+      "casse": "uppercase",
+      "interlettrage": -0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "ff-scala",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.55
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 41,
+        "ordinateur": 168
+      },
+      "h2": {
+        "telephone": 41.5,
+        "ordinateur": 64
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 17
+      }
+    },
+    "remarque": "Aaux Next (non libre, 400) pour les titres, en capitales, 168 px pour les noms des pains du premier écran : Archivo à chasse variable (wdth 86 %, graisse 330) ; le nom du pied en Archivo 125 %, 800. FF Scala (non libre) pour le texte : Spectral. Le h1 mesuré (19 px) est un texte caché ; les vrais titres sont des h2."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#efefe7",
+      "texte": "#efefe7",
+      "fonds": [
+        {
+          "hex": "#312426",
+          "part": 0.545
+        },
+        {
+          "hex": "#efefe7",
+          "part": 0.455
+        },
+        {
+          "hex": "#d9cec3",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#efefe7",
+          "part": 0.633
+        },
+        {
+          "hex": "#312426",
+          "part": 0.365
+        },
+        {
+          "hex": "#d9cec3",
+          "part": 0.002
+        }
+      ],
+      "proches": 0
+    },
+    "clair": {
+      "fond": "#f0ede2",
+      "surface": "#f7f5ee",
+      "texte": "#312426",
+      "texte2": "#685c56",
+      "accent": "#312426",
+      "accent2": "#e6e2d4",
+      "bordure": "#d2cbbd",
+      "encre": "#312426"
+    },
+    "sombre": null,
+    "remarque": "Crème #efefe7 mesuré (45 % des fonds, chroma OKLCH 0,009) réchauffé en #f0ede2 (0,015) ; un seul brun pain brûlé #312426 (55 % des fonds : bandes et pied ; texte, boutons) ; crème sur le brun. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 80,
+      "ordinateur": 140
+    },
+    "gouttiere": {
+      "telephone": 18,
+      "ordinateur": 48
+    },
+    "conteneur": 1440,
+    "mesure": 64,
+    "rythme": "uni",
+    "remarque": "Pas de conteneur : toute la largeur, gouttière de 48 px à l'ordinateur et 18 au téléphone ; titres centrés, texte en colonnes étroites."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Rien d'arrondi, aucune ombre, aucune carte ; les liens sont des mots en grotesque (« View Products ») soulignés au survol."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9",
+      "4:3",
+      "2:3"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photo en noir et blanc posée au milieu des noms géants qu'elle traverse ; grande photo dans la bande brune ; photos de pâte et de mains en quinconce ; photo pleine largeur sous la phrase éclatée ; grande verticale à côté du texte. Photos chaudes, sombres, de près."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.375,
+      "courbe": "cubic-bezier(0.625, 0.05, 0, 1)"
+    },
+    "scene": {
+      "duree": 0.7,
+      "courbe": "cubic-bezier(0.5, 0.5, 0, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis"
+    ],
+    "profil": "mots-sous-la-photo",
+    "remarque": "GSAP, ScrollTrigger et Lenis sur la source : préchargement plein écran (refusé), vidéo en noir et blanc dans le cadre du premier écran (une photo ici), mots qui montent, double bande des noms qui défile. Gardé : la photo qui paraît puis les noms qui montent de sous leur ligne, les deux bandes contraires, les morceaux de phrase qui apparaissent."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

@@ -1,0 +1,134 @@
+---
+/**
+ * Services "talus" (geste signature du style talus, relevé sur taylorhare.com le 30 oct 2026, fiche
+ * docs/veille/styles/talus.md § Construction, blocs 3 à 5 et § Le geste signature) : L'ESCALIER. La page est un papier
+ * découpé en six colonnes sans gouttière ; chaque prestation occupe une rangée : SA PHOTO prend des cases entières (deux,
+ * trois ou quatre colonnes), sans marge ni cadre, et touche la photo de la rangée d'au-dessus PAR UN COIN (elle commence
+ * à la colonne où l'autre finit) : en descendant, les photos forment un talus en escalier. Le texte de la prestation est
+ * posé dans les cases vides d'en face : son nom en grand corps léger, sa phrase courte, le prix « à partir de » quand il
+ * est donné, et le lien souligné vers sa page ; sous la photo, sa légende en petit (le nom et le prix, comme les
+ * légendes de lieu de la source).
+ * Motif des rangées (colonnes de la photo / du texte), répété : 4-6 / 1-2, 2-3 / 5-6, 4-5 / 1-3, 1-3 / 5-6 ; chaque photo
+ * démarre à la colonne qui suit la fin de la précédente ou finit à celle qui précède son début : le coin est toujours partagé.
+ * Au téléphone : chaque photo à 78 % de la largeur, alternativement collée au bord droit et au bord gauche, sa légende
+ * et son texte dessous (la source fait pareil : l'escalier se lit en zigzag, les coins ne se touchent plus).
+ * Mouvement, profil « escalier-qui-se-rejoint » (docs/veille/styles/MOUVEMENTS.md) : quand une rangée arrive à l'écran, sa
+ * photo glisse de 3 rem vers le coin qu'elle partage avec la précédente et apparaît (transform 1,2 s, opacité 0,6 s, courbe
+ * de la source), une fois ; rien n'est calé sur le défilement ; l'état caché n'existe que sous la classe posée par le
+ * script ; en mouvement réduit tout est en place.
+ * Rien d'inventé : une prestation sans photo garde sa rangée avec un aplat de papier plus foncé à la place, jamais une
+ * icône ; le prix n'apparaît que s'il est donné.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+// Motif des rangées (début de colonne et nombre de colonnes, sur six) : photo et texte d'en face.
+const MOTIF = [
+  { photo: [4, 3], texte: [1, 2], cote: 'droite' },
+  { photo: [2, 2], texte: [5, 2], cote: 'gauche' },
+  { photo: [4, 2], texte: [1, 3], cote: 'droite' },
+  { photo: [1, 3], texte: [5, 2], cote: 'gauche' },
+] as const;
+const col = ([debut, n]: readonly [number, number]) => `grid-column: ${debut} / span ${n};`;
+---
+
+<section id="services" class="talus-services pt-[var(--section-y)]" aria-labelledby="talus-services-titre">
+  <div class="talus-gouttiere grid gap-4 md:grid-cols-6 md:gap-0">
+    <Titre id="talus-services-titre" class="talus-titre md:col-span-3" title={site.wording.servicesTitle} />
+    <p class="max-w-[34ch] text-base leading-relaxed md:col-span-2 md:col-start-5 md:pt-2 md:text-[1.0625rem]">{metierEtVille()}</p>
+  </div>
+  <ol class="talus-escalier mt-10 md:mt-14 md:pb-12" data-escalier>
+    {services.map((s, i) => {
+      const m = MOTIF[i % MOTIF.length];
+      return (
+        <li class:list={['talus-marche', `talus-${m.cote}`]} data-marche>
+          <div class="talus-case-photo" style={col(m.photo)}>
+            <figure class:list={['talus-cadre relative overflow-hidden', m.photo[1] >= 3 ? 'talus-large' : 'talus-haute']}>
+              {s.image ? (
+                <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes={`(min-width: 48rem) ${Math.round((m.photo[1] / 6) * 100)}vw, 78vw`} loading="lazy" />
+              ) : (
+                <span class="absolute inset-0 bg-bg-2" aria-hidden="true"></span>
+              )}
+            </figure>
+            <p class="talus-legende talus-gouttiere mt-2 text-sm md:px-3">{s.title}{s.priceFrom && <span class="text-muted">, {s.priceFrom}</span>}</p>
+          </div>
+          <div class="talus-case-texte talus-gouttiere" style={col(m.texte)}>
+            <h3 class="talus-nom">{s.title}</h3>
+            {s.short && <p class="mt-4 max-w-[34ch] text-base leading-relaxed md:text-[1.0625rem]">{s.short}</p>}
+            {s.priceFrom && <p class="mt-3 text-[0.9375rem] text-muted">{s.priceFrom}</p>}
+            <a href={`/services/${s.slug}`} class="mt-5 inline-block text-base underline decoration-1 underline-offset-4 hover:decoration-2">Voir la prestation</a>
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // L'escalier se rejoint : chaque photo glisse vers le coin qu'elle partage avec la précédente quand sa rangée arrive à
+  // l'écran, une fois. Sans script ou en mouvement réduit, tout est en place (la classe talus-pret n'est jamais posée).
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-escalier]');
+    if (!bloc || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const marches = [...bloc.querySelectorAll<HTMLElement>('[data-marche]')];
+    const io = new IntersectionObserver((entrees) => {
+      entrees.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('est-posee');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
+    // Les rangées déjà visibles au chargement ne bougent pas.
+    marches.forEach((m) => {
+      if (m.getBoundingClientRect().top < innerHeight * 0.88) m.classList.add('est-posee');
+      else io.observe(m);
+    });
+    bloc.classList.add('talus-pret');
+  });
+</script>
+
+<style>
+  .talus-gouttiere { padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  .talus-titre { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); line-height: 1.12; max-width: 18ch; }
+  .talus-nom { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2.1rem); line-height: 1.12; max-width: 14ch; }
+  .talus-marche { display: grid; }
+  .talus-case-texte { padding-block: 1.75rem 2.75rem; }
+  /* Téléphone : photo à 78 %, collée alternativement à droite et à gauche, légende et texte dessous. */
+  .talus-case-photo { width: 78%; }
+  .talus-droite .talus-case-photo { margin-left: auto; }
+  .talus-droite .talus-legende { text-align: right; }
+  .talus-cadre.talus-large { aspect-ratio: 3 / 2; }
+  .talus-cadre.talus-haute { aspect-ratio: 4 / 5; }
+  @media (max-width: 47.99rem) {
+    .talus-case-photo { grid-column: auto !important; }
+    .talus-case-texte { grid-column: auto !important; }
+    .talus-droite .talus-case-texte { padding-left: 22%; }
+  }
+  /* Ordinateur : la rangée est une grille de six colonnes sans gouttière ; la photo et le texte se partagent la même
+     ligne, le texte en haut de sa case du côté droit, en bas du côté gauche (comme la source). */
+  @media (min-width: 48rem) {
+    .talus-marche { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-flow: dense; }
+    .talus-case-photo { width: auto; grid-row: 1; margin-left: 0 !important; }
+    .talus-case-texte { grid-row: 1; padding-block: 1.5rem; }
+    .talus-gauche .talus-case-texte { align-self: end; }
+    .talus-cadre.talus-large { aspect-ratio: 3 / 2; }
+    .talus-cadre.talus-haute { aspect-ratio: 4 / 5; }
+    /* La légende pend sous la photo, dans les cases vides de la rangée suivante : elle ne pousse pas la rangée, les
+       coins restent en contact. */
+    .talus-case-photo { position: relative; }
+    .talus-legende { position: absolute; top: 100%; left: 0; padding-inline: 0.75rem; }
+    .talus-droite .talus-case-texte { padding-top: 3rem; }
+    .talus-droite .talus-legende { text-align: left; }
+  }
+  /* Le geste : glisser vers le coin partagé. Une rangée à droite vient de la droite (son coin est à gauche) et
+     inversement ; transform en 1,2 s et opacité en 0,6 s, courbe de la source. */
+  .talus-pret .talus-marche .talus-cadre { opacity: 0; transition: transform var(--motion-duration) var(--ease-brand), opacity 0.6s var(--ease-brand); }
+  .talus-pret .talus-droite .talus-cadre { transform: translateX(3rem); }
+  .talus-pret .talus-gauche .talus-cadre { transform: translateX(-3rem); }
+  .talus-pret .talus-marche.est-posee .talus-cadre { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .talus-cadre { transition: none !important; opacity: 1 !important; transform: none !important; } }
+  .talus-cadre :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

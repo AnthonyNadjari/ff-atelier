@@ -1,0 +1,38 @@
+---
+/**
+ * Proof "talus" (style talus, relevé sur taylorhare.com le 30 oct 2026, fiche docs/veille/styles/talus.md § Construction ;
+ * la source n'a pas d'avis sur son accueil : on les écrit DANS SA VOIX, la grande phrase légère qu'elle pose dans les cases
+ * vides, socle GOUT § 0 « les avis haut dans la page »). Sur le papier en six colonnes : la note Google en petit dans la
+ * première colonne, puis chaque avis en grand corps léger dans les colonnes 2 à 5, l'auteur, la ville et l'origine en
+ * petit dessous ; deux avis au plus, le second décalé d'une colonne vers la droite (le zigzag de l'escalier).
+ * Aucune carte, aucune étoile, aucune icône, aucun guillemet décoratif. Rien sans avis : la section disparaît.
+ */
+import { site } from '@/lib/site';
+
+const avis = site.proof.testimonials.slice(0, 2);
+const google = site.proof.google;
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="talus-avis talus-gouttiere py-[var(--section-y)]" aria-labelledby="talus-avis-titre">
+    <div class="grid gap-6 md:grid-cols-6 md:gap-0">
+      <div class="text-[0.9375rem] md:col-span-1">
+        <h2 id="talus-avis-titre">Ce qu’en disent les clients</h2>
+        {google && (
+          <p class="mt-2 text-muted"><a href={google.url} target="_blank" rel="noopener" class="underline decoration-1 underline-offset-4">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a></p>
+        )}
+      </div>
+      {avis.map((t, i) => (
+        <figure class:list={['md:col-span-4', i === 0 ? 'md:col-start-2' : 'mt-8 md:col-start-3 md:mt-12']}>
+          <blockquote class="talus-citation"><p>{t.text}</p></blockquote>
+          <figcaption class="mt-3 text-[0.9375rem] text-muted">{[t.author, t.city, t.source].filter(Boolean).join(', ')}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .talus-gouttiere { padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  .talus-citation { font-size: clamp(1.3rem, 1.05rem + 1vw, 1.9rem); line-height: 1.2; max-width: 34ch; }
+</style>

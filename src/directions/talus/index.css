@@ -1,0 +1,89 @@
+/* Direction TALUS : style réel relevé sur https://taylorhare.com/ (TaylorHare Architects, petite agence d'architectes
+   entre le Kent et le Danemark ; veille du 30 oct 2026, tour 19, fiche docs/veille/styles/talus.md, atomes
+   docs/veille/styles/atomes/talus.json). On reprend le style et la construction (page de papier crème découpée en six
+   colonnes, phrases posées dans les cases vides, photos qui occupent des cases entières sans marge et se touchent par un
+   coin en descendant la page, comme un talus en escalier ; triangle et rond terre cuite aux deux coins ; panneau gris-bleu
+   pour finir), jamais les textes, images, logos ni le code de la source.
+   Couleurs relevées : papier #f3eee8 (75 % des fonds, chroma OKLCH 0,010, au bord du neutre : réchauffé à #f3ece4, 0,013), encre vert-noir #132019 (100 % des textes), terre cuite #e4644b
+   (triangle et rond des coins, décor seul : 3,1:1 sur le papier, jamais pour du texte), olive #5a6f48 (le point), gris-bleu
+   #a6b9bf (le panneau de fin, mesuré sur la capture). Le lien en terre cuite est assombri (#a53f2c, 5,4:1) pour se lire.
+   Polices : Isola Book et Isola Regular (non libres, grotesque légère au « g » simple) -> Epilogue (grotesque libre,
+   OFL, nette et sans manière : Familjen Grotesk était déjà la paire d'une autre direction), une seule famille comme la source,
+   en graisse 350 pour le texte et 400 pour les titres.
+   Aucun rayon, aucune ombre, aucun filet : la profondeur vient des photos qui se touchent par les coins et du vide des
+   cases laissées libres. */
+@import '@fontsource-variable/epilogue';
+
+[data-direction='talus'] {
+  --accent-h: 9;
+  --accent-s: 58%;
+  --accent-l: 41%;
+  --bg: #f3ece4;
+  --bg-2: #ebe4db;
+  --surface: #f8f5f1;
+  --fg: #132019;
+  --muted: #4b574f;
+  --line: #d4ccc1;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #5a6f48;
+  --on-accent: #f8f5f1;
+  --ink: #a6b9bf;
+  --on-ink: #132019;
+  --font-display: 'Epilogue Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Epilogue Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Epilogue Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 400;
+  --display-tracking: 0;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --motion-duration: 1s; /* etait 1.2s (mesuré sur la source, photos de l’escalier) : plafond 1 s (R1) */
+  --motion-ui: 0.25s;
+  /* Courbe mesurée sur la source (opacity 0,6 s et 1,2 s, transform 0,25 s, width et height 0,9 s) :
+     cubic-bezier(0.25, 0.1, 0.25, 1). */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Décor des coins (triangle, rond) : la terre cuite mesurée, jamais pour du texte. */
+  --talus-terre: #e4644b;
+  /* Texte du rond d’appel de Nav/talus sur la terre cuite : l’encre (5,9:1). */
+  --talus-terre-texte: var(--fg);
+}
+
+[data-direction='talus'] body { font-weight: 350; font-size: 1.0625rem; }
+[data-direction='talus'] ::selection { background: var(--ink); color: var(--fg); }
+/* Titres en graisse normale, interlignage 1,12 mesuré ; jamais d'italique (GOUT § 2). */
+[data-direction='talus'] :is(h1, h2, h3) { font-weight: 400; line-height: 1.12; letter-spacing: 0; }
+[data-direction='talus'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons de la source : il n'y en a pas ; ce sont des liens soulignés dans la phrase (« get in touch »). Le plein garde
+   la même retenue : un aplat vert-noir à angles droits ; le contour est un lien souligné qui s'épaissit au survol (0,25 s). */
+[data-direction='talus'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), text-decoration-thickness var(--motion-ui) var(--ease-brand);
+}
+[data-direction='talus'] .btn-primary { background: var(--fg); color: var(--bg); }
+[data-direction='talus'] .btn-primary:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='talus'] .btn-ghost {
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  padding-inline: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+[data-direction='talus'] .btn-ghost:hover { text-decoration-thickness: 2px; color: var(--accent); }
+[data-direction='talus'] .card {
+  background: var(--surface);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+[data-direction='talus'] .rule { border-top: 1px solid var(--line); }
+[data-direction='talus'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+[data-direction='talus'] a:not(.btn) { text-underline-offset: 0.25em; }

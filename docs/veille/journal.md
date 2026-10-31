@@ -4,6 +4,84 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 30 oct 2026, tour 19 (routine en ligne) : 5 styles gardés sur 10, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-30.jpg)) : le style `dune`, repris de Haus Steuermann (steuermann.haus, gîte
+en deux ailes sur l'île de Föhr) : le nom de chaque maison posé à la verticale sur les bords de l'écran, des paires de photos
+qui se chevauchent, et une fin de page sans formulaire (le mot de l'hôte, ses coordonnées, l'adresse et le plan). Pourquoi lui :
+c'est le seul que le juge neuf dit vendable « en l'état » une fois les photos du client posées, et les gîtes et chambres
+d'hôtes sont une clientèle nombreuse.
+
+**Fait**
+- **Styles (2a quater)** : 10 sites jamais étudiés (Awwwards, siteinspire, minimal.gallery, Framer, Webflow showcase ;
+  godly.website renvoie désormais vers recent.design, inutilisable). Chacun est construit en entier : direction, hero, geste
+  signature, fin de page propre, deux modèles `presets/<id>.json` et `<id>-<métier>.json`, test `tests/style-<id>.test.mjs`
+  et fiche avec « Construction ». Un juge neuf compare la source et l'essai sur images, puis une reprise par style.
+  **5 gardés** :
+  - `dune` (steuermann.haus, gîtes) ;
+  - `pochoir` (haven-annecy.fr, café-brunch : le nom rempli de photos, les mots géants barrés de leurs heures écrites à la main) ;
+  - `barbotine` (laboroflovestudio.com, céramiste : une plaque d'émail par cours qui s'empile au défilement) ;
+  - `cartouche` (hotel-gilbert.at, petit hôtel : nom géant entre deux filets, cartouches à cheval sur les photos) ;
+  - `baume` (fiziopont.hu, kiné : les étapes en cartes inclinées qui se posent une à une).
+
+  Les quatre derniers sont gardés « de justesse ». **5 à reprendre** : `farine` (impastofornoantico.com), `buvard`
+  (florawellnesscafe.com), `souffle` (tavolini.com), `rideau` (holographik.space), `talus` (taylorhare.com). Verdicts et
+  restes dans [styles/INDEX.md](styles/INDEX.md), comparaisons dans `styles/captures/<id>-{source,essai}.jpg`.
+- **Ce qui a fait tomber la comparaison, presque à chaque fois : les photos d'illustration.** La construction est désormais
+  bien reprise. Mais `ff photos-demo` ramène des photos hors sujet (églises, train, lanceur de base-ball) et de lumières
+  différentes. Les agents ont dû en choisir à la main sur Wikimedia, et le juge les trouve encore disparates ou amateur.
+- **Ressemblance** : `dune`, `pochoir`, `farine`, `buvard`, `rideau` et `souffle` passent sous 0,65 ; `cartouche` est à 0,65
+  pile ; `barbotine` reste au-dessus (0,72 téléphone / 0,80 ordinateur / 0,77 déroulé), comme `baume` et `talus` au déroulé
+  (0,78 et 0,75). Aucune photo n'a été rapetissée pour passer, sauf `buvard` à l'ordinateur (56 % de l'écran au lieu de 75 %).
+  Le blocage vient de la moitié « site » du score : plusieurs pages, mêmes ancres, même longueur, c'est-à-dire le socle.
+- **Correction après jugement** : `proof/buvard` ne met plus de photo au-dessus d'un avis signé (un barista au-dessus de
+  « Sarah K. » passait pour la cliente).
+- **Polices** ajoutées au registre (libres, hors liste IA) : Barlow, Sacramento, Libre Caslon Text, Courier Prime (paquets
+  `@fontsource`) ; les autres styles emploient des polices déjà au registre (Gloock, EB Garamond, Hanken Grotesk, Familjen
+  Grotesk, Epilogue, Red Hat Display, Josefin Sans, Oswald).
+- **Palettes** par régime, avant → après : clair neutre 93 → 93, clair teinté doux 34 → 39, sombre 36 → 38, coloré doux 58 → 61.
+- **Mouvement** : profils nouveaux et codés dans [MOUVEMENTS.md](styles/MOUVEMENTS.md) :
+  - `mots-sous-la-photo`, `heures-ecrites-a-la-main`, `filet-tremble-qui-se-trace` ;
+  - `plaques-qui-s-empilent`, `aile-qui-s-entrouvre`, `titre-qui-se-floute-en-sortant` ;
+  - `cartouche-qui-se-pose`, `escalier-qui-se-rejoint`, `cartes-qui-se-rebattent`.
+- **Architectures (2a ter)**, codées et prouvées, sans onglets :
+  - [calendrier-recoltes](architectures/calendrier-recoltes.md) (cueillettedecompans.fr, jardindelavenir.fr) : « En ce moment, en
+    <mois> » à côté du h1 (le mois du visiteur), le calendrier des récoltes en vrai tableau sur 12 mois, `/calendrier`,
+    `/recoltes/<slug>`.
+  - [nuancier-matieres](architectures/nuancier-matieres.md) (menuiserie-pipault-89.com, boudbois.fr) : « Pour quel usage ? » à
+    côté du h1, les matières en échantillons carrés, l'échelle du client (dureté, densité) à sa vraie valeur, `/matieres`,
+    `/matieres/<slug>`.
+
+  Ressemblance au plus 0,61 et 0,64. `deroule.mjs` reconnaît deux modèles de navigation nouveaux : « calendrier annuel » et
+  « nuancier ». Correctif en passant : `planche.mjs` servait une page blanche quand un dossier avait le même nom qu'une page
+  `.html` (`/matieres`, `/trajet`, `/carnet`).
+- **Marché (2a)** : 9 sites de plus ([CE-QUI-VEND.md](marche/CE-QUI-VEND.md), 162 sites). Aucun levier à 40 % ne manque à
+  l'usine. Le plus vendeur : Renova-9 (rénovation extérieure, Aix) : « Devis gratuit sous 24 h, garantie décennale » en haut,
+  puis une façade avant / après qu'on fait glisser soi-même dès le premier écran, et 13 avis Google datés. Nouveau
+  contre-levier : le numéro caché derrière « Afficher le numéro ».
+- `ff ressemblance --registre --tous` en début de tour : **231 paires trop proches** (254 au tour 18). 32 le sont par le premier
+  écran et 211 par le déroulé. Les pires : prospect-ballay-macon / prospect-epi-dor (0,89 au déroulé), auto-ecole-rabelais /
+  cantine-roulante (0,88), encre-noire / forge-delacroix (0,88 à l'ordinateur), chez-malo / forge-delacroix (0,85). Signalées,
+  pas corrigées ce tour (la routine demandait de signaler).
+- **Santé** : `npm ci`, Chromium présent, tout a tourné avec navigateur. Tests : voir le commit (tous verts avant le push). Les
+  rouges trouvés en fin de tour ont été corrigés : variété des seconds modèles, `--ease-brand` de `buvard`, atome
+  `hotelbelleville` d'une collecte précédente.
+
+**Proposé**
+- **Photos des démos**, le frein n° 1 de ce tour : tri plus strict dans `ff photos-demo` (une seule série, une même lumière,
+  sujet vérifié) ou des clés Unsplash/Pexels pour les essais. Sans ça, aucun style ne « tient » franchement.
+- **`ff ressemblance`** : recalibrer la moitié « site » du déroulé (proposé depuis le tour 18). Elle refuse des styles fidèles
+  parce que tous les sites ont le socle (plusieurs pages, ancres). C'est au fondateur de trancher, car le calibrage vient de
+  son jugement du 17 oct.
+- `ff ia` lit la direction dans `site.config.ts`, pas dans `look.json` : un essai `--style` n'est pas contrôlé sur ses polices.
+- Hero avec avant / après à glisser (levier Renova-9, 4 sites sur 126) : à surveiller.
+- Gabarit des pages de prestation : la bande « Un projet, une urgence ? » apparaît même sur une cueillette ou un gîte.
+
+**À décider** : faut-il desserrer `ff ressemblance` sur le déroulé (cf. ci-dessus) ? `dune` ou `cartouche` pour le prochain
+gîte ou hôtel ?
+
+**Prochain tour commence par** : reprendre `ocre` (tour 18), puis `souffle` et `rideau` avec de vraies séries de photos.
+
 ## 29 oct 2026, tour 18 (routine en ligne, nuit) : 6 styles gardés, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-29-tour18.jpg)) : le style `enduit`, repris de BCG Building Design

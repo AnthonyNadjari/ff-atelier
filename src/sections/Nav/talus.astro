@@ -1,0 +1,77 @@
+---
+/**
+ * Nav "talus" (style talus, relevé sur taylorhare.com le 30 oct 2026, fiche docs/veille/styles/talus.md § Construction,
+ * bloc 1) : PAS DE BARRE. Au coin haut gauche, collé au bord, un triangle rectangle terre cuite (le lien vers l'accueil,
+ * comme le bouton de la source) ; en haut à droite, en petit, le nom du client, puis (socle GOUT § 0) le téléphone cliquable
+ * et les ancres en liens soulignés ; au téléphone, « Appeler » et le menu dans un <details> natif. Sur l'accueil, posée
+ * sur la photo plein cadre, la nav passe au crème. À l'ordinateur seulement (au téléphone il couvrait du texte), au coin bas droit, fixé, le ROND terre cuite de la source (le bouton du menu, mesuré : width et height 0,9 s) devient la
+ * porte d'appel : un disque de 64 px qui s'ouvre vers la gauche sur « Appeler le … » au survol et au focus (largeur en
+ * 0,9 s, courbe de la source) ; au toucher il appelle directement. Décor des coins : la terre cuite mesurée (--talus-terre),
+ * le texte du rond reste en encre (contraste 5,9:1). Hors de la direction talus (second modèle presets/pochoir-salon.json),
+ * le triangle et le rond prennent l'accent de la direction et le texte du rond --on-accent (repli des deux jetons).
+ * Rien ne se cache au défilement ; la nav ne recouvre jamais le premier écran (un espace de sa hauteur la suit).
+ */
+import { site, navLinks, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const liens = navLinks().slice(0, 5);
+// Sur l'accueil, la nav est posée sur la photo plein cadre du premier écran (hero/talus) : texte crème.
+const surPhoto = Astro.url.pathname === '/' && site.layout.hero === 'talus' && Boolean(site.images.hero);
+---
+
+<header class:list={['talus-nav absolute inset-x-0 top-0 z-40', surPhoto && 'talus-nav-photo']}>
+  <a href="/" class="talus-coin" aria-label={`${site.business.name}, accueil`}></a>
+  <div class="talus-large flex items-start justify-end gap-6 pt-4 text-sm">
+    <a href="/" class="hidden md:inline">{site.business.name}</a>
+    <nav class="hidden gap-5 md:flex" aria-label="Navigation principale">
+      {liens.map((l) => <a href={l.href} class="underline decoration-1 underline-offset-4 hover:decoration-2">{l.label}</a>)}
+    </nav>
+    <a href={tel()} class="hidden underline decoration-1 underline-offset-4 hover:decoration-2 md:inline" data-porte="call">{site.contact.phoneDisplay}</a>
+    <a href={tel()} class="underline decoration-1 underline-offset-4 md:hidden" data-porte="call">Appeler</a>
+    <details class="talus-menu relative md:hidden">
+      <summary class="cursor-pointer list-none underline decoration-1 underline-offset-4">Menu</summary>
+      <nav class="absolute right-0 top-8 z-50 flex min-w-[12rem] flex-col gap-3 bg-bg p-4 text-base text-fg" aria-label="Navigation mobile">
+        {liens.map((l) => <a href={l.href}>{l.label}</a>)}
+        <a href={tel()}>{site.contact.phoneDisplay}</a>
+      </nav>
+    </details>
+  </div>
+</header>
+<div class="h-12 md:h-14" aria-hidden="true"></div>
+
+<a href={tel()} class="talus-rond" data-porte="call" aria-label={`Appeler le ${site.contact.phoneDisplay}`}>
+  <span class="talus-rond-texte" aria-hidden="true">Appeler le {site.contact.phoneDisplay}</span>
+  <span class="talus-rond-icone" aria-hidden="true"><Icon name="Phone" size={20} /></span>
+</a>
+
+<style>
+  .talus-large { width: 100%; padding-inline: clamp(1rem, 1.6vw, 1.5rem); }
+  .talus-coin {
+    position: absolute; left: 0; top: 0; width: 2.6rem; height: 2.6rem;
+    background: var(--talus-terre, var(--accent));
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+  .talus-nav-photo { color: var(--bg); }
+  .talus-menu summary::-webkit-details-marker { display: none; }
+  /* Le rond du coin bas droit : un disque qui s'élargit vers la gauche en gardant ses bouts ronds (rayon = demi-hauteur,
+     jamais 999px : la règle des pilules vise les boutons de texte, ici c'est le disque de la source qui s'étire). */
+  .talus-rond {
+    position: fixed; right: clamp(0.75rem, 1.4vw, 1.25rem); bottom: clamp(0.75rem, 1.4vw, 1.25rem); z-index: 60;
+    display: none; align-items: center; justify-content: flex-end;
+    height: 3.5rem; width: 3.5rem; overflow: hidden;
+    border-radius: 1.75rem;
+    background: var(--talus-terre, var(--accent)); color: var(--talus-terre-texte, var(--on-accent));
+    transition: width 0.9s var(--ease-brand);
+  }
+    .talus-rond-icone { flex: none; display: grid; place-items: center; width: 3.5rem; height: 3.5rem; }
+  .talus-rond-texte { white-space: nowrap; padding-left: 1.25rem; font-size: 0.9375rem; opacity: 0; transition: opacity var(--motion-ui) var(--ease-brand); }
+  @media (hover: hover) {
+    .talus-rond:hover, .talus-rond:focus-visible { width: 16.5rem; }
+    .talus-rond:hover .talus-rond-texte, .talus-rond:focus-visible .talus-rond-texte { opacity: 1; transition-delay: 0.3s; }
+  }
+  /* Au téléphone, pas de disque fixe (il couvrait du texte, juge du 30 oct) : « Appeler » est en haut à droite et sous la
+     phrase du premier écran. À l'ordinateur, le disque est posé dans le coin, hors des colonnes de texte. */
+  @media (min-width: 48rem) { .talus-rond { display: flex; } }
+  .talus-rond:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .talus-rond, .talus-rond-texte { transition: none; } }
+</style>

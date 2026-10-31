@@ -1,0 +1,70 @@
+---
+/**
+ * Footer "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * bloc 12, le pied de la source) : ANTHRACITE (--ink) pleine largeur ; à gauche le NOM EN DEUX COULEURS en grand
+ * (capitales fines : la première moitié en blanc rosé, la seconde en pêche), la phrase du client dessous et la porte
+ * principale pleine pêche ; à droite trois colonnes en petit : le menu (les liens de la barre, comme la colonne « Menü »
+ * de la source), les coordonnées (téléphone,
+ * e-mail, adresse, horaires), les réseaux ; en bas, sous un filet, l'année, les mentions, la confidentialité, les crédits.
+ * Rien d'inventé : chaque colonne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, fullAddress, actions, hasCredits, navLinks } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
+
+const year = new Date().getFullYear();
+const adresse = site.contact.address ? fullAddress() : '';
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok', youtube: 'YouTube', pinterest: 'Pinterest' };
+const [premiere] = actions();
+const menu = navLinks();
+const nom = site.business.name.toUpperCase();
+const espace = nom.indexOf(' ');
+const coupe = espace > 0 ? espace : Math.ceil(nom.length / 2);
+const [nomA, nomB] = [nom.slice(0, coupe).trim(), nom.slice(coupe).trim()];
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="baume-pied bg-ink text-on-ink">
+  <div class="container-ff grid gap-12 py-16 md:grid-cols-12 md:gap-8">
+    <div class="md:col-span-5">
+      <p class="baume-pied-nom font-[family-name:var(--baume-nom)]" aria-label={site.business.name}><span>{nomA}</span>{espace > 0 ? ' ' : ''}{nomB && <span class="baume-pied-b">{nomB}</span>}</p>
+      <p class="mt-3 max-w-[36ch] text-sm opacity-90" set:html={site.business.tagline} />
+      <div class="mt-6"><Porte action={premiere} size="sm" /></div>
+    </div>
+    {menu.length > 0 && (
+      <ul class="space-y-2 text-sm md:col-span-2 md:col-start-7" aria-label="Menu">
+        <li class="font-semibold">Menu</li>
+        {menu.map((l) => <li><a href={l.href} class="hover:underline underline-offset-4">{l.label}</a></li>)}
+      </ul>
+    )}
+    <div id={sansSectionContact ? 'contact' : undefined} class="space-y-2 text-sm md:col-span-2">
+      <p class="font-semibold">Coordonnées</p>
+      <p><a href={tel()} class="hover:underline underline-offset-4">{site.contact.phoneDisplay}</a></p>
+      {site.contact.email && <p><a href={mailto()} class="break-all hover:underline underline-offset-4">{site.contact.email}</a></p>}
+      {adresse && <p>{adresse}</p>}
+      {site.contact.hours.map((h) => <p>{h.days} : {h.hours}</p>)}
+    </div>
+    {reseaux.length > 0 && (
+      <ul class="space-y-2 text-sm md:col-span-2">
+        <li class="font-semibold">Nous suivre</li>
+        {reseaux.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" class="hover:underline underline-offset-4">{noms[k] ?? k}</a></li>)}
+      </ul>
+    )}
+  </div>
+  <div class="container-ff flex flex-col gap-3 border-t border-[color-mix(in_oklab,var(--on-ink)_25%,transparent)] py-6 text-xs md:flex-row md:justify-between">
+    <div>
+      <p>©&nbsp;{year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+      {site.legal.demo && <p class="mt-2">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+    </div>
+    <p class="flex flex-wrap gap-4">
+      <a href="/mentions-legales" class="hover:underline underline-offset-4">Mentions légales</a>
+      <a href="/confidentialite" class="hover:underline underline-offset-4">Confidentialité</a>
+      {hasCredits && <a href="/credits" class="hover:underline underline-offset-4">Crédits photos</a>}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .baume-pied-nom { overflow-wrap: normal; word-break: normal; font-weight: 300; font-size: clamp(2.4rem, 1.6rem + 2.6vw, 4rem); line-height: 1; letter-spacing: 0.01em; }
+  .baume-pied-b { color: var(--baume-peche); }
+</style>

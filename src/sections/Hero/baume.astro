@@ -1,0 +1,91 @@
+---
+/**
+ * Hero "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * blocs 1 et 2) : un DIPTYQUE CLAIR sur le blanc rosé qui vire au rose poudré vers le bas. À gauche (5/12), le h1 en
+ * géométrique grasse (business.tagline, 40 px mesuré), dessous le métier à la ville, l'ancienneté et la note quand le
+ * client les a, puis deux portes : la principale pleine pêche (rendez-vous, sinon Appeler) et « Appeler le … » en contour.
+ * À droite (6/12), la photo du soin dans un CADRE AUX COINS ADOUCIS (14 px) avec une ombre réelle, posé DEVANT UNE PLAQUE
+ * SAUGE de même taille décalée de 2,5 rem vers la droite et le haut : la profondeur de la source. Sous le diptyque, LE NOM
+ * EN DEUX COULEURS qui défile lentement (première moitié du nom en anthracite, seconde en pêche, capitales fines), comme
+ * le bandeau de la source ; décoratif (aria-hidden), arrêté au survol et en mouvement réduit (moteur data-marquee).
+ * Au téléphone : le h1, les portes pleine largeur, puis la photo et sa plaque, puis le nom qui défile.
+ * Entrée : la photo glisse de 1,5 rem vers sa plaque et la plaque s'écarte d'autant (0,7 s, courbe à léger dépassement),
+ * une fois au chargement ; posée d'emblée en mouvement réduit ou sans script (profil « cartes-qui-se-rebattent »).
+ * Données : sans images.hero, la plaque sauge reste seule (jamais une photo de banque présentée comme celle du client).
+ */
+import { site, tel, metierEtVille, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+].filter(Boolean) as string[];
+const [premiere] = actions();
+const nom = site.business.name.toUpperCase();
+// Le nom en deux couleurs : le premier mot (ou la première moitié d'un mot seul) en anthracite, le reste en pêche.
+const espace = nom.indexOf(' ');
+const coupe = espace > 0 ? espace : Math.ceil(nom.length / 2);
+const [nomA, nomB] = [nom.slice(0, coupe).trim(), nom.slice(coupe).trim()];
+---
+
+<section id="hero" class="hero-baume relative overflow-hidden">
+  <div class="container-ff grid items-center gap-12 pb-14 pt-10 md:grid-cols-12 md:gap-8 md:pb-20 md:pt-16">
+    <div class="md:col-span-5">
+      <h1 class="baume-h1 hero-titre" set:html={site.business.tagline} />
+      <p class="mt-4 max-w-[38ch] text-[0.9375rem] leading-relaxed text-muted">{faits.join(', ')}.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Porte action={premiere} size="md" />
+        {premiere.kind !== 'call' && <Button href={tel()} variant="ghost" size="md" data-porte="call">Appeler le {site.contact.phoneDisplay}</Button>}
+      </div>
+    </div>
+    <div class="relative md:col-span-6 md:col-start-7">
+      <div class="baume-cadre-pose relative mr-6 mt-6 md:mr-10 md:mt-10" data-baume-entree>
+        <div class="baume-plaque absolute inset-0" aria-hidden="true"></div>
+        <figure class="baume-photo relative aspect-[4/3] overflow-hidden">
+          {hero && <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.baume} priority />}
+        </figure>
+      </div>
+    </div>
+  </div>
+  <div class="baume-defile pb-6" data-marquee="45s" aria-hidden="true">
+    <div class="marquee-track">
+      {[0, 1, 2].map(() => (
+        <span class="baume-nom font-[family-name:var(--baume-nom)]"><span>{nomA}</span>{espace > 0 ? '\u00a0' : ''}<span class="baume-nom-b">{nomB}</span></span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Entrée : la photo se pose sur sa plaque (une fois). L'état de départ n'existe que sous la classe posée ici.
+  onPage(() => {
+    const el = document.querySelector<HTMLElement>('[data-baume-entree]');
+    if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    el.classList.add('baume-depart');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('baume-depart')));
+  });
+</script>
+
+<style>
+  .hero-baume { background: linear-gradient(to bottom, var(--bg) 55%, var(--bg-2)); }
+  .baume-h1 { font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); line-height: 1.12; max-width: 15ch; text-wrap: balance; }
+  .baume-plaque { background: var(--baume-sauge); border-radius: var(--radius-card); transform: translate(2.5rem, -2.5rem); }
+  @media (max-width: 47.99rem) { .baume-plaque { transform: translate(1.5rem, -1.5rem); } }
+  .baume-photo { border-radius: var(--radius-card); box-shadow: var(--shadow-lift); background: var(--bg-2); }
+  .baume-photo, .baume-plaque { transition: transform var(--motion-duration) var(--ease-brand); }
+  .baume-depart .baume-photo { transform: translate(-1.5rem, 1.5rem); }
+  .baume-depart .baume-plaque { transform: translate(1rem, -1rem); }
+  .baume-depart .baume-photo, .baume-depart .baume-plaque { transition: none; }
+  .baume-defile { --marquee-gap: 2.5rem; }
+  .baume-nom { font-weight: 300; font-size: clamp(3rem, 9vw, 7.5rem); line-height: 1; white-space: nowrap; color: var(--fg); }
+  .baume-nom-b { color: var(--accent); }
+  @media (prefers-reduced-motion: reduce) { .baume-photo, .baume-plaque { transition: none; } }
+  .baume-photo :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

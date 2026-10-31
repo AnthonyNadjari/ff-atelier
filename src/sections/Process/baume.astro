@@ -1,0 +1,117 @@
+---
+/**
+ * Process "baume" (geste signature du style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md
+ * § Construction, bloc 5 « Lépésről lépésre » et § Le geste signature) : LES ÉTAPES EN CARTES QUI SE REBATTENT. Le bloc
+ * colle à l'écran pendant qu'on défile (un demi-écran par étape ; au téléphone seule la pile colle, le titre et les
+ * portes passent une fois) : à gauche (5/12), le titre (wording.processTitle)
+ * en géométrique grasse, la phrase de contact (wording.contactText) et les deux portes ; à droite, LA PILE : une carte par étape (site.process), sauge à
+ * texte blanc puis menthe à texte anthracite en alternance, coins adoucis, ombre réelle, chacune légèrement tournée
+ * (−3°, 2°, −1,5°, 2,5°…). À chaque étape franchie, la carte suivante arrive du bas et se POSE sur la pile en se
+ * redressant presque (0,7 s, courbe à léger dépassement : elle se tasse), la précédente reste dessous, décalée de quelques
+ * pixels : on voit l'épaisseur du paquet. Sur chaque carte : « Étape 2 sur 4 » en petit (l'ordre sert, ce n'est pas un
+ * numéro décoratif), le titre de l'étape, son texte.
+ * Profil « cartes-qui-se-rebattent » (docs/veille/styles/MOUVEMENTS.md) : les étapes changent par seuils
+ * (IntersectionObserver sur des repères invisibles, une étape par écran), transform et opacité en temps, jamais calés image
+ * par image sur le défilement (tient sur iPhone, GOUT § 4) ; le pas suit le doigt dans les deux sens.
+ * Sans script ou en mouvement réduit : rien ne colle, les cartes sont posées l'une sous l'autre, tournées, lisibles.
+ * Rien d'inventé : sans étape (site.process vide), la section disparaît ; une étape sans texte n'existe pas (schéma).
+ */
+import { site, tel, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
+import Button from '@/components/Button.astro';
+
+const etapes = site.process;
+const ANGLES = [-3, 2, -1.5, 2.5, -2, 1.5];
+const [premiere] = actions();
+---
+
+{etapes.length > 0 && (
+  <section id="process" class="baume-etapes relative" style={`--n: ${etapes.length};`} data-baume-pile aria-labelledby="baume-etapes-titre">
+    <div class="baume-colle">
+      <div class="container-ff grid items-center gap-10 py-[var(--section-y)] md:min-h-[100svh] md:grid-cols-12 md:gap-8 md:py-0">
+        <div class="md:col-span-5">
+          <h2 id="baume-etapes-titre" class="baume-h2" set:html={site.wording.processTitle} />
+          <p class="mt-4 max-w-[40ch] text-[0.9375rem] leading-relaxed text-muted">{site.wording.contactText}</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Porte action={premiere} size="md" />
+            {premiere.kind !== 'call' && <Button href={tel()} variant="ghost" size="md" data-porte="call">Appeler</Button>}
+          </div>
+        </div>
+        <ol class="baume-pile relative md:col-span-6 md:col-start-7">
+          {etapes.map((e, i) => (
+            <li class:list={['baume-carte', i % 2 === 0 ? 'baume-sauge' : 'baume-menthe', i === 0 && 'est-posee']} style={`--r: ${ANGLES[i % ANGLES.length]}deg; --i: ${i};`} data-carte>
+              <p class="text-sm font-semibold">Étape {i + 1} sur {etapes.length}</p>
+              <h3 class="baume-carte-titre mt-3">{e.title}</h3>
+              <p class="mt-3 text-[0.9375rem] leading-relaxed">{e.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+    <div class="baume-reperes" aria-hidden="true">
+      {etapes.map((_, i) => <span data-repere={i}></span>)}
+    </div>
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Les cartes se rebattent : un repère invisible par étape (un écran chacun) ; quand un repère passe le milieu de l'écran,
+  // toutes les cartes jusqu'à la sienne sont posées, les suivantes attendent sous l'écran. Dans les deux sens.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-baume-pile]');
+    if (!bloc || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const cartes = [...bloc.querySelectorAll<HTMLElement>('[data-carte]')];
+    if (cartes.length < 2) return;
+    bloc.classList.add('baume-pret');
+    const poser = (k: number) => cartes.forEach((c, i) => c.classList.toggle('est-posee', i <= k));
+    const io = new IntersectionObserver((entrees) => {
+      entrees.forEach((e) => {
+        const k = Number((e.target as HTMLElement).dataset.repere);
+        if (e.isIntersecting) poser(k);
+        else if (e.boundingClientRect.top > 0) poser(Math.max(0, k - 1));
+      });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    bloc.querySelectorAll<HTMLElement>('[data-repere]').forEach((r) => io.observe(r));
+  });
+</script>
+
+<style>
+  .baume-h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); max-width: 16ch; }
+  .baume-carte-titre { font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.6rem); }
+  .baume-carte {
+    border-radius: var(--radius-card);
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    box-shadow: var(--shadow-lift);
+    transform: rotate(var(--r));
+  }
+  .baume-sauge { background: var(--baume-sauge); color: var(--surface); }
+  .baume-menthe { background: var(--baume-menthe); color: var(--fg); border: 1px solid color-mix(in oklab, var(--baume-sauge) 25%, transparent); }
+  /* Sans script : les cartes l'une sous l'autre, tournées, chacune lisible. */
+  .baume-pile { display: grid; gap: 1.75rem; }
+  .baume-reperes { display: none; }
+  /* Avec script : le bloc colle, une hauteur d'écran par étape ; les cartes s'empilent dans la même case. */
+  .baume-pret { height: calc(var(--n) * 45svh + 60svh); }
+  .baume-pret .baume-colle { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; }
+  .baume-pret .baume-colle > .container-ff { width: 100%; padding-block: 2rem; }
+  .baume-pret .baume-pile { grid-template-areas: 'pile'; gap: 0; }
+  .baume-pret .baume-carte {
+    grid-area: pile;
+    min-height: 17rem;
+    transform: translate(calc(var(--i) * 6px), 110svh) rotate(calc(var(--r) * 3));
+    opacity: 0;
+    transition: transform var(--motion-duration) var(--ease-brand), opacity 0.2s linear;
+  }
+  .baume-pret .baume-carte.est-posee { transform: translate(calc(var(--i) * 6px), calc(var(--i) * -6px)) rotate(var(--r)); opacity: 1; }
+  .baume-pret .baume-reperes { display: block; position: absolute; inset: 0; pointer-events: none; }
+  .baume-pret .baume-reperes span { display: block; height: 45svh; }
+  .baume-pret .baume-reperes span:first-child { margin-top: 30svh; }
+  /* Téléphone : le titre et les portes défilent une seule fois ; seule la pile colle sous la barre. */
+  @media (max-width: 47.99rem) {
+    .baume-pret .baume-colle { position: static; min-height: 0; display: block; }
+    .baume-pret .baume-colle > .container-ff { padding-block: var(--section-y) 0; }
+    .baume-pret .baume-pile { position: sticky; top: 5.5rem; padding-bottom: 2rem; }
+    .baume-pret .baume-carte { min-height: 13rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .baume-carte { transition: none !important; } }
+</style>

@@ -62,6 +62,10 @@ export { CARNET_MIN, dateValide, interventionsCompletes, dateLongue as dateDuCar
 import { lienCarnet } from './journal';
 export { DIRECTIONS_TRAJET, TRAJET_MIN, communesCompletes, dureeLisible, anneaux as anneauxDeTrajet, placer as placerCommunes, rayonSchema, cleCommune, chercher as chercherCommune, voisinesDe as communesVoisines, lienTrajet } from './trajet';
 import { lienTrajet } from './trajet';
+export { MOIS, MOIS_COURTS, RECOLTES_MIN, produitsComplets as produitsRecoltes, famillesDe as famillesDeRecoltes, duMois as recoltesDuMois, plages as plagesDeRecolte, periodeLisible as periodeDeRecolte, enMemeTemps as recoltesEnMemeTemps, lienCalendrier } from './recoltes';
+import { lienCalendrier } from './recoltes';
+export { MATIERES_MIN, matieresCompletes, nuancier as nuancierDesMatieres, surEchelle as matieresSurEchelle, parUsage as matieresParUsage, colonnes as colonnesDesMatieres, valeurDe as valeurDeMatiere, voisinesSurEchelle, lienMatieres } from './matieres';
+import { lienMatieres } from './matieres';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -371,6 +375,14 @@ export const navLinks = (s: Site = site) => {
   // tête de la nav, vers toutes les communes (/trajet).
   const trajet = lienTrajet(s.trajet?.communes, s.wording.trajet);
   if (trajet) links.unshift(trajet);
+  // Calendrier des récoltes (src/lib/recoltes.ts, architecture calendrier-recoltes) : « Calendrier des récoltes » de la Cueillette
+  // de Compans, dans sa barre haute, vers l'année mois par mois (/calendrier).
+  const calendrier = lienCalendrier(s.recoltes?.produits, s.wording.calendrier);
+  if (calendrier) links.unshift(calendrier);
+  // Nuancier des matières (src/lib/matieres.ts, architecture nuancier-matieres) : « Essence bois » de la barre de Pipault, en
+  // tête de la nav, vers le tableau comparé (/matieres).
+  const matieres = lienMatieres(s.matieres?.liste, s.wording.matieres);
+  if (matieres) links.unshift(matieres);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);
@@ -385,7 +397,8 @@ export const navLinks = (s: Site = site) => {
   // Coquilles `interventions` et `trajet` : l'accueil n'a ni bloc services ni questions (les services sont des pages, liées
   // par le pied `columns` et par chaque intervention ou commune ; les questions sont sur /carnet ou /trajet) : la barre ne
   // garde que le carnet (ou les temps de trajet) et le contact, sans ancre vers un bloc absent.
-  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet') {
+  // Idem pour `recoltes` et `matieres` (questions sur /calendrier ou /matieres).
+  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet' || s.layout.shell === 'recoltes' || s.layout.shell === 'matieres') {
     const absents = ['/#services', '/#zones', '/#about', '/#faq', ...(s.proof.testimonials.length || s.proof.google ? [] : ['/#proof'])];
     const garde = links.filter((l) => !absents.includes(l.href));
     links.splice(0, links.length, ...garde);

@@ -1,0 +1,75 @@
+---
+/**
+ * Contact "pochoir" (style pochoir, relevé sur haven-annecy.fr le 30 oct 2026, fiche docs/veille/styles/pochoir.md
+ * § Construction, bloc 8, le pied de la source) : la page finit SUR LE ROSE. La phrase de contact (wording.contactTitle)
+ * écrite à la main en grand (script monoligne terre cuite), posée sur un filet terre cuite qui traverse toute la largeur
+ * (la phrase le chevauche) ; dessous, trois colonnes séparées par des filets verticaux terre cuite : le nom en DIN gras,
+ * l'adresse, le téléphone et les réseaux ; les horaires (jours en demi-gras, heures dessous) ; les portes (Réserver ou la
+ * première porte d'action en plaque terre cuite, Appeler et Écrire en contour), sans formulaire comme la source. Puis
+ * la ligne des mentions sur le brun (Footer/bande).
+ * Mouvement : la phrase se découvre de gauche à droite à son entrée (data-reveal="wipe", une fois).
+ * Rien d'inventé : chaque colonne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, fullAddress, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
+import Button from '@/components/Button.astro';
+
+const adresse = site.contact.address;
+const horaires = site.contact.hours;
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok', youtube: 'YouTube', pinterest: 'Pinterest' };
+const portes = actions().filter((a) => a.kind !== 'call' && a.kind !== 'quote');
+const titre = site.wording.contactTitle.replace(/<[^>]+>/g, '');
+---
+
+<section id="contact" class="pochoir-contact pochoir-large pt-[var(--section-y)] pb-16" aria-labelledby="pochoir-contact-titre">
+  <div class="pochoir-filet-titre">
+    <h2 id="pochoir-contact-titre" class="pochoir-ecrit font-[family-name:var(--font-script)]" data-reveal="wipe">{titre}</h2>
+  </div>
+  <div class="pochoir-cols mt-10 grid md:grid-cols-3">
+    <div class="pochoir-col">
+      <p class="font-bold uppercase">{site.business.name}</p>
+      {adresse && <p class="mt-3">{adresse.street}<br />{adresse.postalCode} {adresse.city}</p>}
+      <p class="mt-2"><a href={tel()} class="underline underline-offset-4">{site.contact.phoneDisplay}</a></p>
+      {site.contact.email && <p class="mt-1"><a href={mailto()} class="break-all underline-offset-4 hover:underline">{site.contact.email}</a></p>}
+      {reseaux.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1">
+          {reseaux.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" class="font-semibold text-accent underline-offset-4 hover:underline">{noms[k] ?? k}</a></li>)}
+        </ul>
+      )}
+    </div>
+    {horaires.length > 0 && (
+      <dl class="pochoir-col grid content-start gap-4">
+        {horaires.map((h) => (
+          <div>
+            <dt class="font-semibold">{h.days}</dt>
+            <dd>{h.hours}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+    <div class="pochoir-col">
+      <div class="flex flex-wrap gap-3">
+        {portes.map((p) => <Porte action={p} size="md" />)}
+        <Button href={tel()} variant={portes.length ? 'ghost' : 'primary'} size="md">Appeler</Button>
+        {site.contact.email && <Button href={mailto()} variant="ghost" size="md">Écrire</Button>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pochoir-large { width: 100%; padding-inline: clamp(1.125rem, 3vw, 2.75rem); }
+  .pochoir-filet-titre { position: relative; text-align: center; }
+  .pochoir-filet-titre::after { content: ''; position: absolute; left: 0; right: 0; top: 62%; border-top: 1px solid var(--accent); z-index: 0; }
+  .pochoir-ecrit {
+    position: relative; z-index: 1; margin: 0 auto; max-width: 20ch; text-wrap: balance; color: var(--accent);
+    font-weight: 400; font-size: clamp(2.8rem, 1.8rem + 3.6vw, 5.25rem); line-height: 1.05;
+  }
+  .pochoir-col { padding-block: 1.75rem; }
+  @media (min-width: 48rem) {
+    .pochoir-col { padding: 0.5rem clamp(1.25rem, 3vw, 2.75rem); }
+    .pochoir-col + .pochoir-col { border-left: 1px solid var(--accent); }
+  }
+  @media (max-width: 47.99rem) { .pochoir-col + .pochoir-col { border-top: 1px solid var(--accent); } }
+</style>

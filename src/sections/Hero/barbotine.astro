@@ -1,0 +1,100 @@
+---
+/**
+ * Hero "barbotine" (style réel barbotine, relevé sur laboroflovestudio.com le 30 oct 2026, fiche
+ * docs/veille/styles/barbotine.md § Construction, bloc 1) : LA PHOTO DE L'ATELIER PLEIN ÉCRAN, de bord à bord, sous la
+ * barre ; posées dessus vers le haut et au centre, DEUX PLAQUES DE COULEUR à 12 px de rayon côte à côte (l'une sous l'autre
+ * au téléphone), chacune avec une ligne en serif d'affichage et un lien à point. Comme sur la source, où le h1 est dans la
+ * première plaque, la verte porte le h1 : le métier à la ville (socle GOUT § 0), et son lien mène à la prestation phare
+ * (services[] featured, sinon la première) ; la brique donne le téléphone. Puis, centré dans le reste de la photo, le NOM
+ * du client en serif d'affichage crème TRÈS GRAND (le logotype de la source : un mot par ligne au téléphone, le plus long
+ * remplit la largeur ; une ligne sur 80 % de la largeur à l'ordinateur), et dessous, entre deux filets crème, l'ancienneté
+ * et la note Google quand le client les a. Un voile charbon léger couvre la photo (22 % en haut, 62 % en bas) pour que le crème
+ * se lise sans éteindre la photo.
+ * Mouvement (profil « plaques-qui-s-empilent », docs/veille/styles/MOUVEMENTS.md) : à l'arrivée, les deux plaques se posent
+ * (translateY -14 px -> 0 et opacité, 0,6 s, courbe de la direction, 120 ms entre les deux), une fois, CSS seul ; rien en
+ * mouvement réduit. Le nom ne bouge pas.
+ * Données : sans images.hero, plaques et nom sur l'aplat vert de la marque (jamais une photo de banque présentée comme
+ * celle du client) ; sans service, la plaque verte garde le h1 sans lien.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const phare = site.services.find((s) => s.featured) ?? site.services[0];
+const lienPhare = phare && (site.servicePages ? `/services/${phare.slug}` : '/#services');
+const metier = `${site.business.trade} à ${site.contact.address.city}`;
+const google = site.proof.google;
+const sousTitre = [
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google`,
+].filter(Boolean).join(', ');
+const nom = site.business.name;
+const mots = nom.split(/\s+/);
+// Le nom en très grand, centré sur la photo, comme le logotype de la source : au téléphone un mot par ligne (le plus long
+// remplit la largeur), à l'ordinateur une seule ligne sur 80 % de la largeur. Gloock : environ 0,6 em par lettre.
+const plusLong = Math.max(...mots.map((m) => m.length), 4);
+const tailleM = Math.min(26, 86 / (plusLong * 0.6)).toFixed(2);
+const tailleD = Math.min(14, 80 / (Math.max(nom.length, 8) * 0.6)).toFixed(2);
+---
+
+<section id="hero" class="hero-barbotine relative flex flex-col overflow-hidden bg-ink text-on-ink">
+  {hero && (
+    <div class="absolute inset-0">
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.barbotine} priority />
+      <div class="barbotine-voile absolute inset-0" aria-hidden="true"></div>
+    </div>
+  )}
+  <div class="container-ff relative flex flex-1 flex-col pb-8 pt-10 md:pb-12 md:pt-20">
+    <div class="barbotine-plaques mx-auto grid w-full max-w-[46rem] gap-2.5 md:grid-cols-2 md:gap-3">
+      <div class="barbotine-plaque barbotine-p1">
+        <h1 class="barbotine-plaque-titre hero-titre">{metier}</h1>
+        {phare && <a href={lienPhare} class="barbotine-plaque-lien">{phare.title}</a>}
+      </div>
+      <a href={tel()} class="barbotine-plaque barbotine-p2 group">
+        <span class="barbotine-plaque-titre font-[family-name:var(--font-display)]">Appeler l’atelier</span>
+        <span class="barbotine-plaque-lien">{site.contact.phoneDisplay}</span>
+      </a>
+    </div>
+    <div class="flex flex-1 flex-col justify-center pb-6 pt-14 text-center md:pt-16">
+      <p class="barbotine-nom font-display" style={`--nom-m: ${tailleM}vw; --nom-d: ${tailleD}vw`}>{mots.map((m, i) => <span class="barbotine-mot">{m}{i < mots.length - 1 ? ' ' : ''}</span>)}</p>
+      {sousTitre && <p class="barbotine-filets mt-5 md:mt-7"><span>{sousTitre}</span></p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-barbotine { min-height: max(34rem, calc(100svh - 76px)); }
+  .barbotine-voile { background: linear-gradient(to top, color-mix(in oklab, var(--email-4) 62%, transparent), color-mix(in oklab, var(--email-4) 22%, transparent)); }
+  /* Les plaques de la source : aplats d'émail à 12 px de rayon, une ligne en serif d'affichage, un lien à point jaune
+     souligné ; 22 px de marge intérieure, 40 px à l'ordinateur. */
+  .barbotine-plaque {
+    display: flex; flex-direction: column; gap: 0.9rem;
+    border-radius: var(--radius-card);
+    padding: 1.15rem 1.4rem 1.25rem;
+    color: var(--on-email);
+    text-decoration: none;
+    animation: barbotine-pose var(--motion-duration) var(--ease-brand) both;
+  }
+  @media (min-width: 48rem) { .barbotine-plaque { padding: 2.1rem 2.4rem 2.2rem; } }
+  .barbotine-p1 { background: var(--email-1); }
+  .barbotine-p2 { background: var(--email-2); animation-delay: 120ms; }
+  .barbotine-plaque-titre { font-size: clamp(1.2rem, 1rem + 0.6vw, 1.55rem); line-height: 1.1; }
+  .barbotine-plaque-lien { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.4em; }
+  .barbotine-plaque-lien::before { content: ''; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--email-signal); transition: transform var(--motion-ui) var(--ease-brand); }
+  .barbotine-plaque-lien:hover::before, .barbotine-plaque-lien:focus-visible::before, .barbotine-plaque:hover > .barbotine-plaque-lien::before { transform: scale(1.6); }
+  /* Le nom géant de la source (logotype en capitales serif) : ici le nom du client en serif d'affichage, casse du client. */
+  .barbotine-nom { font-size: min(var(--nom-m), 9rem); line-height: 0.9; letter-spacing: -0.015em; color: var(--on-ink); }
+  .barbotine-mot { display: block; }
+  @media (min-width: 48rem) {
+    .barbotine-nom { font-size: min(var(--nom-d), 12rem); }
+    .barbotine-mot { display: inline; }
+  }
+  /* « —— studio —— » de la source : le métier à la ville entre deux filets crème qui prennent toute la largeur du nom. */
+  .barbotine-filets { display: flex; align-items: center; gap: 1.25rem; max-width: 62rem; margin-inline: auto; font-weight: 600; font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem); }
+  .barbotine-filets::before, .barbotine-filets::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.85; }
+  .barbotine-filets span { flex: none; max-width: 86%; }
+  .hero-barbotine :global(.ff-illustration) { top: auto; bottom: 0.75rem; }
+  @keyframes barbotine-pose { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .barbotine-plaque { animation: none; } }
+</style>

@@ -1,0 +1,46 @@
+---
+/**
+ * Filet tremblé (style buvard, florawellnesscafe.com, 30 oct 2026 ; fiche docs/veille/styles/buvard.md) : le séparateur
+ * de la source entre deux blocs, un trait d'encre fin qui ondule comme tiré à la main, sur toute la largeur. Dessiné ici
+ * (tracé maison, jamais celui de la source), décoratif (aria-hidden). Il se trace de gauche à droite quand il arrive à
+ * l'écran (profil « filet-qui-se-trace », docs/veille/styles/MOUVEMENTS.md : stroke-dashoffset 1 -> 0 sur pathLength 1,
+ * 1,2 s linéaire, une fois, IntersectionObserver) ; sans script ou en mouvement réduit, il est déjà tracé.
+ * Props : `class` ; `variante` (0, 1, 2) change l'ondulation pour que deux filets voisins ne soient pas identiques.
+ */
+interface Props { class?: string; variante?: number }
+const { class: cls = '', variante = 0 } = Astro.props;
+const traces = [
+  'M0 6 C 60 2, 120 9, 190 5 S 330 3, 400 7 S 540 9, 610 5 S 760 2, 830 6 S 960 9, 1000 5',
+  'M0 5 C 80 8, 150 2, 230 6 S 380 9, 450 4 S 600 2, 680 7 S 820 8, 900 4 S 970 6, 1000 6',
+  'M0 7 C 50 4, 140 3, 210 7 S 350 8, 430 5 S 570 2, 650 6 S 790 9, 870 5 S 960 3, 1000 6',
+];
+---
+
+<div class:list={['filet-tremble', cls]} aria-hidden="true" data-filet-tremble>
+  <svg viewBox="0 0 1000 12" preserveAspectRatio="none" width="100%" height="12" focusable="false">
+    <path d={traces[variante % traces.length]} pathLength="1" fill="none" stroke="currentColor" stroke-width="1.3" vector-effect="non-scaling-stroke" stroke-linecap="round" />
+  </svg>
+</div>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const filets = [...document.querySelectorAll<HTMLElement>('[data-filet-tremble]:not(.filet-pret)')];
+    const io = new IntersectionObserver((entrees) => {
+      entrees.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('filet-trace');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    filets.forEach((f) => { f.classList.add('filet-pret'); io.observe(f); });
+  });
+</script>
+
+<style>
+  .filet-tremble { color: var(--fg); line-height: 0; }
+  .filet-tremble svg { display: block; overflow: visible; }
+  .filet-pret path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.2s linear; }
+  .filet-pret.filet-trace path { stroke-dashoffset: 0; }
+</style>

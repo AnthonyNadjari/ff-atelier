@@ -1,0 +1,181 @@
+{
+  "id": "barbotine",
+  "version": 1,
+  "source": {
+    "url": "https://laboroflovestudio.com/",
+    "nom": "Labor of Love Studio",
+    "metier": "atelier de céramique à Denver : cours de tournage et de modelage, adhésions, petite production de grès (site Framer fait par Studio Sevd)",
+    "fiche": "docs/veille/styles/barbotine.md",
+    "mesures": "docs/veille/styles/atomes/mesures/barbotine.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "HV Analogue Regular",
+      "libre": "gloock",
+      "graisse": 400,
+      "interlignage": 1.02,
+      "casse": "none",
+      "interlettrage": -0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Nunito",
+      "libre": "nunito",
+      "graisse": 450,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 48,
+        "ordinateur": 150
+      },
+      "h2": {
+        "telephone": 38,
+        "ordinateur": 64
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 17
+      }
+    },
+    "remarque": "HV Analogue (non libre, serif d'affichage rétro à fort contraste) pour les titres et les plaques -> Gloock ; Nunito (celle de la source) pour le texte. Paletone (capitales larges espacées des liens « LEARN MORE ») non reprise : capitales espacées interdites (GOUT § 2). Le h1 mesuré (24 px) est le texte de la première plaque ; le vrai titre visible est le logotype géant en bas de la photo (~150 px), repris par le nom du client."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#050505",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#050505",
+          "part": 0.391
+        },
+        {
+          "hex": "#fff3d1",
+          "part": 0.235
+        },
+        {
+          "hex": "#caead7",
+          "part": 0.084
+        },
+        {
+          "hex": "#2c7e50",
+          "part": 0.07
+        },
+        {
+          "hex": "#f4c037",
+          "part": 0.07
+        },
+        {
+          "hex": "#1d2b23",
+          "part": 0.044
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.378
+        },
+        {
+          "hex": "#fff3d1",
+          "part": 0.291
+        },
+        {
+          "hex": "#2f3330",
+          "part": 0.2
+        },
+        {
+          "hex": "#df4836",
+          "part": 0.057
+        },
+        {
+          "hex": "#a19a89",
+          "part": 0.026
+        },
+        {
+          "hex": "#f4c037",
+          "part": 0.021
+        }
+      ],
+      "proches": 328965
+    },
+    "clair": {
+      "fond": "#fff3d1",
+      "surface": "#fff8e4",
+      "texte": "#2f3330",
+      "texte2": "#625c4e",
+      "accent": "#28754a",
+      "accent2": "#caead7",
+      "bordure": "#d9c9a3",
+      "encre": "#1f613d"
+    },
+    "sombre": null,
+    "remarque": "Le fond #050505 mesuré est le corps de la page sous les blocs Framer (invisible) ; le vrai fond est le crème beurre #fff3d1. Menthe #caead7 en second fond ; aplats d'émail en plaques : vert #2c7e50 (foncé en #28754a), rouge #df4836 (#c23d2c, liens en #b03522), bleu ~#3a7ca0 (#2b678a), charbon #2f3330 ; jaune d'ocre #f4c037 pour les cartes d'avis. Coloré doux : aplats francs mais doux posés sur crème, jamais en fond de page."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 112
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 48
+    },
+    "conteneur": 1200,
+    "mesure": 62,
+    "rythme": "alterne",
+    "remarque": "Conteneur central ; les plaques des cours tiennent 66 % de la largeur ; sections crème, menthe, sable alternées ; titres de section centrés."
+  },
+  "formes": {
+    "rayon": 10,
+    "rayonCarte": 12,
+    "rayonImage": 9,
+    "bordure": 0,
+    "ombre": "portee",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Plaques et cartes à 12 px de rayon, photos à 9 px dans les plaques ; boutons pleins à 10 px ; liens soulignés précédés d'un point de couleur ; ombre seulement sur la plaque qui monte sur la précédente."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photo de l'atelier plein écran au premier écran, plaques de couleur et nom posés dessus ; ensuite photos dans les plaques et cartes, arrondies, jamais voilées : élèves en tablier, tour, pièces crues."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.22, 1, 0.36, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.22, 1, 0.36, 1)"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "Framer Motion"
+    ],
+    "profil": "plaques-qui-s-empilent",
+    "remarque": "Framer Motion ; 4 blocs sticky de 3,2 écrans : les plaques des cours collent et s'empilent ; plaques du premier écran posées à l'arrivée ; rangée d'avis à bords fondus."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Sections crème, menthe, sable ; la texture de toile du bloc « Learn With Us » est refusée (GOUT § 2)."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

@@ -1,0 +1,49 @@
+---
+/**
+ * Proof "souffle" (style souffle, relevé sur tavolini.com le 30 oct 2026, fiche docs/veille/styles/souffle.md § Construction,
+ * bloc 4) : toujours sur le sapin, sous les séries. La source y aligne les logos de la presse en deux rangées centrées ;
+ * ici, LA PREUVE DU CLIENT dans la même grammaire : les logos de presse ou de labels qu'il a (proof.logos avec image), en
+ * rangée centrée, puis jusqu'à trois avis recopiés côte à côte (un par colonne, centrés), chacun en garalde de 22 px
+ * blanche, l'auteur et la ville en grotesque de second plan dessous ; la note Google en une ligne et son lien.
+ * Rien d'inventé : un logo n'apparaît qu'avec son image fournie ; sans logo, sans avis et sans note, pas de section ;
+ * aucune étoile, aucune carte. Mouvement : aucun.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const logos = site.proof.logos.filter((l) => l.image);
+const avis = site.proof.testimonials.slice(0, 3);
+const google = site.proof.google;
+---
+
+{(logos.length > 0 || avis.length > 0 || google) && (
+  <section id="proof" class="souffle-preuve bg-bg pb-[var(--section-y)] pt-[calc(var(--section-y)*0.5)] text-fg" aria-labelledby="souffle-preuve-titre">
+    <div class="container-ff">
+      <h2 id="souffle-preuve-titre" class="sr-only">Ce qu’on en dit</h2>
+      {logos.length > 0 && (
+        <ul class="mx-auto flex max-w-[48rem] flex-wrap items-center justify-center gap-x-12 gap-y-8">
+          {logos.map((l) => <li><Img src={l.image!.src} alt={l.name} class="h-8 w-auto md:h-10" sizes="160px" loading="lazy" /></li>)}
+        </ul>
+      )}
+      {avis.length > 0 && (
+        <ul class:list={['grid gap-12 md:grid-cols-3 md:gap-10', logos.length > 0 && 'mt-16 md:mt-20']}>
+          {avis.map((t) => (
+            <li class="text-center">
+              <blockquote class="souffle-avis mx-auto font-display">«&nbsp;{t.text}&nbsp;»</blockquote>
+              <p class="mt-4 text-sm text-muted">{[t.author, t.city].filter(Boolean).join(', ')}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+      {google && (
+        <p class="mt-12 text-center text-sm">
+          <a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a>
+        </p>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .souffle-avis { font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem); line-height: 1.25; max-width: 24ch; letter-spacing: -0.015em; }
+</style>

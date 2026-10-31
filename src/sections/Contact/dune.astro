@@ -1,0 +1,86 @@
+---
+/**
+ * Contact "dune" (style dune, relevé sur steuermann.haus le 30 oct 2026, fiche docs/veille/styles/dune.md § Construction,
+ * blocs 7 et 8) : la fin de page de la source, sans formulaire, sans bandeau d'appel ni barre basse.
+ * 1. L'HÔTE : à gauche son portrait en médaillon (about.portrait, s'il y en a un), à droite son mot (wording.contactText,
+ *    sinon le titre de contact) en corps de lecture, sa signature (about.team[0] : nom, rôle), puis « Écrivez-nous :
+ *    e-mail » et « ou appelez le … » en liens, les horaires en petit, et la porte Réserver (contact.bookingUrl s'il est
+ *    donné, sinon l'e-mail, sinon le téléphone) en lien à flèche.
+ * 2. VENIR : deux colonnes, « Venir » à gauche en grotesque fine, à droite l'adresse, « Voir sur le plan » (contact.mapsUrl)
+ *    et la carte sans traceur passée en gris (src/components/Carte.astro, tuiles OpenStreetMap, seulement avec
+ *    contact.coordinates et mapsProvider « osm »).
+ * 3. LA PAGE FINIT SUR LA PHOTO LAVÉE : celle du premier écran (sinon la dernière de la galerie), pleine largeur, 70 % de
+ *    l'écran, rien dessus (la source finit sur la même dune qu'au premier écran).
+ * Rien d'inventé : chaque bloc disparaît sans sa donnée (pas de médaillon sans portrait, pas de signature sans équipe, pas
+ * de carte sans coordonnées).
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import Carte from '@/components/Carte.astro';
+
+const portrait = site.about.portrait;
+const hote = site.about.team[0];
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const carte = site.contact.mapsProvider === 'osm' && Boolean(site.contact.coordinates);
+const galerie = site.proof.gallery;
+const fin = site.images.hero ?? galerie[galerie.length - 1];
+const porte = site.contact.bookingUrl ?? mailto() ?? tel();
+---
+
+<section id="contact" class="dune-contact" aria-labelledby="dune-contact-titre">
+  <div class="dune-marges grid gap-10 pt-[var(--section-y)] md:grid-cols-12 md:gap-6">
+    {portrait && (
+      <figure class="relative aspect-square w-32 overflow-hidden rounded-full md:col-span-2 md:col-start-4 md:w-auto md:self-start">
+        <Img src={portrait.src} alt={portrait.alt} class="absolute inset-0 h-full w-full object-cover" sizes="160px" loading="lazy" />
+      </figure>
+    )}
+    <div class:list={['text-base leading-relaxed md:text-[1.1875rem] md:leading-[1.47]', portrait ? 'md:col-span-5 md:col-start-7' : 'md:col-span-5 md:col-start-7']}>
+      <h2 id="dune-contact-titre" class="dune-h2" set:html={site.wording.contactTitle} />
+      {site.wording.contactText && <p class="mt-4">{site.wording.contactText}</p>}
+      {hote && <p class="mt-4 text-sm"><span class="font-semibold text-fg">{hote.name}</span>, {hote.role}</p>}
+      <p class="mt-4">
+        {site.contact.email && <>Écrivez-nous : <a href={mailto()} class="break-all text-fg underline underline-offset-4">{site.contact.email}</a><br /></>}
+        ou appelez le <a href={tel()} class="whitespace-nowrap text-fg underline underline-offset-4">{site.contact.phoneDisplay}</a>
+      </p>
+      {horaires.length > 0 && (
+        <dl class="mt-6 grid grid-cols-[auto_1fr] gap-x-4 text-sm">
+          {horaires.map((h) => (<><dt class="text-fg">{h.days}</dt><dd>{h.hours}</dd></>))}
+        </dl>
+      )}
+      <div class="mt-6 text-sm">
+        <Button href={porte} variant="ghost" size="sm">{site.wording.devis}</Button>
+      </div>
+    </div>
+  </div>
+
+  {adresse && (
+    <div class="dune-marges grid gap-4 py-[var(--section-y)] md:grid-cols-12 md:gap-6">
+      <h2 class="dune-h2 md:col-span-4 md:col-start-2">Venir</h2>
+      <div class="text-sm leading-relaxed md:col-span-5 md:col-start-7">
+        <p class="text-fg">{site.business.name}<br />{adresse}</p>
+        {site.contact.mapsUrl && <div class="mt-2"><Button href={site.contact.mapsUrl} variant="ghost" size="sm" target="_blank" rel="noopener">Voir sur le plan</Button></div>}
+        {carte && <div class="dune-carte mt-6"><Carte /></div>}
+      </div>
+    </div>
+  )}
+
+  {fin && (
+    <figure class:list={['dune-fin dune-lavis relative overflow-hidden', !adresse && 'mt-[var(--section-y)]']}>
+      <Img src={fin.src} alt={fin.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+    </figure>
+  )}
+</section>
+
+<style>
+  .dune-marges { width: 100%; padding-inline: clamp(2.75rem, 9vw, 8rem); }
+  .dune-h2 { font-size: clamp(1.6rem, 1.2rem + 1.1vw, 2.3rem); max-width: 16ch; text-wrap: balance; }
+  .dune-fin { height: 55svh; }
+  @media (min-width: 48rem) { .dune-fin { height: 70svh; } }
+  /* La carte de la source est grise : tuiles en niveaux de gris, ni ombre ni rayon. */
+  .dune-carte :global(img) { filter: grayscale(1) contrast(0.9) brightness(1.04); }
+  .dune-carte :global(.rounded-card) { border-radius: 0; box-shadow: none; }
+  /* L'adresse est déjà écrite au-dessus : on retire la ligne d'adresse sous la carte (l'attribution reste sur la carte). */
+  .dune-carte :global(.rounded-card > .flex) { display: none; }
+</style>

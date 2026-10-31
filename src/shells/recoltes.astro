@@ -1,0 +1,217 @@
+---
+/**
+ * Coquille "recoltes" : architecture `calendrier-recoltes` (src/lib/architectures.ts ; sources Cueillette de Compans,
+ * Seine-et-Marne : « Calendrier des récoltes » dans la barre haute, chaque produit sur les douze mois, « En ce moment » par
+ * fruits, légumes et fleurs, une page par produit avec sa « Période de récolte » ; Le Jardin de l'Avenir, Angers : « À cueillir
+ * en ce moment », le calendrier des légumes et « Avant de venir, le bon réflexe », le répondeur de la liste du jour ;
+ * docs/veille/architectures/calendrier-recoltes.md).
+ * Le client se demande « qu'est-ce qu'il y a en ce moment ? » : l'accueil est l'année de la ferme.
+ *   → en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0) ; à côté,
+ *     id="en-ce-moment" : les produits du mois, rangés par famille, chacun vers sa page ; les douze mois sont dans le HTML, celui
+ *     du build visible, celui du visiteur choisi dans le navigateur (fuseau Europe/Paris) ; la phrase sur la météo et le
+ *     répondeur de la liste du jour s'il existe ;
+ *   → la photo du client en bande ;
+ *   → id="calendrier" : le calendrier, un tableau (une rangée par produit, rangées par famille, douze colonnes de mois), les
+ *     mois de récolte en barre continue, la colonne du mois courant marquée ;
+ *   → les sections du layout (les avis s'il y en a) ; les questions sont sur /calendrier : pas de fin de page d'usine ;
+ *   → id="contact" : venir (adresse, horaires, téléphone) ; le pied.
+ * Pages : /calendrier (mois par mois, avec les questions), /recoltes/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans produits : le h1, l'appel et le contact restent, le calendrier disparaît et le build dit
+ * ce qui manque (donneesManquantes). Signes des sources NON repris : bannière d'installation de l'application et demande de
+ * notifications (Compans), calendrier publié en image (Jardin de l'Avenir : illisible au lecteur d'écran), capitales.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, produitsRecoltes, famillesDeRecoltes, recoltesDuMois, periodeDeRecolte, MOIS, MOIS_COURTS } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const r = site.recoltes;
+const photo = site.images.hero;
+const produits = produitsRecoltes(r?.produits);
+const familles = famillesDeRecoltes(produits);
+// Le mois du build (fuseau de Paris) : visible sans script ; le navigateur le remplace par celui du visiteur.
+const moisBuild = Number(new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', month: 'numeric' }).format(new Date()));
+const douze = Array.from({ length: 12 }, (_, i) => i + 1);
+const parMois = douze.map((m) => ({ m, groupes: recoltesDuMois(produits, m) }));
+const lien = (slug: string) => `/recoltes/${slug}`;
+const manque = donneesManquantes('calendrier-recoltes', site);
+if (manque.length > 0) console.warn(`[coquille recoltes] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="rc-page">
+  <section id="hero" class="container-ff rc-hero" aria-labelledby="rc-h1">
+    <div class="rc-texte">
+      <h1 id="rc-h1" class="rc-h1 font-display" set:html={site.business.tagline} />
+      <p class="rc-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="rc-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="rc-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+    </div>
+    {produits.length > 0 && (
+      <div id="en-ce-moment" class="rc-moment" data-rc-moment>
+        {parMois.map(({ m, groupes }) => (
+          <div class="rc-mois" data-rc-mois={m} hidden={m !== moisBuild}>
+            <h2 class="rc-moment-t font-display">En ce moment, en {MOIS[m - 1]}</h2>
+            {groupes.length === 0 ? (
+              <p>Rien à récolter ce mois-ci. <a href="#calendrier" class="rc-lien">Le calendrier de l’année</a></p>
+            ) : (
+              groupes.map((g) => (
+                <div class="rc-groupe">
+                  <h3 class="rc-famille">{g.famille}</h3>
+                  <ul class="rc-noms">{g.produits.map((p) => <li><a href={lien(p.slug)} class="rc-nom">{p.nom}</a></li>)}</ul>
+                </div>
+              ))
+            )}
+          </div>
+        ))}
+        {r?.avertissement && <p class="rc-avert">{r.avertissement}</p>}
+        {r?.repondeur && (
+          <p class="rc-repondeur">
+            <span>Avant de venir&nbsp;: {r.repondeur.phrase ?? 'Le répondeur donne la liste du jour.'}</span>
+            <a href={`tel:${r.repondeur.telephone}`} class="rc-lien tabular-nums"><Icon name="Phone" size={18} />{r.repondeur.affiche}</a>
+          </p>
+        )}
+      </div>
+    )}
+  </section>
+
+  {photo && <div class="rc-bande"><Img src={photo.src} alt={photo.alt} class="rc-bande-img" sizes="100vw" priority /></div>}
+
+  {produits.length > 0 && (
+    <section id="calendrier" class="rc-annee" aria-labelledby="rc-annee-t">
+      <div class="container-ff rc-annee-in">
+        <div class="rc-annee-tete">
+          <h2 id="rc-annee-t" class="rc-h2 font-display">{site.wording.calendrier}</h2>
+          <p class="rc-muted">Chaque produit sur les douze mois. <a href="/calendrier" class="rc-lien">Mois par mois</a></p>
+        </div>
+        <div class="rc-table-cadre">
+          <table class="rc-table">
+            <caption class="sr-only">Mois de récolte de chaque produit, de janvier à décembre</caption>
+            <colgroup><col class="rc-col-nom" />{douze.map(() => <col />)}</colgroup>
+            <thead>
+              <tr>
+                <th scope="col" class="rc-th-nom"><span class="sr-only">Produit</span></th>
+                {douze.map((m) => (
+                  <th scope="col" class:list={['rc-th-mois', m === moisBuild && 'rc-maintenant']} data-m={m}>
+                    <abbr title={MOIS[m - 1]} class="rc-initiale">{MOIS[m - 1].charAt(0).toUpperCase()}</abbr><span class="rc-court" aria-hidden="true">{MOIS_COURTS[m - 1]}</span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            {familles.map((f) => (
+              <tbody>
+                <tr><th scope="rowgroup" colspan="13" class="rc-th-famille font-display">{f}</th></tr>
+                {produits.filter((p) => p.famille.trim() === f).map((p) => (
+                  <tr>
+                    <th scope="row" class="rc-th-produit"><a href={lien(p.slug)} class="rc-produit">{p.nom}</a><span class="sr-only">, {periodeDeRecolte(p.mois)}</span></th>
+                    {douze.map((m) => (
+                      <td class:list={['rc-c', p.mois.includes(m) && 'rc-on', p.mois.includes(m) && !p.mois.includes(m === 1 ? 0 : m - 1) && 'rc-debut', p.mois.includes(m) && !p.mois.includes(m + 1) && 'rc-fin', m === moisBuild && 'rc-maintenant']} data-m={m}><span class="rc-barre" aria-hidden="true"></span></td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            ))}
+          </table>
+        </div>
+        {r?.avertissement && <p class="rc-muted">{r.avertissement}</p>}
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="rc-contact" aria-labelledby="rc-contact-t">
+    <div class="container-ff rc-contact-in">
+      <div class="rc-col">
+        <h2 id="rc-contact-t" class="rc-h2 font-display">Venir</h2>
+        <p class="rc-adresse">{fullAddress()}</p>
+        <p><a href={tel()} class="rc-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      <Horaires class="rc-semaine tabular-nums" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Le mois du visiteur (fuseau de Paris) : son « En ce moment » visible, sa colonne marquée. Sans script : le mois du build.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-rc-moment]');
+    const m = Number(new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', month: 'numeric' }).format(new Date()));
+    if (!(m >= 1 && m <= 12)) return;
+    bloc?.querySelectorAll<HTMLElement>('[data-rc-mois]').forEach((el) => { el.hidden = Number(el.dataset.rcMois) !== m; });
+    document.querySelectorAll<HTMLElement>('.rc-table [data-m]').forEach((el) => el.classList.toggle('rc-maintenant', Number(el.dataset.m) === m));
+  });
+</script>
+
+<style>
+  .rc-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 4vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem) clamp(2rem, 6vh, 4rem); }
+  .rc-texte { display: grid; gap: 1rem; align-content: start; }
+  .rc-h1 { font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .rc-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 42ch; }
+  .rc-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .rc-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rc-tel:focus-visible, .rc-lien:focus-visible, .rc-nom:focus-visible, .rc-produit:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .rc-muted { color: var(--color-muted); }
+  /* « En ce moment » : une étiquette de marché posée à côté du titre, les produits en mots, pas en vignettes. */
+  .rc-moment { min-inline-size: 0; display: grid; gap: 1rem; align-content: start; padding: clamp(1.25rem, 3vw, 2rem); background: var(--color-surface); border: 1px solid var(--color-line); border-inline-start: 6px solid var(--color-accent); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .rc-mois { display: grid; gap: 0.9rem; }
+  .rc-mois[hidden] { display: none; }
+  .rc-moment-t { font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.06; }
+  .rc-groupe { display: grid; gap: 0.3rem; }
+  .rc-famille { font-weight: 700; color: var(--color-muted); font-size: 0.95rem; }
+  .rc-noms { display: flex; flex-wrap: wrap; column-gap: 1.1rem; }
+  .rc-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-size: clamp(1.1rem, 2vw, 1.25rem); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rc-avert { color: var(--color-muted); font-size: 0.95rem; }
+  .rc-repondeur { display: grid; gap: 0.1rem; padding-block-start: 0.75rem; border-block-start: 1px solid var(--color-line); font-weight: 600; }
+  .rc-bande-img { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .rc-h2 { font-size: clamp(1.8rem, 4.8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .rc-annee { padding-block: clamp(2rem, 6vh, 4.5rem); }
+  .rc-annee-in { display: grid; gap: clamp(1.25rem, 3vh, 2rem); }
+  .rc-annee-tete { display: grid; gap: 0.4rem; }
+  /* Le calendrier : un vrai tableau, les mois de récolte en barre continue (cellules collées), le mois courant en bande. */
+  .rc-table-cadre { inline-size: 100%; }
+  .rc-table { inline-size: 100%; table-layout: fixed; border-collapse: collapse; }
+  .rc-col-nom { inline-size: 34%; }
+  .rc-th-mois { padding-block: 0.4rem; font-size: 0.8rem; font-weight: 700; text-align: center; color: var(--color-muted); }
+  .rc-th-mois abbr { text-decoration: none; }
+  .rc-court { display: none; }
+  .rc-th-famille { text-align: start; padding: 1.1rem 0 0.35rem; font-size: clamp(1.15rem, 2.2vw, 1.45rem); border-block-end: 2px solid var(--color-fg); }
+  .rc-th-produit { text-align: start; padding-block: 0.15rem; padding-inline-end: 0.4rem; font-weight: 600; line-height: 1.15; }
+  .rc-produit { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+  .rc-c { position: relative; padding: 0; border-block-end: 1px solid var(--color-line); }
+  .rc-barre { position: absolute; inset-inline: 0; inset-block: 32%; }
+  .rc-on .rc-barre { background: var(--color-accent); }
+  .rc-debut .rc-barre { inset-inline-start: 3px; border-start-start-radius: var(--radius-ui, 4px); border-end-start-radius: var(--radius-ui, 4px); }
+  .rc-fin .rc-barre { inset-inline-end: 3px; border-start-end-radius: var(--radius-ui, 4px); border-end-end-radius: var(--radius-ui, 4px); }
+  td.rc-maintenant, th.rc-maintenant { background: var(--color-bg-2); }
+  th.rc-maintenant { color: var(--color-fg); box-shadow: inset 0 -3px 0 var(--color-accent); }
+  .rc-contact { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .rc-contact :global(.horaires-jour) { opacity: 1; }
+  .rc-contact-in { display: grid; gap: 2rem; }
+  .rc-col { display: grid; gap: 0.75rem; align-content: start; }
+  .rc-adresse { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .rc-initiale { display: none; }
+    .rc-court { display: inline; }
+    .rc-col-nom { inline-size: 22%; }
+    .rc-bande-img { aspect-ratio: 21 / 8; }
+    .rc-contact-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+  @media (min-width: 64rem) {
+    .rc-hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 3.5rem; align-items: start; }
+  }
+</style>

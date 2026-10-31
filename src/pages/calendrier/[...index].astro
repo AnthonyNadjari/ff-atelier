@@ -1,0 +1,100 @@
+---
+/**
+ * Page /calendrier (site.recoltes, src/lib/recoltes.ts) : architecture `calendrier-recoltes` (le « Calendrier des récoltes » de la
+ * Cueillette de Compans, « au fil des mois » ; docs/veille/architectures/calendrier-recoltes.md). L'année mois par mois : pour
+ * chaque mois, les produits récoltés par famille, chacun vers sa page ; le mois du visiteur est marqué dans le navigateur.
+ * Lisible sans script. Générée seulement dès 4 produits (lienCalendrier).
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, produitsRecoltes, recoltesDuMois, lienCalendrier, MOIS } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienCalendrier(site.recoltes?.produits, site.wording.calendrier) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const r = site.recoltes!;
+const produits = produitsRecoltes(r.produits);
+const annee = Array.from({ length: 12 }, (_, i) => ({ m: i + 1, groupes: recoltesDuMois(produits, i + 1) }));
+const titre = site.wording.calendrier;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} : ce qui se récolte chaque mois, ${produits.length} produits de janvier à décembre.`} path="/calendrier" jsonLd={site.faq.length > 0 ? [faqPageLd(site.faq)!] : []}>
+  <Nav />
+  <main id="main" class="container-ff ca">
+    <header class="ca-tete">
+      <h1 class="ca-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {r.avertissement && <p class="ca-muted">{r.avertissement}</p>}
+    </header>
+    <ol class="ca-annee">
+      {annee.map(({ m, groupes }) => (
+        <li id={`mois-${m}`} class="ca-mois" data-ca-mois={m}>
+          <h2 class="ca-h2 font-display">{MOIS[m - 1].charAt(0).toUpperCase() + MOIS[m - 1].slice(1)}<span class="ca-ici" hidden> (ce mois-ci)</span></h2>
+          {groupes.length === 0 ? <p class="ca-muted">Rien à récolter.</p> : (
+            <dl class="ca-groupes">
+              {groupes.map((g) => (
+                <div class="ca-groupe">
+                  <dt class="ca-famille">{g.famille}</dt>
+                  <dd><ul class="ca-noms">{g.produits.map((p) => <li><a href={`/recoltes/${p.slug}`} class="ca-lien">{p.nom}</a></li>)}</ul></dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </li>
+      ))}
+    </ol>
+    {r.repondeur && <p class="ca-appel">Avant de venir&nbsp;: {r.repondeur.phrase ?? 'Le répondeur donne la liste du jour.'} <a href={`tel:${r.repondeur.telephone}`} class="ca-lien tabular-nums"><Icon name="Phone" size={18} />{r.repondeur.affiche}</a></p>}
+    <p class="ca-appel"><a href={tel()} class="ca-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    {site.faq.length > 0 && (
+      <section id="faq" aria-labelledby="ca-faq" class="ca-faq">
+        <h2 id="ca-faq" class="ca-h2 font-display">{site.wording.faqTitle ?? 'Vos questions'}</h2>
+        {site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Le mois du visiteur (fuseau de Paris) marqué ; sans script, l'année se lit de janvier à décembre.
+  onPage(() => {
+    const m = Number(new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', month: 'numeric' }).format(new Date()));
+    const li = document.querySelector<HTMLElement>(`[data-ca-mois="${m}"]`);
+    if (!li) return;
+    li.classList.add('ca-maintenant');
+    const ici = li.querySelector<HTMLElement>('.ca-ici');
+    if (ici) ici.hidden = false;
+  });
+</script>
+
+<style>
+  .ca { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 64rem; }
+  .ca-tete { display: grid; gap: 0.5rem; }
+  .ca-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .ca-muted { color: var(--color-muted); }
+  .ca-annee { display: grid; gap: 0; }
+  .ca-mois { display: grid; gap: 0.6rem; padding-block: 1.1rem; border-block-start: 1px solid var(--color-line); }
+  .ca-maintenant { border-block-start: 4px solid var(--color-accent); }
+  .ca-h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); line-height: 1.05; }
+  .ca-groupes { display: grid; gap: 0.5rem; }
+  .ca-groupe { display: grid; gap: 0.1rem; }
+  .ca-famille { font-weight: 700; color: var(--color-muted); }
+  .ca-noms { display: flex; flex-wrap: wrap; column-gap: 1.1rem; }
+  .ca-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ca-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ca-appel { font-weight: 600; }
+  @media (min-width: 48rem) {
+    .ca-mois { grid-template-columns: 12rem minmax(0, 1fr); column-gap: 2rem; align-items: baseline; }
+    .ca-groupe { grid-template-columns: 7rem minmax(0, 1fr); column-gap: 1rem; align-items: baseline; }
+  }
+  .ca-faq { display: grid; gap: 0.25rem; }
+  .ca-faq details { border-block-end: 1px solid var(--color-line); }
+  .ca-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .ca-faq summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ca-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>

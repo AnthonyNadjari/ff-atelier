@@ -706,6 +706,190 @@ bas, comme une enseigne peinte sur un auvent.
   `bandeau-des-adresses` (les lieux de vente) et de `annonce-qui-defile` (la nouvelle du moment sous le premier écran).
   Calme : non (une chose bouge seule). Poids : nul (CSS du moteur).
 
+### `mots-sous-la-photo`
+Impasto Forno Antico (`farine.md`, [impastofornoantico.com](https://www.impastofornoantico.com/), veille du 30 oct 2026, tour 19,
+style construit `farine` ; premier écran relevé à 5, 6,5, 8 et 10 s après le chargement à 1 440 px : la vidéo en noir et
+blanc paraît seule, puis « FOCACCIA / CIABATTA / SOURDOUGH » en Aaux Next de 168 px montent ligne à ligne autour d'elle et
+passent en clair là où ils la traversent ; transitions relevées `0.375s cubic-bezier(0.625, 0.05, 0, 1)` et
+`0.7s cubic-bezier(0.5, 0.5, 0, 1)` ; GSAP, ScrollTrigger, Lenis). On garde l'ordre (la photo, puis les mots), la montée en
+cadre et la double bande des noms ; on refuse le préchargement plein écran (« Sourdough » sur brun) et la vidéo (une photo).
+- Entrée mots qui montent · apparition fondu · survol souligné · fond bandes qui défilent.
+- Moteur : `hero/farine` en CSS seul (`@keyframes farine-monte` translateY 102 % → 0 dans un cadre `overflow: hidden`,
+  0,7 s `--ease-brand`, 450 ms puis 120 ms par ligne ; `farine-parait` opacité de la photo) ; `services/farine` :
+  `data-reveal` sur les photos, `data-reveal="up"` + `data-stagger="120"` sur les morceaux de la phrase éclatée,
+  `data-marquee="48s"` sur deux bandes dont la seconde `data-marquee-sens="inverse"`.
+- Garde : transform et opacité en temps, une fois (tient sur iPhone) ; les bandes s'arrêtent au survol et sont posées en
+  mouvement réduit (décoratives, `aria-hidden`, les noms sont lus au-dessus) ; un seul premier écran animé.
+- Quand : boulanger, pâtissier, pizzeria, traiteur : un client qui a trois produits aux noms courts et une belle photo de
+  travail (mains, pâte, four). Distinct de `mots-qui-glissent` (titre qui glisse au défilement) et de `bandes-croisees`
+  (bandes de mots seules, sans la montée autour de la photo). Calme : oui. Poids : nul (CSS et le moteur).
+
+### `heures-ecrites-a-la-main`
+Haven (`pochoir.md`, [haven-annecy.fr](https://haven-annecy.fr/), veille du 30 oct 2026, tour 19, style construit `pochoir` ;
+accueil relevé à 1 440 et 390 px : « BRUNCH » en DIN noir pâle de bord à bord barré de « 9am - 2pm » en script terre cuite,
+« COFFEE » barré de « All day » ; aucune bibliothèque, transitions `0.5s ease`). Le geste est un mot qu'on écrit sur un
+autre : on le rend visible en découvrant le script de gauche à droite à son arrivée.
+- Entrée aucune · apparition écriture · survol flèche · fond aucun.
+- Moteur : `data-reveal="wipe"` (clip-path, une fois) sur le `<p>` des heures dans `services/pochoir`, porté par un parent
+  `.pochoir-heures` qui fait l'inclinaison (-3 degrés) et la position (la règle du moteur remet `transform: none` sur
+  l'élément révélé : jamais d'inclinaison sur l'élément qui porte `data-reveal`) ; même attribut sur la phrase écrite
+  d'`about/pochoir` et de `contact/pochoir`.
+- Garde : le script ne porte que des mots courts (heures, une phrase) ; il n'est jamais le seul titre lisible (le nom de
+  l'offre est un h2 caché lu par les lecteurs d'écran, la phrase du pied est un vrai h2) ; tient sur iPhone (clip-path en
+  temps) ; en mouvement réduit, tout est écrit.
+- Quand : café, brunch, salon de thé, crêperie, glacier : un commerce aux offres datées par l'heure (« 9 h – 14 h »,
+  « Toute la journée »). Distinct de `soulignement-qui-se-dessine` (un trait sous un mot) et de `filet-qui-se-trace` (trait
+  court sous un titre). Calme : oui. Poids : nul.
+
+### `filet-tremble-qui-se-trace`
+Flora Café (`buvard.md`, [florawellnesscafe.com](https://www.florawellnesscafe.com/), veille du 30 oct 2026, tour 19, style
+construit `buvard` ; accueil relevé à 1 440 et 390 px : les blocs séparés par un trait d'encre ondulé tiré à la main, sur
+toute la largeur ; transitions `0.4s linear` ×113 (étiquettes, liens), aucune bibliothèque). Sur la source, le trait est
+posé ; on le fait se tracer une fois à son arrivée, la seule chose qui bouge sur la page.
+- Entrée aucune · apparition filet tremblé · survol couleur · fond aucun.
+- Moteur : `src/components/FiletTremble.astro` (SVG maison, trois ondulations, `pathLength="1"`,
+  `vector-effect: non-scaling-stroke`) : `stroke-dashoffset` 1 → 0 en 1,2 s linéaire quand il entre à l'écran
+  (`IntersectionObserver`, une fois, classe posée par le script : sans script il est tracé) ; `data-reveal` +
+  `data-stagger="60"` sur les rubriques de `services/buvard` ; étiquettes `.btn` de la direction en 0,4 s linéaire.
+- Garde : un trait fin, décoratif (`aria-hidden`), jamais plus d'un entre deux blocs ; pas de grain de papier (GOUT § 2) ;
+  tient sur iPhone (un trait, rien de calé sur le défilement) ; en mouvement réduit, il est tracé d'emblée.
+- Quand : café, salon de thé, épicerie fine, cave, fleuriste, librairie : une page qui doit sentir l'imprimé (carte,
+  étiquette) sans décor. Distinct de `filet-qui-se-trace` (trait court de 36 px sous un titre, Wing On Wo) : ici le
+  trait sépare les blocs, pleine largeur, ondulé. Calme : oui. Poids : nul (un composant de quelques lignes).
+
+### `plaques-qui-s-empilent`
+Labor of Love Studio (`barbotine.md`, [laboroflovestudio.com](https://laboroflovestudio.com/), atelier de céramique, site
+Framer, veille du 30 oct 2026, tour 19, style construit `barbotine` ; DOM lu à 1 440 px : 4 blocs `position: sticky` de 3,2
+écrans dans « Classes », une plaque de couleur par cours ; Framer Motion, aucune transition CSS lue ; captures à la molette
+regardées). La page est joyeuse mais tranquille : deux plaques de couleur se posent sur la photo de l'atelier à l'arrivée,
+puis les cours, chacun sur son émail (vert, brique, cobalt, charbon), collent en haut de l'écran et se recouvrent l'un
+l'autre comme des carreaux qu'on empile ; les avis glissent à la main dans une rangée aux bords fondus.
+- Entrée plaques qui se posent · apparition aucune · survol point qui grossit · fond aucun · défilement collage natif.
+- Moteur : `hero/barbotine` en CSS seul (`@keyframes barbotine-pose` translateY -14 px → 0 et opacité, 0,6 s
+  `--ease-brand` = cubic-bezier(0.22, 1, 0.36, 1), la seconde plaque 120 ms après, une fois) ; `services/barbotine` : chaque
+  `<li>` en `position: sticky; top: calc(6rem + rang × 14px)`, ombre `--shadow-lift` portée vers le haut sur les plaques qui
+  montent, sans script ; liens à point (`::before` rond jaune `--email-signal`, `scale(1.6)` en 0,3 s au survol et au focus) ;
+  `contact/barbotine` : piste `scroll-snap` native pour les avis, bords en `mask-image` à l'ordinateur.
+- Garde : collage seulement à l'ordinateur (≥ 48 rem) sur un écran d'au moins 44 rem de haut (une plaque plus haute que
+  l'écran cacherait sa fin) et hors mouvement réduit ; au téléphone, pile simple, texte puis photo. Rien n'est calé image
+  par image : le collage est natif (tient sur iPhone, Safari défile hors du fil principal sans saccade). Aucun défilement
+  automatique de la rangée d'avis.
+- Quand : atelier de poterie, céramiste, atelier créatif, tapissier, encadreur : un client qui vend 3 à 6 cours, stages ou
+  prestations, chacun avec une photo, et qui veut un site gai. Distinct de `cartes-empilees` (architecture
+  `cartes-empilees-agenda` : chapitres pleine largeur aux couleurs des tokens, étiquette et lignes) par la plaque arrondie
+  dans la colonne centrale, le nom géant en serif, les faits à point et la photo à droite ; distinct de
+  `chapitres-epingles` (scène épinglée pilotée au défilement). Calme : non (le collage suit le défilement). Poids : nul.
+
+### `aile-qui-s-entrouvre`
+Haus Steuermann (`dune.md`, [steuermann.haus](https://steuermann.haus/), veille du 30 oct 2026, tour 19, style construit
+`dune` ; DOM lu à 1 440 px : deux déclencheurs `trigger_west` et `trigger_east` (« West », « Ost ») à mi-hauteur, à 50 px du
+bord, fixes sur toute la page, et une lisière de la page de l'autre maison qui dépasse du bord gauche ; transitions relevées
+`opacity 0.6s linear` ×87, `transform 0.4s cubic-bezier(0.18, 0.08, 0.26, 1.01)` ×3, `transform 0.7s` même courbe ×2,
+`transform 0.9s cubic-bezier(0.07, 0.28, 0.22, 1.01)` ×2 ; au téléphone, les deux mots à la verticale contre les bords).
+Une page qui ne bouge pas, sauf au bord : les deux maisons attendent de chaque côté de l'écran, on en voit la lisière, et
+la photo de l'une glisse quand on approche la souris de son nom.
+- Entrée aucune · apparition aucune · survol aile qui glisse du bord · fond aucun.
+- Moteur : `hero/dune` en CSS seul : `<nav aria-label="Nos hébergements">` de deux liens `position: fixed; top: 50%` aux
+  bords ; la photo de l'aile (cadre `.dune-lavis` 22vw × 60svh) est découpée par `clip-path: inset(0 calc(100% - 2.5vw) 0 0)`
+  (lisière) et passe à `inset(0)` au `:hover` et au `:focus-visible` en 0,4 s `--ease-brand` (courbe de la source) ; le nom
+  passe à `--on-ink`. Au téléphone (< 64 rem) : `writing-mode: vertical-rl`, pas de photo.
+- Garde : aucun contenu ne dépend du survol (chaque hébergement a sa page, nommée aussi dans les services) ; rien n'est calé
+  sur le défilement ; seulement si le client a au moins deux services à photo (sinon pas d'ailes) ; en mouvement réduit, la
+  transition est coupée.
+- Quand : gîte à deux maisons, chambres d'hôtes à deux ou trois chambres, hôtel de quelques chambres, spa à deux espaces :
+  un client calme qui a deux lieux à montrer et de belles photos. Distinct de `index-qui-change-la-photo` (la photo change
+  au milieu d'une liste) et de `deuxieme-vue-au-survol` (deux vues d'une même carte) : ici la photo vient du bord de l'écran.
+  Calme : oui. Poids : nul (CSS seul).
+
+### `escalier-qui-se-rejoint`
+TaylorHare Architects (`talus.md`, [taylorhare.com](https://taylorhare.com/), agence d'architectes du Kent et du Danemark, via
+siteinspire, veille du 30 oct 2026, tour 19, style construit `talus` ; DOM lu à 1 440 px : GSAP, ScrollTrigger,
+ScrollSmoother, Barba ; transitions relevées `opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)` ×15, `opacity 1.2s` même courbe
+×5, `width 0.9s` et `height 0.9s` même courbe ×5 sur le bouton rond du menu ; captures à la molette regardées). Une page posée
+qui bouge à peine : les photos des réalisations, sur une grille de six colonnes, arrivent en fondu et se rejoignent par les
+coins en descendant ; le disque terre cuite du coin bas droit s'ouvre quand on l'approche. On refuse l'ouverture en vidéo au
+logo (calque bloquant) et le point olive qui suit la souris.
+- Entrée aucune · apparition photo qui rejoint son coin · survol disque qui s'ouvre · fond aucun.
+- Moteur : `services/talus` (script `onPage` de quelques lignes) : `IntersectionObserver` (seuil 0,15, marge basse −12 %)
+  pose `est-posee` sur la rangée qui arrive ; sous `.talus-pret` (posée par le script seulement), la photo part de
+  `translateX(3rem)` (rangée à droite) ou `translateX(-3rem)` (rangée à gauche) et d'opacité 0, et revient en place en
+  `--motion-duration` 1 s (transform ; 1,2 s sur la source, ramené au plafond R1) et 0,6 s (opacité), `--ease-brand` = cubic-bezier(0.25, 0.1, 0.25, 1) (la courbe de la
+  source, écrite en entier) ; les rangées déjà à l'écran au chargement sont posées d'emblée. `nav/talus` : `.talus-rond`
+  fixé au coin bas droit, 3,5 rem, `width` → 16,5 rem en 0,9 s au `:hover` et au `:focus-visible` (seulement sur un écran qui
+  survole), le texte « Appeler le … » à l'opacité 1 avec 0,3 s de retard ; au toucher, il appelle. `.btn-ghost` de la
+  direction : lien souligné dont le trait passe à 2 px en 0,25 s.
+- Garde : transform et opacité en temps, une fois (tient sur iPhone) ; rien n'est calé sur le défilement ; aucune information
+  ne dépend du survol (le disque porte une icône de téléphone et un `aria-label`) ; en mouvement réduit, tout est en place.
+- Quand : architecte, paysagiste, constructeur de maisons, rénovation de fermes, charpentier : un client calme qui a une belle
+  photo par prestation ou par réalisation, et du texte court. Distinct de `index-qui-change-la-photo` (liste fixe, photo qui
+  change au survol), de `photo-qui-respire` et de `fondu-sobre` (apparition sur place, sans direction). Calme : oui. Poids : nul.
+
+### `cartes-qui-se-rebattent`
+FizioPont (`baume.md`, [fiziopont.hu](https://www.fiziopont.hu/), cabinet de kinésithérapie à Budapest, Webflow showcase,
+veille du 30 oct 2026, tour 19, style construit `baume` ; DOM lu à 1 440 px : `div.about-us_services_content` en
+`position: sticky` sur 3 écrans, interactions Webflow, transitions relevées `transform 0.5s ease` ×25, `opacity 0.2s ease`
+×10, `all 0.7s ease-in-out` ×4 ; le bandeau du nom `div.section-marquee-scroll-row` bouge tout seul ; captures à la molette
+regardées). Une page douce et vivante : la photo du soin se pose sur sa plaque sauge, le nom du cabinet défile en deux
+couleurs, et les étapes du soin arrivent une à une sur une pile de cartes tournées pendant que le texte reste collé à gauche.
+- Entrée photo qui se pose sur sa plaque · apparition carte qui se pose sur la pile · survol carte qui monte · fond nom qui
+  défile.
+- Moteur : `process/baume` : le bloc fait `n × 45svh + 60svh`, son contenu est `position: sticky; top: 0` sur 100svh (au
+  téléphone, seule la pile colle sous la barre : le titre et les portes passent une fois) ; un repère invisible de 45svh par étape, `IntersectionObserver` (`rootMargin: -50% 0px -50% 0px`) : le repère qui croise le milieu
+  de l'écran pose les cartes jusqu'à la sienne (classe `est-posee`), et au retour vers le haut la carte repart ; les cartes
+  partagent une même case de grille ; non posée : `translate(rang × 6px, 110svh) rotate(angle × 3)`, opacité 0 ; posée :
+  `translate(rang × 6px, rang × −6px) rotate(angle)` en 0,7 s `--ease-brand` = cubic-bezier(0.22, 1.2, 0.36, 1) (dépassement
+  léger), opacité 0,2 s linéaire. `hero/baume` : classe `baume-depart` posée puis retirée au chargement (deux
+  `requestAnimationFrame`), la photo revient de `translate(-1,5rem, 1,5rem)` et la plaque de `translate(1rem, -1rem)` en 0,7 s ;
+  le nom en deux couleurs en `data-marquee="45s"` (moteur, `.marquee-track`). `services/baume` : carte qui monte de 4 px au
+  survol en 0,2 s linéaire.
+- Garde : le pas change par seuils, jamais image par image (GOUT § 4 : Safari défile hors du fil principal) ; un demi-écran
+  par étape (pas de scroll-jacking : on peut défiler au travers d'un geste) ; sans script ou en mouvement réduit, rien ne
+  colle et les cartes sont posées l'une sous l'autre, tournées et lisibles ; le nom qui défile est décoratif (`aria-hidden`)
+  et s'arrête au survol ; un seul feu d'artifice (la pile).
+- Quand : kinésithérapeute, ostéopathe, sage-femme, orthophoniste, diététicien, coach : un cabinet qui explique son
+  parcours en trois à cinq étapes (bilan, séances, point d'étape). Distinct de `plaques-qui-s-empilent` (plaques pleine
+  largeur collées l'une sur l'autre, CSS seul, chaque plaque garde sa photo) et de `cartes-empilees` (chapitres pleine
+  largeur) : ici le texte reste fixe et ce sont de petites cartes tournées qui se posent sur un paquet. Calme : non (le bloc
+  colle). Poids : nul (CSS et un script de quelques lignes).
+
+### `titre-qui-se-floute-en-sortant`
+Holographik Space (`rideau.md`, [holographik.space](https://holographik.space/), veille du 30 oct 2026, tour 19, style
+construit `rideau` ; script de la page lu : chaque `.screen .center-title` reçoit `--mag` (flou, jusqu'à 16 px) et `--vid`
+(opacité, jusqu'à 0,2) quand le haut de son titre passe au-dessus de 20 % de l'écran, et jusqu'à sa sortie ; CSS relevé :
+`.center-title h2 { font-size: clamp(29px, 4.8vw, 90px); font-weight: 500; letter-spacing: -0.022em; line-height: 0.95;
+transition: opacity .2s }`, `.screen-link:hover h2 { opacity: .72 }`, `.screen { height: 100svh }`, téléphone
+`height: 133.333vw`, voile `.vid-tone` noir à 0,2). Une page faite d'écrans pleins de photo : le titre de chacun reste net
+tant qu'on le lit, puis se dissout en montant, comme une lumière qu'on éteint en quittant la salle.
+- Entrée aucune · apparition flou en sortant · survol titre qui pâlit · fond aucun.
+- Moteur : `hero/rideau`, `services/rideau`, `proof/rideau` : `[data-rideau-flou]` sous `@supports (animation-timeline:
+  view())` et `prefers-reduced-motion: no-preference` : `animation: rideau-flou linear both; animation-timeline: view();
+  animation-range: exit 10% exit 100%` (`to { filter: blur(16px); opacity: 0.2 }`) ; aucun script. `.rideau-ecran:hover`
+  → titre à 0,72 en 0,2 s `--ease-brand` (la courbe `ease` de la source écrite en clair).
+- Garde : seulement à la sortie (on ne lit jamais un titre flou) ; animation liée à la vue gérée par le navigateur (hors du
+  fil principal quand il le peut, aucun calcul au défilement) ; un navigateur qui ne la connaît pas montre des titres nets ;
+  le flou porte sur un titre de quelques mots, pas sur une photo (léger sur iPhone).
+- Quand : salle de réception, lieu événementiel, barbier, tatoueur, studio photo : un client qui a une photo forte par
+  prestation et veut une page sombre et spectaculaire. Distinct de `sortie-du-noir` (la photo sort du noir à l'entrée) et
+  de `portes-qui-s-eclairent` (portes qui s'éclairent au survol). Calme : non (suit le défilement). Poids : nul (CSS seul).
+
+### `cartouche-qui-se-pose`
+Hotel Gilbert (`cartouche.md`, [hotel-gilbert.at](https://www.hotel-gilbert.at/), veille du 30 oct 2026, tour 19, style
+construit `cartouche` ; transitions relevées dans le CSS calculé : `transform 0.3s ease` ×46, `transform 0.4s ease` ×18,
+`color 0.4s cubic-bezier(0.4, 0, 0.2, 1)` ×8, `border 0.3s`, `background 0.3s` ; liens encadrés à longue flèche au trait ;
+aucune bibliothèque d'animation, `data-speed` ×1). Une page de papeterie qui ne bouge presque pas : les plaques posées sur
+le bas des photos arrivent en se posant, les flèches des liens s'allongent sous la souris.
+- Entrée aucune · apparition plaque qui se pose · survol flèche qui s'allonge · fond aucun.
+- Moteur : `services/cartouche` : `[data-cartouche]` reçoit `.cartouche-attend` (opacité 0, `translate: 0 24px`) puis
+  `.cartouche-pose` à l'entrée dans l'écran (IntersectionObserver, seuil 0,25, une fois, script `onPage`), transition
+  0,4 s `--ease-brand` = cubic-bezier(0.4, 0, 0.2, 1) (courbe de la source) ; `.cartouche-lien::after` et `.btn-ghost::after`
+  de la direction : trait de 1 px qui passe de 2,25 à 3,25 rem en 0,3 s.
+- Garde : sans script ou en mouvement réduit, les cartouches sont en place ; une seule apparition par cartouche, aucune au
+  premier écran ; rien n'est calé sur le défilement (transform et opacité en temps : tient sur iPhone).
+- Quand : hôtel, chambres d'hôtes, barbier, coiffeur, institut, fleuriste, pâtissier : un client calme avec une photo par
+  prestation et l'envie d'un site qui a de l'esprit. Distinct de `photo-qui-se-pose` (la photo se pose) et de
+  `legende-qui-se-leve` (légende sous la photo) : ici la plaque à filet se pose à cheval sur le bord de la photo. Calme :
+  oui. Poids : léger (quelques lignes de script).
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

@@ -1,0 +1,71 @@
+---
+/**
+ * About "buvard" (style buvard, relevé sur florawellnesscafe.com le 30 oct 2026, fiche docs/veille/styles/buvard.md
+ * § Construction, blocs 4 et 5) : deux blocs, comme la source.
+ * 1. LA GRANDE PHOTO À TITRE POSÉ DESSUS (« Flora Fridays ») : dans les marges de la page, une photo large (2,5:1 à
+ *    l'ordinateur, 4:5 au téléphone : about.portrait, sinon la première photo de la galerie) ; en bas à gauche, posés sur
+ *    un voile lie-de-vin qui monte du bas, le titre de la section (about.title) en caslon crème (36 px), le métier à la
+ *    ville et l'ancienneté en machine à écrire, et le premier paragraphe de l'histoire en petit corps.
+ * 2. LA PHOTO ET SON TEXTE (« Mat & Matcha ») : une photo (la suivante de la galerie) sur la moitié gauche, et à droite la
+ *    suite de l'histoire en caslon de lecture avec l'étiquette rouge vers la carte. Sans seconde photo ni suite, rien.
+ * Deux sections sœurs, un filet tremblé sous chacune. Mouvement : aucun en dehors des filets qui se tracent.
+ * Rien d'inventé : sans photo, le titre et l'histoire restent en texte sur le papier.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Button from '@/components/Button.astro';
+import FiletTremble from '@/components/FiletTremble.astro';
+
+const a = site.about;
+const [premier, ...suite] = paragraphs(a.story);
+const galerie = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+const photo = a.portrait ?? galerie[0];
+const seconde = galerie.find((g) => g.src !== photo?.src);
+const titre = a.title ?? site.business.name;
+const ligne = `${metierEtVille().replace(/\.$/, '')}${site.business.since ? `, depuis ${site.business.since}` : ''}`;
+---
+
+<section id="about" class="buvard-large pt-[var(--section-y)]" aria-labelledby="buvard-about-titre">
+  {photo ? (
+    <figure class="buvard-grande relative m-0 overflow-hidden bg-ink text-on-ink">
+      <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+      <div class="buvard-voile absolute inset-0" aria-hidden="true"></div>
+      <figcaption class="absolute inset-x-0 bottom-0 p-5 md:max-w-[44rem] md:p-8">
+        <h2 id="buvard-about-titre" class="buvard-titre" set:html={titre} />
+        <p class="mt-2 font-mono text-[0.8125rem] uppercase">{ligne}</p>
+        <p class="mt-3 max-w-[52ch] text-[0.9375rem] leading-snug">{premier}</p>
+      </figcaption>
+    </figure>
+  ) : (
+    <div class="max-w-[48rem]">
+      <h2 id="buvard-about-titre" class="buvard-titre" set:html={titre} />
+      <p class="mt-2 font-mono text-[0.8125rem] uppercase">{ligne}</p>
+      <p class="mt-3 leading-snug">{premier}</p>
+    </div>
+  )}
+  <FiletTremble class="mt-12 md:mt-14" variante={2} />
+</section>
+{seconde && suite.length > 0 && (
+  <section class="buvard-large buvard-suite pt-12 md:pt-14" aria-label={`${site.business.name}, la suite`}>
+      <div class="grid gap-8 md:grid-cols-2 md:gap-x-10">
+        <figure class="relative m-0 aspect-[4/3] overflow-hidden">
+          <Img src={seconde.src} alt={seconde.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 48vw, 92vw" loading="lazy" />
+        </figure>
+        <div class="grid content-start gap-4 md:pt-6">
+          {suite.map((p) => <p class="buvard-lecture">{p}</p>)}
+          <div class="mt-2"><Button href="/#services" variant="primary" size="sm">{site.wording.servicesTitle}</Button></div>
+        </div>
+      </div>
+      <FiletTremble class="mt-12 md:mt-14" />
+  </section>
+)}
+
+<style>
+  .buvard-large { width: 100%; padding-inline: clamp(1.25rem, 2.8vw, 2.5rem); }
+  .buvard-grande { aspect-ratio: 4 / 5; }
+  @media (min-width: 48rem) { .buvard-grande { aspect-ratio: 2.5 / 1; } }
+  .buvard-voile { background: linear-gradient(to top, color-mix(in oklab, var(--ink) 80%, transparent), transparent 62%); }
+  .buvard-titre { font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem); line-height: 1.02; }
+  .buvard-lecture { font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem); line-height: 1.35; max-width: 34ch; }
+  .buvard-grande :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

@@ -1,0 +1,86 @@
+/* Direction BAUME : style réel relevé sur https://www.fiziopont.hu/ (FizioPont, cabinet de kinésithérapie et de thérapie
+   manuelle à Budapest, deux praticiennes ; Webflow showcase ; veille du 30 oct 2026, tour 19, fiche
+   docs/veille/styles/baume.md, atomes docs/veille/styles/atomes/baume.json). On reprend le style et la construction (la
+   photo du soin dans un cadre aux coins adoucis devant une plaque sauge décalée qui fait relief, le nom du cabinet en deux
+   couleurs qui défile entre les blocs, les étapes en cartes vert sauge qui se rebattent en pile, la praticienne devant une
+   plaque pêche, l'adresse sur menthe, le pied anthracite au nom en deux couleurs), jamais les textes, images, logos ni le
+   code de la source.
+   Couleurs relevées : blanc rosé #fbfafa (84 % des fonds, réchauffé à #fbf2ec pour que le rose se voie : chroma OKLCH
+   0,013), rose poudré #f2e2da (bandes), menthe #e2ede8 (bloc de l'adresse, cartes claires), sauge (cartes des étapes,
+   plaques ; #5f8a74 mesuré à l'œil, assombri à #4d7562 pour porter du blanc à 5,2:1), pêche #e6946e (boutons, plaque de la
+   praticienne, seconde moitié du nom : texte anthracite dessus, 5,5:1), anthracite #333333 (texte, pied).
+   Polices : Poppins (graisses 400 et 700) -> Red Hat Display (géométrique libre, OFL, même rondeur, moins vue), une seule
+   famille comme la source ; le nom en capitales fines de la source (Futura Light dessiné) -> Josefin Sans en 300.
+   Formes : boutons pilule de la source refusés (GOUT § 2) : rayon 8 px ; cadres et cartes à 14 px (la source : 24 px). */
+@import '@fontsource-variable/red-hat-display';
+@import '@fontsource-variable/josefin-sans';
+
+[data-direction='baume'] {
+  --accent-h: 18;
+  --accent-s: 58%;
+  --accent-l: 39%;
+  --bg: #fbf2ec;
+  --bg-2: #f2e2da;
+  --surface: #ffffff;
+  --fg: #33302e;
+  --muted: #5d5753;
+  --line: #e8d6cc;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #4d7562;
+  --on-accent: #ffffff;
+  --ink: #33302e;
+  --on-ink: #fbf2ec;
+  --font-display: 'Red Hat Display Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Red Hat Display Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Red Hat Display Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 700;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 8px;
+  --radius-card: 14px;
+  --shadow-card: 0 1px 2px rgb(51 48 46 / 0.06), 0 8px 24px -12px rgb(51 48 46 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(51 48 46 / 0.08), 0 18px 40px -16px rgb(51 48 46 / 0.28);
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --motion-duration: 0.7s;
+  --motion-ui: 0.2s;
+  /* Courbe de la pile de cartes : un léger dépassement à l'arrivée (la carte se pose et se tasse). Les états d'interface
+     sont secs (0,2 s). */
+  --ease-brand: cubic-bezier(0.22, 1.2, 0.36, 1);
+  /* Teintes propres au style (jamais du texte sauf indiqué) : sauge des cartes et plaques, pêche des boutons et de la
+     plaque, menthe des cartes claires, nom en capitales fines. */
+  --baume-sauge: #4d7562;
+  --baume-peche: #e6946e;
+  --baume-menthe: #e2ede8;
+  --baume-nom: 'Josefin Sans Variable', 'Futura', system-ui, sans-serif;
+}
+
+[data-direction='baume'] body { font-weight: 400; }
+/* Les titres de section ne passent jamais sous la barre collante quand on y arrive par une ancre. */
+[data-direction='baume'] :is(section[id], [id] > h2, h2[id]) { scroll-margin-top: 6rem; }
+[data-direction='baume'] ::selection { background: var(--baume-peche); color: var(--fg); }
+/* Titres en 700, interlignage 1,2 mesuré ; jamais d'italique (GOUT § 2). */
+[data-direction='baume'] :is(h1, h2) { font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+[data-direction='baume'] h3 { font-weight: 700; line-height: 1.25; }
+[data-direction='baume'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : le plein est pêche à texte anthracite (5,5:1), le contour est un filet anthracite ; 8 px de rayon, pas de
+   pilule. Survol sec (0,2 s, linéaire). */
+[data-direction='baume'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background 0.2s linear, color 0.2s linear, border-color 0.2s linear, box-shadow 0.2s linear;
+}
+[data-direction='baume'] .btn-primary { background: var(--baume-peche); color: var(--fg); box-shadow: 0 6px 16px -10px rgb(156 74 41 / 0.6); }
+[data-direction='baume'] .btn-primary:hover { background: #eda788; }
+[data-direction='baume'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--fg); }
+[data-direction='baume'] .btn-ghost:hover { background: var(--surface); }
+[data-direction='baume'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='baume'] .rule { border-top: 1px solid var(--line); }
+[data-direction='baume'] .eyebrow { color: var(--muted); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0; text-transform: none; }

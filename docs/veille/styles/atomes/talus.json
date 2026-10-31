@@ -1,0 +1,153 @@
+{
+  "id": "talus",
+  "version": 1,
+  "source": {
+    "url": "https://taylorhare.com/",
+    "nom": "TaylorHare Architects",
+    "metier": "agence d'architectes entre le Kent et le Danemark (maisons, fermes rénovées, paysage)",
+    "fiche": "docs/veille/styles/talus.md",
+    "mesures": "docs/veille/styles/atomes/mesures/talus.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Isola Book",
+      "libre": "epilogue",
+      "graisse": 400,
+      "interlignage": 1.12,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Isola Book",
+      "libre": "epilogue",
+      "graisse": 350,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 44
+      },
+      "h2": {
+        "telephone": 26,
+        "ordinateur": 38
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Isola Book et Regular (non libres, grotesque légère au g simple) partout, une seule famille : Epilogue en graisse 400 (titres) et 350 (texte) ; Familjen Grotesk, plus proche, forme déjà la paire d'une autre direction. Le h1 mesuré (52 à 58 px) est le logo de l'ouverture vidéo ; la vraie phrase visible est en 28 px pour un texte de 14 px, portée à 44 px dans l'usine pour dominer le premier écran."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#f3eee8",
+      "texte": "#132019",
+      "fonds": [
+        {
+          "hex": "#f3eee8",
+          "part": 0.79
+        },
+        {
+          "hex": "#000000",
+          "part": 0.117
+        },
+        {
+          "hex": "#e4644b",
+          "part": 0.092
+        },
+        {
+          "hex": "#5a6f48",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#132019",
+          "part": 1
+        }
+      ],
+      "proches": 14733007
+    },
+    "clair": {
+      "fond": "#f3ece4",
+      "surface": "#f8f5f1",
+      "texte": "#132019",
+      "texte2": "#4b574f",
+      "accent": "#a6402c",
+      "accent2": "#5a6f48",
+      "bordure": "#d4ccc1",
+      "encre": "#a6b9bf"
+    },
+    "sombre": null,
+    "remarque": "Papier #f3eee8 mesuré (75 % des fonds, chroma OKLCH 0,010, au bord du neutre) réchauffé à #f3ece4 (0,013) ; encre vert-noir #132019 (100 % des textes) ; terre cuite #e4644b (9 % des fonds : triangle et disque des coins, décor seul, assombrie à #a6402c pour les liens) ; olive #5a6f48 ; gris-bleu #a6b9bf du panneau de fin (lu sur la capture, l'encre --ink de l'usine, texte vert-noir dessus 8,3:1). Le noir mesuré (12 %) est l'ouverture vidéo, refusée. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 115,
+      "ordinateur": 97
+    },
+    "gouttiere": {
+      "telephone": 15,
+      "ordinateur": 44
+    },
+    "conteneur": 1440,
+    "mesure": 32,
+    "rythme": "uni",
+    "remarque": "Pas de conteneur : un papier en six colonnes égales sans gouttière (233 px à 1 400 px), marge de texte de 16 à 24 px ; blocs d'un écran ou plus, beaucoup de cases vides."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun bouton : des liens soulignés dans les phrases ; aucun rayon, aucune ombre, aucun filet ; seuls le triangle terre cuite du coin haut gauche et le disque du coin bas droit sont des formes."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2",
+      "4:5",
+      "1:1"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photos de lieux et de paysages, nues, qui occupent des cases entières de la grille et se touchent par un coin en descendant (l'escalier) ; la phrase du premier écran passe sur la photo ; jamais de voile."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "profil": "escalier-qui-se-rejoint",
+    "remarque": "GSAP, ScrollTrigger, ScrollSmoother et Barba sur la source : ouverture vidéo au logo (refusée), point qui suit la souris (refusé), photos en fondu à l'arrivée (0,6 à 1,2 s, cubic-bezier(0.25, 0.1, 0.25, 1)), disque du menu qui s'élargit en 0,9 s. Gardé : l'arrivée des photos de l'escalier (glissent vers leur coin, une fois) et le disque qui s'ouvre sur le numéro."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "editorial"
+}

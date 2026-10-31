@@ -1,0 +1,89 @@
+---
+/**
+ * Hero "cartouche" (style réel cartouche, relevé sur hotel-gilbert.at le 30 oct 2026, fiche docs/veille/styles/cartouche.md
+ * § Construction, blocs 1 et 2) : L'EN-TÊTE DE PAPETERIE puis la photo.
+ * 1. Entre deux filets cobalt pleine largeur, trois cases : à gauche la phrase (business.tagline) à la machine à écrire en
+ *    capitales, sur trois lignes ; au centre le NOM du client en serif d'affiche géante, cobalt (h1, avec le métier et la ville
+ *    lus par les lecteurs d'écran et écrits dans la case de gauche) ; à droite le métier à la ville, « Depuis … » et le
+ *    numéro en capitales étroites (lien) ; la porte Devis est dans la barre du haut (nav « minimal »). Au téléphone (comme la source) : le nom sur toute la largeur,
+ *    puis une rangée de trois cases filetées (phrase, tampon ou ancienneté, numéro).
+ * 2. LA PHOTO (images.hero) pleine largeur, 62 % de la hauteur à l'ordinateur, sous le filet ; le TAMPON rond cobalt (la
+ *    première certification du client, en capitales étroites blanches) posé à cheval sur le filet et la photo, en haut à
+ *    gauche, s'il y en a une ; sinon rien.
+ * Mouvement : aucun à l'entrée (profil « cartouche-qui-se-pose » : seuls les cartouches des services bougent).
+ * Données : sans images.hero, l'en-tête seul ; sans certification, pas de tampon (jamais un badge inventé).
+ */
+import { site, tel, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const tampon = site.business.certifications?.[0];
+const nom = site.business.name;
+const lieu = metierEtVille().replace(/\.$/, '');
+// Le nom tient sur une ligne : sa taille suit sa longueur (jusqu'à 11rem à l'ordinateur).
+const taille = Math.min(15, 112 / Math.max(nom.length, 5)).toFixed(1);
+---
+
+<section id="hero" class="hero-cartouche">
+  <div class="cartouche-entete">
+    <p class="cartouche-phrase order-2 md:order-1" set:html={site.business.tagline} />
+    <h1 class="cartouche-nom font-display order-1 md:order-2" style={`--taille: ${taille}vw;`}>
+      {nom}<span class="sr-only">, {lieu}</span>
+    </h1>
+    <div class="cartouche-droite order-3">
+      <p>{lieu}{site.business.since && <><br />Depuis {site.business.since}</>}</p>
+      <a href={tel()} class="cartouche-tel font-mono">{site.contact.phoneDisplay}</a>
+    </div>
+  </div>
+  {hero && (
+    <div class="relative">
+      <div class="cartouche-photo relative overflow-hidden">
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.cartouche} priority />
+      </div>
+      {tampon && <p class="cartouche-tampon font-mono" aria-label={`Label : ${tampon}`}><span>{tampon}</span></p>}
+    </div>
+  )}
+</section>
+
+<style>
+  .cartouche-entete {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-block: 1px solid var(--line);
+    margin-top: 0.5rem;
+  }
+  .cartouche-nom {
+    grid-column: 1 / -1;
+    font-size: clamp(3.5rem, var(--taille), 10rem);
+    line-height: 0.9;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    text-align: center;
+    padding: 0.5rem 0.75rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .cartouche-phrase, .cartouche-droite { padding: 0.75rem; font-size: 0.75rem; line-height: 1.25; text-transform: uppercase; color: var(--fg); }
+  .cartouche-phrase { grid-column: 1 / span 2; border-right: 1px solid var(--line); }
+  .cartouche-droite { display: flex; flex-direction: column; gap: 0.35rem; }
+  .cartouche-tel { font-size: clamp(1rem, 0.7rem + 1.2vw, 1.25rem); line-height: 1; padding-block: 0.25rem; color: var(--fg); white-space: nowrap; }
+  .cartouche-tel:hover { text-decoration: underline; text-underline-offset: 4px; }
+  @media (min-width: 48rem) {
+    .cartouche-entete { grid-template-columns: minmax(9rem, 1fr) auto minmax(9rem, 1fr); align-items: start; }
+    .cartouche-nom { grid-column: 2; border-bottom: 0; padding: 2.75rem 1.5rem 3.25rem; }
+    .cartouche-phrase { grid-column: 1; border-right: 0; padding: 2rem 0 0 2rem; font-size: clamp(1.1rem, 0.6rem + 1vw, 1.75rem); line-height: 0.95; }
+    .cartouche-droite { padding: 2rem 2rem 1.5rem 0; align-items: flex-end; text-align: right; font-size: 0.8125rem; }
+  }
+  .cartouche-photo { height: 58svh; }
+  @media (min-width: 48rem) { .cartouche-photo { height: 62svh; } }
+  /* Le tampon : un rond cobalt (le seul arrondi de la page, comme la source), capitales étroites blanches, à cheval sur le
+     filet et la photo. */
+  .cartouche-tampon {
+    position: absolute; z-index: 2; top: 0; left: clamp(1rem, 11vw, 10rem); transform: translateY(-40%);
+    display: grid; place-items: center; width: clamp(6rem, 14vw, 12.5rem); aspect-ratio: 1; border-radius: 50%;
+    background: var(--ink); color: var(--on-ink); text-transform: uppercase;
+    font-size: clamp(0.95rem, 0.6rem + 1vw, 1.9rem); line-height: 0.95; text-align: center; padding: 1rem; rotate: -6deg;
+  }
+  .hero-cartouche :global(.ff-illustration) { z-index: 2; }
+</style>

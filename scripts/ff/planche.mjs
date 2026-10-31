@@ -36,7 +36,10 @@ export function servir(root) {
   return createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     let f = path.join(root, pathname);
-    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
+    // /matieres avec matieres.html ET le dossier matieres/ (pages /matieres/<slug>) : le dossier sans index.html ne
+    // doit pas masquer la page (30 oct 2026, page blanche dans ff apercu-rapide).
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory() && (fs.existsSync(path.join(f, 'index.html')) || !fs.existsSync(`${f.replace(/\/+$/, '')}.html`))) f = path.join(f, 'index.html');
+    else if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = `${f.replace(/\/+$/, '')}.html`;
     if (!fs.existsSync(f) && fs.existsSync(`${f}.html`)) f = `${f}.html`;
     const entetes = Object.fromEntries(headersForPath(regles, pathname));
     if (!fs.existsSync(f)) { res.writeHead(404, entetes); return res.end(); }

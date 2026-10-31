@@ -1,0 +1,124 @@
+---
+/**
+ * Services "barbotine" (style barbotine, relevé sur laboroflovestudio.com le 30 oct 2026, fiche
+ * docs/veille/styles/barbotine.md § Le geste signature) : LES PLAQUES D'ÉMAIL QUI S'EMPILENT. Sur le crème, le titre de
+ * section centré en serif vert ; puis une plaque par prestation, dans la colonne centrale (66 % de la largeur à
+ * l'ordinateur), arrondie à 12 px, chacune d'un émail différent pris dans les tokens de la direction (vert, brique, cobalt,
+ * charbon, dans cet ordre, puis on recommence). Dans la plaque : à gauche le nom de la prestation en serif d'affichage géant
+ * (64 px), puis en bas les faits du client (prix, lignes de la prestation) chacun derrière un point jaune, la phrase courte,
+ * et le lien vers sa page ; à droite la photo du client à 9 px de rayon, sur toute la hauteur de la plaque.
+ * Le geste (profil « plaques-qui-s-empilent », docs/veille/styles/MOUVEMENTS.md) : à l'ordinateur, chaque plaque COLLE en
+ * haut de l'écran (`position: sticky`, décalée de 14 px par rang pour laisser voir le bord des précédentes) pendant que la
+ * suivante monte dessus avec une ombre portée vers le haut ; aucun script, collage natif (tient sur iPhone, rien n'est calé
+ * image par image). Au téléphone ou sur un écran bas : pas de collage (une plaque plus haute que l'écran cacherait sa fin),
+ * les plaques s'empilent l'une sous l'autre, photo sous le texte, comme la source. En mouvement réduit : pas de collage non plus.
+ * Puis, comme la source (« Membership » après « Classes »), LE BLOC MENTHE (--bg-2), seulement si le client a des
+ * engagements (about.values) : titre centré vert, puis deux colonnes : à gauche une photo verticale à 12 px de rayon
+ * (about.portrait, sinon une photo de la galerie), à droite chaque engagement en serif de grand corps, en second plan,
+ * séparé par un filet, avec sa phrase en petit ; sous la liste, la phrase du métier et le lien d'appel.
+ * Rien d'inventé : sans engagement, pas de bloc menthe ; un fait n'apparaît que s'il est dans le brief (priceFrom, bullets) ; sans photo, la plaque garde le
+ * texte seul sur toute sa largeur ; jamais d'icône à la place d'une photo.
+ */
+import { site, metierEtVille, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+const EMAUX = ['var(--email-1)', 'var(--email-2)', 'var(--email-3)', 'var(--email-4)'];
+const valeurs = site.about.values;
+const photo = site.about.portrait ?? site.proof.gallery.find((g) => g.src !== site.images.hero?.src);
+const lien = (slug: string) => (site.servicePages ? `/services/${slug}` : '/#contact');
+---
+
+<section id="services" class="barbotine-services section-y" aria-labelledby="barbotine-services-titre">
+  <div class="container-ff text-center">
+    <Titre id="barbotine-services-titre" class="barbotine-services-titre mx-auto" title={site.wording.servicesTitle} />
+    <p class="mx-auto mt-5 max-w-[40ch] text-base md:text-lg">{metierEtVille()}</p>
+  </div>
+  <ol class="barbotine-pile container-ff mt-12 md:mt-16" aria-label={site.wording.servicesTitle}>
+    {services.map((s, i) => {
+      const faits = [s.priceFrom, ...s.bullets].filter(Boolean).slice(0, 4) as string[];
+      return (
+        <li class="barbotine-plaque-svc" style={`--email: ${EMAUX[i % EMAUX.length]}; --rang: ${i};`}>
+          <article class:list={['barbotine-plaque-corps grid gap-6 md:gap-8', s.image && 'md:grid-cols-[1fr_1fr]']} aria-labelledby={`barbotine-svc-${s.slug}`}>
+            <div class="flex flex-col">
+              <h3 id={`barbotine-svc-${s.slug}`} class="barbotine-svc-titre">{s.title}</h3>
+              <div class="mt-8 md:mt-auto md:pt-10">
+                {faits.length > 0 && (
+                  <ul class="space-y-2.5 text-sm md:text-base">
+                    {faits.map((f) => <li class="barbotine-fait">{f}</li>)}
+                  </ul>
+                )}
+                <p class="mt-5 max-w-[44ch] text-sm leading-relaxed md:text-base">{s.short}</p>
+                <a href={lien(s.slug)} class="barbotine-svc-lien mt-6">Voir la prestation<span class="sr-only"> {s.title}</span></a>
+              </div>
+            </div>
+            {s.image && (
+              <figure class="barbotine-svc-photo relative aspect-square overflow-hidden md:order-2 md:aspect-auto md:min-h-[26rem]">
+                <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 76rem) 460px, (min-width: 48rem) 34vw, 86vw" loading="lazy" />
+              </figure>
+            )}
+          </article>
+        </li>
+      );
+    })}
+  </ol>
+</section>
+
+{valeurs.length > 0 && (
+  <section class="barbotine-menthe section-y bg-bg-2" aria-labelledby="barbotine-menthe-titre">
+    <div class="container-ff">
+      <h2 id="barbotine-menthe-titre" class="barbotine-services-titre mx-auto text-center">Ce que vous trouverez ici</h2>
+      <div class:list={['mt-14 grid gap-10 md:mt-20 md:gap-12', photo && 'md:grid-cols-12']}>
+        {photo && (
+          <figure class="relative aspect-[3/4] overflow-hidden rounded-[var(--radius-card)] md:col-span-5 md:self-start">
+            <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 40vw, 92vw" loading="lazy" />
+          </figure>
+        )}
+        <div class:list={[photo && 'md:col-span-7']}>
+          <ul>
+            {valeurs.map((v) => (
+              <li class="barbotine-valeur py-6 md:py-8">
+                <h3 class="barbotine-valeur-titre">{v.title}</h3>
+                <p class="mt-2 max-w-[44ch] text-base">{v.text}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-10 max-w-[36ch] text-base leading-relaxed">{metierEtVille()}</p>
+          <div class="mt-6"><Button href={tel()} variant="ghost" size="sm">Appeler le {site.contact.phoneDisplay}</Button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .barbotine-services-titre { color: var(--accent); font-size: clamp(2.4rem, 1.6rem + 3vw, 4.1rem); line-height: 1.02; }
+  .barbotine-pile { display: grid; gap: 1.25rem; max-width: 72rem; }
+  .barbotine-plaque-corps {
+    background: var(--email);
+    color: var(--on-email);
+    border-radius: var(--radius-card);
+    padding: 1.1rem 1.1rem 1.6rem;
+  }
+  @media (min-width: 48rem) { .barbotine-plaque-corps { padding: 2.4rem; } }
+  .barbotine-svc-photo { border-radius: calc(var(--radius-card) - 3px); }
+  .barbotine-svc-titre { font-size: clamp(2.1rem, 1.4rem + 2.6vw, 4rem); line-height: 1; max-width: 12ch; text-wrap: balance; }
+  .barbotine-fait { display: flex; align-items: baseline; gap: 0.7rem; }
+  .barbotine-fait::before { content: ''; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--email-signal); transform: translateY(-0.1em); }
+  .barbotine-svc-lien { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 700; color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.4em; }
+  .barbotine-svc-lien::before { content: ''; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--email-signal); transition: transform var(--motion-ui) var(--ease-brand); }
+  .barbotine-svc-lien:hover::before, .barbotine-svc-lien:focus-visible::before { transform: scale(1.6); }
+  /* Le geste : collage natif, ordinateur à écran assez haut seulement, et pas en mouvement réduit. Chaque plaque colle un
+     peu plus bas que la précédente (14 px par rang) : on voit le bord des plaques déjà empilées. */
+  @media (min-width: 48rem) and (min-height: 44rem) and (prefers-reduced-motion: no-preference) {
+    .barbotine-pile { gap: 3rem; }
+    .barbotine-plaque-svc { position: sticky; top: calc(6rem + var(--rang) * 14px); }
+    .barbotine-plaque-svc + .barbotine-plaque-svc .barbotine-plaque-corps { box-shadow: var(--shadow-lift); }
+  }
+  .barbotine-valeur { border-bottom: 1px solid color-mix(in oklab, var(--muted) 45%, transparent); }
+  .barbotine-valeur-titre { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.45rem); line-height: 1.05; color: var(--muted); }
+  .barbotine-menthe :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+  .barbotine-services :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

@@ -1,0 +1,42 @@
+---
+/**
+ * About "cartouche" (style cartouche, relevé sur hotel-gilbert.at le 30 oct 2026, fiche docs/veille/styles/cartouche.md
+ * § Construction, bloc 3 « Says hello ») : sur le blanc, centré, le titre (about.title, sinon le nom) en serif d'affiche en
+ * capitales, cobalt, sur deux lignes ; dessous, l'histoire (about.story) à la machine à écrire, centrée, colonne étroite
+ * (46 caractères), un blanc entre les paragraphes. Puis, si le client a un portrait (about.portrait), sa photo en bande
+ * pleine largeur sous un filet, avec un cartouche à cheval sur son bord bas : le nom et le métier à la ville.
+ * Rien d'inventé : sans portrait, pas de bande ; aucune valeur, aucun chiffre.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const portrait = a.portrait;
+---
+
+<section id="about" class="cartouche-about section-y" aria-labelledby="cartouche-about-titre">
+  <div class="mx-auto max-w-[52ch] px-5 text-center">
+    <h2 id="cartouche-about-titre" class="cartouche-h2 font-display" set:html={a.title ?? site.business.name} />
+    <div class="mt-8 flex flex-col gap-5">
+      {paras.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+  {portrait && (
+    <figure class="relative mt-[var(--section-y)] border-t border-line">
+      <div class="cartouche-bande relative overflow-hidden">
+        <Img src={portrait.src} alt={portrait.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+      </div>
+      <figcaption class="cartouche-legende">
+        <span class="block font-[family-name:var(--font-mono)] text-2xl uppercase leading-none text-fg">{site.business.name}</span>
+        <span class="mt-2 block text-sm">{metierEtVille().replace(/\.$/, '')}</span>
+      </figcaption>
+    </figure>
+  )}
+</section>
+
+<style>
+  .cartouche-h2 { font-size: clamp(2.4rem, 1.6rem + 3vw, 4.5rem); line-height: 1; text-wrap: balance; }
+  .cartouche-bande { height: 46svh; }
+  .cartouche-legende { position: relative; z-index: 1; width: min(22rem, 86%); margin: -2.5rem auto 0; background: var(--surface); border: 1px solid var(--line); padding: 1.25rem; text-align: center; }
+</style>

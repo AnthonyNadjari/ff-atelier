@@ -1,0 +1,82 @@
+---
+/**
+ * Services "dune" (style dune, relevé sur steuermann.haus le 30 oct 2026, fiche docs/veille/styles/dune.md § Construction,
+ * blocs 4 et 5) : les hébergements (ou prestations) comme la source montre ses deux maisons.
+ * 1. Deux colonnes : à gauche le titre (wording.servicesTitle) en grotesque fine, à droite le texte (wording.servicesIntro,
+ *    sinon le métier et la ville) et, dessous, un lien à flèche par service vers sa page (« Mehr zu Steuermann West → »).
+ * 2. Puis chaque service en PAIRE DE PHOTOS QUI SE CHEVAUCHENT, en quinconce (à gauche, puis à droite) : sa photo
+ *    naturelle en grand, et derrière elle, décalée vers le haut, une seconde photo LAVÉE (la première de services[].images,
+ *    sinon une photo de la galerie que la page n'a pas encore montrée) ; sous la grande, la légende en petit : le nom du
+ *    service en gras, sa phrase (short), son prix s'il est donné, « Voir » vers sa page.
+ * Rien d'inventé : un service sans photo garde sa légende seule ; prix seulement s'il est donné ; aucune icône.
+ * Mouvement : aucun (profil « aile-qui-s-entrouvre » : seules les ailes du premier écran bougent).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+const vues = new Set([site.images.hero?.src, site.about.portrait?.src, ...site.proof.gallery.slice(0, 2).map((g) => g.src)].filter(Boolean));
+const reserve = site.proof.gallery.filter((g) => !vues.has(g.src));
+let r = 0;
+const paires = services.map((s) => {
+  const lavee = s.images[0] ?? (s.image ? reserve[r++ % Math.max(reserve.length, 1)] : undefined);
+  return { s, lavee: lavee && lavee.src !== s.image?.src ? lavee : undefined };
+});
+---
+
+<section id="services" class="dune-services section-y" aria-labelledby="dune-services-titre">
+  <div class="dune-marges grid gap-8 md:grid-cols-12 md:gap-6">
+    <Titre id="dune-services-titre" class="dune-h2 md:col-span-4 md:col-start-2" title={site.wording.servicesTitle} />
+    <div class="text-base leading-relaxed md:col-span-5 md:col-start-7 md:text-[1.1875rem] md:leading-[1.47]">
+      <p>{site.wording.servicesIntro ?? metierEtVille()}</p>
+      <ul class="mt-6 flex flex-col items-start text-sm">
+        {services.map((s) => (
+          <li><Button href={`/services/${s.slug}`} variant="ghost" size="sm">{s.title}</Button></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <ul class="dune-marges mt-[var(--section-y)] flex flex-col gap-[var(--section-y)]">
+    {paires.map(({ s, lavee }, i) => (
+      <li class:list={['dune-paire-svc', i % 2 === 1 && 'dune-paire-droite']}>
+        {s.image && lavee && (
+          <figure class="dune-svc-arriere dune-lavis relative overflow-hidden" aria-hidden="true">
+            <Img src={lavee.src} alt="" class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 28vw, 50vw" loading="lazy" />
+          </figure>
+        )}
+        <div class="dune-svc-avant">
+          {s.image && (
+            <a href={`/services/${s.slug}`} class="relative block aspect-[3/2] overflow-hidden" tabindex="-1" aria-hidden="true">
+              <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 42vw, 85vw" loading="lazy" />
+            </a>
+          )}
+          <div class="mt-3 max-w-[34ch] text-xs leading-relaxed md:text-sm">
+            <h3><a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a></h3>
+            <p class="mt-1">{s.short}</p>
+            {s.priceFrom && <p class="mt-1 text-fg">{s.priceFrom}</p>}
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .dune-marges { width: 100%; padding-inline: clamp(2.75rem, 9vw, 8rem); }
+  .dune-h2 { font-size: clamp(1.6rem, 1.2rem + 1.1vw, 2.3rem); max-width: 14ch; text-wrap: balance; }
+  /* Une paire en quinconce : la photo lavée derrière, décalée vers le haut et vers l'extérieur ; la photo naturelle devant. */
+  .dune-paire-svc { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .dune-svc-arriere { grid-row: 1; grid-column: 6 / span 7; aspect-ratio: 3 / 2; }
+  .dune-svc-avant { grid-row: 1; grid-column: 1 / span 10; margin-top: 18%; position: relative; z-index: 1; }
+  .dune-paire-droite .dune-svc-arriere { grid-column: 1 / span 7; }
+  .dune-paire-droite .dune-svc-avant { grid-column: 3 / span 10; }
+  @media (min-width: 48rem) {
+    .dune-svc-arriere { grid-column: 7 / span 4; }
+    .dune-svc-avant { grid-column: 2 / span 6; margin-top: 7%; }
+    .dune-paire-droite .dune-svc-arriere { grid-column: 3 / span 4; }
+    .dune-paire-droite .dune-svc-avant { grid-column: 6 / span 6; }
+  }
+</style>

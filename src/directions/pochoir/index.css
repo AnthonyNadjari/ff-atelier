@@ -1,0 +1,75 @@
+/* Direction POCHOIR : style réel relevé sur https://haven-annecy.fr/ (Haven, café et brunch de la rue Filaterie à Annecy ;
+   via Awwwards, veille du 30 oct 2026, fiche docs/veille/styles/pochoir.md, atomes docs/veille/styles/atomes/pochoir.json).
+   On reprend le style et la construction (le nom en lettres géantes remplies de photos, un panneau terre cuite posé dans
+   les marges, chaque offre en mot géant pâle barré de ses heures écrites à la main, bandes de photos qui sortent des deux
+   bords, pied en colonnes séparées de filets verticaux), jamais les textes, images, dessins, logos ni le code de la source.
+   Une page de café du matin : rose coquille #fdf3ec, une seule terre cuite #a8532d pour les panneaux, les heures et les
+   boutons, brun torréfié #2b1a12 pour le texte et la barre du pied, la terre cuite pâlie #f1d9ca pour les mots géants.
+   Polices : PF DIN Text (non libre ; la source met ses titres en gras italique, refusé : GOUT § 2) -> Barlow (grotesque DIN
+   libre, OFL) droite, de 400 à 800 ; le script monoligne des heures -> Sacramento (libre, OFL).
+   Couleurs relevées : fond #fffaf7 (89 % des fonds), terre cuite #c1643b (9 %), brun #2b1a12 (1 %, barre du pied ; 49 % des
+   textes). Le fond est un peu plus rosé (#fdf3ec, chroma OKLCH 0,014 au lieu de 0,007, clair teinté doux) et la terre cuite
+   assombrie (#a8532d) pour que le texte crème des panneaux et les heures sur le rose passent AA (5,3:1 et 4,9:1). */
+@import '@fontsource/barlow/latin-400.css';
+@import '@fontsource/barlow/latin-600.css';
+@import '@fontsource/barlow/latin-700.css';
+@import '@fontsource/barlow/latin-800.css';
+@import '@fontsource/sacramento/latin-400.css';
+
+[data-direction='pochoir'] {
+  --accent-h: 18;
+  --accent-s: 58%;
+  --accent-l: 42%;
+  --bg: #fdf3ec;
+  --bg-2: #f7e7dc;
+  --surface: #fff8f2;
+  --fg: #2b1a12;
+  --muted: #7a6458;
+  --line: #e7cfc1;
+  --accent: #a8532d;
+  --accent-2: #8f4524;
+  --on-accent: #fff8f2;
+  --ink: #2b1a12;
+  --on-ink: #fdf3ec;
+  --pale: #f1d9ca;
+  --font-display: 'Barlow', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Barlow', system-ui, sans-serif;
+  --font-mono: 'Barlow', system-ui, sans-serif;
+  --font-script: 'Sacramento', 'Segoe Script', cursive;
+  --display-weight: 700;
+  --display-tracking: 0;
+  --heading-transform: none;
+  --radius: 4px;
+  --radius-card: 6px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.3s;
+  /* Courbe : la source n'en a qu'une, « ease » (0,5 s) ; on l'écrit en cubic-bezier pour le moteur. */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='pochoir'] body { font-weight: 400; font-size: 1.0625rem; }
+[data-direction='pochoir'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Titres en DIN gras, droits (la source les met en italique : refusé, GOUT § 2) ; h3 en demi-gras. */
+[data-direction='pochoir'] :is(h1, h2) { font-weight: 700; line-height: 1.08; letter-spacing: 0; }
+[data-direction='pochoir'] h3 { font-weight: 600; line-height: 1.2; }
+[data-direction='pochoir'] :is(h1, h2, h3) em { font-style: normal; color: var(--accent); }
+
+/* Boutons de la source : plaque terre cuite pleine et plaque à contour, en capitales DIN courtes ; ici rectangles à 4 px
+   (la pilule de la source est refusée, GOUT § 2), capitales sans interlettrage. Liens de texte avec une flèche. */
+[data-direction='pochoir'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), border-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='pochoir'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='pochoir'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='pochoir'] .btn-ghost { border: 1px solid var(--accent); color: var(--accent); background: transparent; }
+[data-direction='pochoir'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='pochoir'] .card { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--line); box-shadow: none; }
+[data-direction='pochoir'] .rule { border-top: 1px solid var(--accent); }
+[data-direction='pochoir'] .eyebrow { color: var(--fg); font-family: var(--font-display); font-size: 0.9375rem; font-weight: 600; letter-spacing: 0; text-transform: none; }

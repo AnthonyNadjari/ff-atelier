@@ -1,0 +1,164 @@
+{
+  "id": "souffle",
+  "version": 1,
+  "source": {
+    "url": "https://tavolini.com/",
+    "nom": "Tavolini",
+    "metier": "petites tables de verre soufflées à la main à Murano, studio à Genève (site Framer fait par Camille Haidar)",
+    "fiche": "docs/veille/styles/souffle.md",
+    "mesures": "docs/veille/styles/atomes/mesures/souffle.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Cormorant",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.08,
+      "casse": "none",
+      "interlettrage": -0.025,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Karla",
+      "libre": "karla",
+      "graisse": 400,
+      "interlignage": 1.55
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25,
+        "ordinateur": 42
+      },
+      "h2": {
+        "telephone": 25,
+        "ordinateur": 28
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Cormorant (police « signe IA », GOUT § 2) -> EB Garamond, garalde libre la plus proche ; Karla (celle de la source) pour le texte, les boutons et la nav. Le nom de la marque est un logotype manuscrit rose, non repris (le nom du client en garalde)."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#12372c",
+      "texte": "#12372c",
+      "fonds": [
+        {
+          "hex": "#12372c",
+          "part": 0.78
+        },
+        {
+          "hex": "#ebfff4",
+          "part": 0.137
+        },
+        {
+          "hex": "#1a1a1a",
+          "part": 0.081
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.002
+        },
+        {
+          "hex": "#f2c5ef",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#12372c",
+          "part": 0.616
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.37
+        },
+        {
+          "hex": "#ebfff4",
+          "part": 0.014
+        }
+      ],
+      "proches": 0
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#12372c",
+      "surface": "#1b4438",
+      "texte": "#f4fbf7",
+      "texte2": "#a9c4bb",
+      "accent": "#f2c5ef",
+      "accent2": "#ebfff4",
+      "bordure": "#3a5f53",
+      "encre": "#12372c"
+    },
+    "remarque": "Vert sapin #12372c (63 % des fonds : barre, séries, bande de la commande, pied) ; menthe d'eau #ebfff4 (23 % : la lettre, la plaque, le bandeau) ; rose de verre #f2c5ef en seul signal (second bouton, logotype) ; texte blanc sur le sapin. Sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 56,
+      "ordinateur": 128
+    },
+    "gouttiere": {
+      "telephone": 19,
+      "ordinateur": 24
+    },
+    "conteneur": 1120,
+    "mesure": 62,
+    "rythme": "alterne",
+    "remarque": "Conteneur de 1 120 px (160 px de marge à 1 440) ; sapin et menthe en alternance ; séries en trois colonnes séparées de 24 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "aucun",
+    "remarque": "Boutons pleins à angles droits (blanc, rose, sapin) ; aucune carte, aucune ombre ; liens texte suivis d'une flèche."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "L'objet photographié dans un intérieur, en plein cadre sous la barre ; séries en photos verticales 3:4 légendées ; photo verticale à côté de la lettre ; photo pleine hauteur dans la plaque de la commande. Lumière chaude, couleurs du verre."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "scene": {
+      "duree": 0.9,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Framer Motion"
+    ],
+    "profil": "photo-qui-s-approche",
+    "remarque": "Rien ne bouge à l'arrivée ni au défilement (aucune transition CSS lue) ; l'usine pose l'approche lente de la photo des séries au survol (profil existant)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Sapin et menthe en bandes pleine largeur, plaque menthe posée dans le sapin."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

@@ -1,0 +1,101 @@
+---
+/**
+ * Hero "dune" (style réel dune, relevé sur steuermann.haus le 30 oct 2026, fiche docs/veille/styles/dune.md § Construction,
+ * blocs 1 et 2) : LA PHOTO LAVÉE presque plein écran (90 % de la hauteur à l'ordinateur, la moitié au téléphone), de bord à
+ * bord, rien dessus ; le lavis (classe .dune-lavis de la direction) la passe en ciel pêche et sol gris-bleu. Dessous, sur le
+ * blanc chaud, deux colonnes : à gauche le titre (business.tagline) en grotesque fine de 37 px sur trois lignes, à droite le
+ * métier et la ville, l'ancienneté, la note Google, le texte de présentation (business.description, premier paragraphe) et
+ * deux liens à flèche : Appeler le numéro, et la porte Réserver / Devis.
+ * LES DEUX AILES (geste signature de la source : « West » et « Ost », les deux maisons, au bord gauche et au bord droit de
+ * l'écran, à mi-hauteur, toute la page) : les deux premiers services qui ont une photo, nommés au bord de l'écran sur une
+ * plaque du fond ; à l'ordinateur, une lisière de 4vw de leur photo dépasse du bord, et au survol ou au focus l'aile
+ * s'entrouvre (une bande de 22vw qui glisse depuis le bord, 0,4 s, courbe mesurée de la source) ; un clic mène à la page de
+ * l'hébergement. Au téléphone : le nom à la verticale contre le bord, aux deux tiers de l'écran, sans photo.
+ * Mouvement : profil « aile-qui-s-entrouvre » (docs/veille/styles/MOUVEMENTS.md) : CSS seul, rien à l'entrée ni au défilement.
+ * Données : sans images.hero, pas de photo (le titre monte sous la barre) ; sans deux services à photo, pas d'ailes.
+ */
+import { site, tel, metierEtVille, hasContactDoor, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+].filter(Boolean) as string[];
+const intro = paragraphs(site.business.description ?? '')[0];
+const ailes = site.services.filter((s) => s.image).slice(0, 2);
+---
+
+<section id="hero" class="hero-dune">
+  {hero && (
+    <figure class="dune-lavis dune-hero-photo relative overflow-hidden">
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.dune} priority />
+    </figure>
+  )}
+  <div class="dune-marges grid gap-8 pt-14 pb-[var(--section-y)] md:grid-cols-12 md:gap-6 md:pt-12">
+    <h1 class="dune-titre hero-titre md:col-span-5 md:col-start-2" set:html={site.business.tagline} />
+    <div class="text-base leading-relaxed md:col-span-5 md:col-start-7 md:text-[1.1875rem] md:leading-[1.47]">
+      <p class="text-fg">{faits.join(', ')}.</p>
+      {intro && <p class="mt-4">{intro}</p>}
+      <div class="mt-6 flex flex-col items-start gap-1 text-sm">
+        <Button href={tel()} variant="ghost" size="sm">Appeler le {site.contact.phoneDisplay}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
+      </div>
+    </div>
+  </div>
+  {ailes.length === 2 && (
+    <nav class="dune-ailes" aria-label="Nos hébergements">
+      {ailes.map((s, i) => (
+        <a href={`/services/${s.slug}`} class:list={['dune-aile', i === 0 ? 'dune-aile-g' : 'dune-aile-d']}>
+          <span class="dune-aile-photo dune-lavis" aria-hidden="true">
+            <Img src={s.image!.src} alt="" class="absolute inset-0 h-full w-full object-cover" sizes="22vw" />
+          </span>
+          <span class="dune-aile-nom">{s.title}</span>
+        </a>
+      ))}
+    </nav>
+  )}
+</section>
+
+<style>
+  /* Marges de la source : colonne de 1 024 px au milieu, 208 px de chaque côté à 1 440 px (là où vivent les ailes) ;
+     47 px au téléphone. */
+  .dune-marges { width: 100%; padding-inline: clamp(2.75rem, 9vw, 8rem); }
+  .dune-hero-photo { height: 50svh; margin-top: -76px; }
+  /* Source : 90 % de l'écran à l'ordinateur, rien dessus. Ici 62 % : le titre, le métier à la ville, « Appeler » et « Réserver » doivent
+     se lire sans défiler (socle GOUT § 0) ; ils commencent juste sous la photo, sur le blanc chaud. */
+  @media (min-width: 48rem) { .dune-hero-photo { height: 62svh; } }
+  .dune-titre { font-size: clamp(1.75rem, 1.2rem + 1.4vw, 2.3rem); line-height: 1.16; max-width: 16ch; text-wrap: balance; }
+
+  /* Les ailes : fixes au bord de l'écran, toute la page d'accueil. Le nom est posé sur une plaque du fond de la page
+     (lisible sur une photo comme sur le texte). */
+  .dune-aile { position: fixed; z-index: 40; display: block; color: var(--fg); }
+  .dune-aile-nom { position: relative; z-index: 2; display: block; background: color-mix(in srgb, var(--bg) 92%, transparent); font-size: 0.9375rem; line-height: 1.1; white-space: nowrap; }
+  .dune-aile-g { left: 0; }
+  .dune-aile-d { right: 0; }
+  /* Téléphone : nom à la verticale contre le bord, lu de haut en bas des deux côtés comme la source, sous la photo du
+     premier écran (aux deux tiers de l'écran : jamais sur la mention d'une photo d'illustration). */
+  .dune-aile { top: 68svh; }
+  .dune-aile-nom { writing-mode: vertical-rl; padding: 0.75rem 0.3rem; }
+  .dune-aile-photo { display: none; }
+  @media (min-width: 64rem) {
+    .dune-aile { top: 50%; transform: translateY(-50%); }
+    .dune-aile-nom { writing-mode: horizontal-tb; padding: 0.4rem 0.6rem; font-size: 1.375rem; }
+    .dune-aile-g .dune-aile-nom { margin-left: 5vw; }
+    .dune-aile-d .dune-aile-nom { margin-right: 5vw; }
+    /* La photo de l'aile : une bande de 22vw sur 60 % de la hauteur, dont une lisière de 4vw dépasse du bord au repos
+       (on voit qu'il y a une maison de chaque côté) ; au survol ou au focus, elle glisse en entier (0,4 s, courbe de la
+       source). */
+    .dune-aile-photo { position: absolute; top: 50%; display: block; width: 22vw; height: 60svh; overflow: hidden; transform: translateY(-50%); transition: clip-path var(--motion-ui) var(--ease-brand); }
+    .dune-aile-g .dune-aile-photo { left: 0; clip-path: inset(0 calc(100% - 4vw) 0 0); }
+    .dune-aile-d .dune-aile-photo { right: 0; clip-path: inset(0 0 0 calc(100% - 4vw)); }
+    .dune-aile:is(:hover, :focus-visible) .dune-aile-photo { clip-path: inset(0 0 0 0); }
+    .dune-aile:is(:hover, :focus-visible) .dune-aile-nom { background: transparent; color: var(--on-ink); }
+  }
+  @media (prefers-reduced-motion: reduce) { .dune-aile-photo { transition: none; } }
+  .hero-dune :global(.ff-illustration) { z-index: 2; }
+</style>

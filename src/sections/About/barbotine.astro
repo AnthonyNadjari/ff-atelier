@@ -1,0 +1,33 @@
+---
+/**
+ * About "barbotine" (style barbotine, relevé sur laboroflovestudio.com le 30 oct 2026, fiche docs/veille/styles/barbotine.md
+ * § Construction, bloc 2) : LA PRÉSENTATION CENTRÉE, sur le crème : le titre (about.title) en serif d'affichage vert, très grand (64 px à
+ *    l'ordinateur), centré ; dessous l'histoire du client (about.story) en paragraphes centrés dans une colonne de 42 rem ;
+ *    puis le lien à point rouge souligné vers les prestations.
+ * Le bloc menthe des engagements de la source (« Membership ») suit les plaques des prestations : il est dans
+ * Services/barbotine, à sa place dans le déroulé de la source.
+ * Rien d'inventé : sans histoire, le titre seul. Mouvement : aucun (le geste est dans les plaques des prestations).
+ */
+import { site, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+---
+
+<section id="about" class="barbotine-about section-y" aria-labelledby="barbotine-about-titre">
+  <div class="container-ff text-center">
+    <h2 id="barbotine-about-titre" class="barbotine-grand-titre mx-auto">{a.title ?? 'L’atelier'}</h2>
+    <div class="mx-auto mt-10 max-w-[42rem] space-y-5 text-base leading-relaxed md:text-lg">
+      {paras.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="mt-10">
+      <Button href="/#services" variant="ghost" size="sm">Voir ce que l’on fait</Button>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .barbotine-grand-titre { color: var(--accent); font-size: clamp(2.4rem, 1.6rem + 3vw, 4.1rem); line-height: 1.02; max-width: 18ch; text-wrap: balance; }
+</style>

@@ -1,0 +1,73 @@
+/* Direction RIDEAU : style réel relevé sur https://holographik.space/ (Holographik Space, lieu de 180 m² à Zagreb : salle
+   louée pour des présentations, soirées, expositions, concerts, et bar à café ; veille du 30 oct 2026, tour 19, fiche
+   docs/veille/styles/rideau.md, atomes docs/veille/styles/atomes/rideau.json). On reprend le style et la construction
+   (quelques lignes de texte au bas d'un grand vide, puis une suite d'écrans pleins de photo, chacun avec sa petite
+   étiquette et son titre centré qui se floute en sortant par le haut, barre de raccourcis flottante, pied clair en
+   colonnes), jamais les textes, images, logos ni le code de la source.
+   Une salle dans le noir : noir partout sous les photos (48 % des fonds mesurés, et les écrans pleins de photo font
+   l'essentiel de la page), texte blanc, une grotesque en graisse moyenne pour les titres, le nom en chasse fixe ; un seul
+   clair, le gris très pâle #f1f1f1 du pied. Rayons de 4 px (la source arrondit ses boutons en pilule : refusé, GOUT § 2).
+   Polices : KH Teka (non libre, 500 en titre, 400 en texte) -> Familjen Grotesk (grotesque libre, OFL) ; le nom en
+   capitales à chasse fixe de la barre -> Fragment Mono.
+   Couleurs relevées : fonds #ffffff (52 %) et #000000 (48 %), textes #ffffff (55 %) et #000000 (45 %), #f1f1f1. L'intro
+   blanche de la source passe sur le noir (écart voulu : dans l'usine, la page est une salle sombre d'un bout à l'autre et
+   le pied clair la ferme). Second plan #a3a3a3 (8,3:1 sur le noir). */
+@import '@fontsource-variable/familjen-grotesk';
+@import '@fontsource/fragment-mono/latin.css';
+
+[data-direction='rideau'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 100%;
+  --bg: #000000;
+  --bg-2: #0d0d0d;
+  --surface: #141414;
+  --fg: #ffffff;
+  --muted: #a3a3a3;
+  --line: #2b2b2b;
+  --accent: #ffffff;
+  --accent-2: #e2e2e2;
+  --on-accent: #000000;
+  --ink: #f1f1f1;
+  --on-ink: #000000;
+  --font-display: 'Familjen Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Familjen Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.022em;
+  --heading-transform: none;
+  --radius: 4px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.2s;
+  /* La source écrit `ease` (opacity 0,2 s) : la même courbe, en clair. */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+  color-scheme: dark;
+}
+
+[data-direction='rideau'] body { font-weight: 400; letter-spacing: 0.004em; }
+[data-direction='rideau'] ::selection { background: var(--fg); color: var(--bg); }
+/* Titres en graisse moyenne, très serrés (interlignage 0,95, -0,022em mesurés) ; jamais d'italique (GOUT § 2). */
+[data-direction='rideau'] :is(h1, h2) { font-weight: 500; line-height: 1; letter-spacing: -0.022em; }
+[data-direction='rideau'] h3 { font-weight: 500; line-height: 1.15; }
+[data-direction='rideau'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : le « Book the Space » de la source est une pilule noire ; ici une plaque blanche à 4 px sur le noir
+   (noire sur le pied clair), qui pâlit au survol (opacité 0,2 s, comme les titres de la source). */
+[data-direction='rideau'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  transition: opacity var(--motion-ui) var(--ease-brand), background var(--motion-ui) var(--ease-brand);
+}
+[data-direction='rideau'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='rideau'] .btn-primary:hover { opacity: 0.8; }
+[data-direction='rideau'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='rideau'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='rideau'] .card { background: var(--surface); border-radius: 0; border: 0; box-shadow: none; }
+[data-direction='rideau'] .rule { border-top: 1px solid var(--line); }
+[data-direction='rideau'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 400; letter-spacing: 0; text-transform: none; }

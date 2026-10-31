@@ -1,0 +1,168 @@
+{
+  "id": "dune",
+  "version": 1,
+  "source": {
+    "url": "https://steuermann.haus/",
+    "nom": "Haus Steuermann",
+    "metier": "maison de vacances en deux ailes (Steuermann West, 6 personnes, et Steuermann Ost, 4 personnes) au village de Nieblum, île de Föhr, tenue par son propriétaire",
+    "fiche": "docs/veille/styles/dune.md",
+    "mesures": "docs/veille/styles/atomes/mesures/dune.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "NeueHaasGroteskDisp W01",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.16,
+      "casse": "none",
+      "interlettrage": 0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "NeueHaasGroteskText W01",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.47
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 27.8,
+        "ordinateur": 37
+      },
+      "h2": {
+        "telephone": 19.5,
+        "ordinateur": 26
+      },
+      "texte": {
+        "telephone": 14.3,
+        "ordinateur": 19
+      }
+    },
+    "remarque": "Neue Haas Grotesk Display et Text (non libres, graisse 400) partout : Hanken Grotesk (grotesque suisse libre), une seule famille, titres et texte en 400. Le gris du texte courant est celui des titres éclairci ; les liens « Mehr zu … » en petit corps suivis d'une flèche."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#6c757f",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.675
+        },
+        {
+          "hex": "#efeff2",
+          "part": 0.212
+        },
+        {
+          "hex": "#dddddd",
+          "part": 0.068
+        },
+        {
+          "hex": "#cbddea",
+          "part": 0.016
+        },
+        {
+          "hex": "#d3d6d9",
+          "part": 0.015
+        },
+        {
+          "hex": "#ffefe9",
+          "part": 0.013
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#6c757f",
+          "part": 0.982
+        },
+        {
+          "hex": "#373741",
+          "part": 0.018
+        },
+        {
+          "hex": "#cccccc",
+          "part": 0
+        }
+      ],
+      "proches": 9669248
+    },
+    "clair": {
+      "fond": "#f8f2ea",
+      "surface": "#ffffff",
+      "texte": "#373741",
+      "texte2": "#5d6570",
+      "accent": "#373741",
+      "accent2": "#efeff2",
+      "bordure": "#dcd8d2",
+      "encre": "#373741"
+    },
+    "sombre": null,
+    "remarque": "Fond blanc #ffffff mesuré (68 % des fonds) réchauffé vers le ciel pêche des photos lavées (#f8f2ea, chroma OKLCH 0,014) : sur la source, la couleur de la page vient de ses vidéos lavées pêche et gris-bleu, qu'un client n'aura pas ; le gris lavande #efeff2 (21 %) reste en second fond ; texte #6c757f assombri en #5d6570 (5,3:1), titres #373741. Lavis des photos : ciel #f3dcc3, sol #6d8199 (tokens --lavis-ciel, --lavis-sol). Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 128
+    },
+    "gouttiere": {
+      "telephone": 44,
+      "ordinateur": 128
+    },
+    "conteneur": 1024,
+    "mesure": 55,
+    "rythme": "uni",
+    "remarque": "Colonne de 1 024 px au milieu, 208 px de chaque côté à 1 440 px (là où vivent les ailes West et Ost) ; 47 px au téléphone. Titre et texte en deux colonnes (4/12 et 5/12). Reprise : marges latérales clamp(2,75rem, 9vw, 8rem)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Aucun cadre, aucune ombre, aucun bouton plein : des liens en petit corps suivis d'une flèche ; un seul rond, le portrait de l'hôte en médaillon."
+  },
+  "photos": {
+    "traitement": "duotone",
+    "rapports": [
+      "1:1",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 24,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photos posées par paires qui se chevauchent : une petite lavée (ciel pêche, sol gris-bleu, ou jaune vert) derrière, une naturelle plus grande devant, décalée ; premier écran en vidéo lavée sur 90 % de l'écran à l'ordinateur ; la page finit sur la même dune lavée. Reprise : lavis en CSS (niveaux de gris, voile pêche en multiplication, dégradé pêche -> gris-bleu en mode color)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.18, 0.08, 0.26, 1.01)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "linear"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "aile-qui-s-entrouvre",
+    "remarque": "Swiper et jQuery sur la source : photos qui apparaissent en fondu (opacity 0,6 s linéaire), vidéos lavées en boucle au premier écran (refusées : jamais de contenu essentiel en vidéo, et pas de vidéo du client), les deux ailes West et Ost fixes au bord de l'écran. Gardé : les ailes, codées en CSS seul."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

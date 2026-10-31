@@ -1,0 +1,80 @@
+---
+/**
+ * Hero "pochoir" (style réel pochoir, relevé sur haven-annecy.fr le 30 oct 2026, fiche docs/veille/styles/pochoir.md
+ * § Construction, bloc 2) : LE NOM DU CLIENT EN LETTRES GÉANTES REMPLIES DE PHOTOS. Sur le rose, le nom en capitales DIN
+ * très grasses, de bord à bord (jusqu'à 30vw), dont les lettres sont des fenêtres sur une bande de photos du client
+ * posées côte à côte (background-clip: text) : les assiettes, le café, la salle passent d'une lettre à l'autre. Dessous,
+ * deux colonnes : à gauche la phrase (business.tagline, le h1) en DIN gras droit (40 px), à droite la présentation
+ * (premier paragraphe de business.description), le métier à la ville, l'ancienneté et la note Google, puis les portes :
+ * Appeler le numéro et la première porte d'action (Réserver, Commander ou Devis).
+ * Mouvement : aucun (profil « heures-ecrites-a-la-main », docs/veille/styles/MOUVEMENTS.md : le geste est dans les
+ * heures écrites des prestations). Chaque photo est prise dans sa version 800 px de ff images (une part du nom chacune).
+ * Données : les photos des lettres sont celles du client (photos des prestations d'abord, les assiettes et les tasses, puis la galerie, puis le premier écran),
+ * quatre à six ; sans photo, le nom est en terre cuite pleine (jamais une photo de banque présentée comme la sienne). Le
+ * nom est décoratif (aria-hidden) : il est lu dans la barre et dans le titre de la page.
+ */
+import { site, tel, metierEtVille, actions, paragraphs, slugCourant, photosBanque } from '@/lib/site';
+import { lookupImageEntry, splitImagePath, imageFilename } from '@/lib/images';
+import { estPhotoDeBanque } from '@/lib/credits';
+import Button from '@/components/Button.astro';
+import Porte from '@/components/Porte.astro';
+
+const nom = site.business.name;
+const google = site.proof.google;
+const vues = new Set<string>();
+const photos = [...site.services.map((s) => s.image).filter(Boolean), ...site.proof.gallery, site.images.hero]
+  .filter((p): p is { src: string; alt: string } => Boolean(p && !vues.has(p.src) && vues.add(p.src)))
+  .slice(0, 6);
+// Chaque photo ne remplit qu'une part du nom : on prend la version de ff images la plus proche de 800 px (jamais l'originale).
+const moyenne = (src: string) => {
+  const e = lookupImageEntry(slugCourant, src);
+  if (!e) return src;
+  const max = Math.max(...e.widths);
+  const w = [...e.widths].sort((a, b) => a - b).find((x) => x >= 800) ?? max;
+  const { dir, name } = splitImagePath(src);
+  return imageFilename(dir, name, w, max, 'webp');
+};
+const illustration = Boolean(site.images?.illustration) && photos.some((p) => estPhotoDeBanque(p.src, photosBanque));
+// Barlow 800 en capitales : environ 0,64 em par lettre ; le nom tient dans 94 % de la largeur.
+const taille = Math.min(30, 94 / (Math.max(nom.length, 3) * 0.64)).toFixed(2);
+const fond = photos.length
+  ? `background-image: ${photos.map((p) => `url('${moyenne(p.src)}')`).join(', ')}; background-size: ${(100 / photos.length).toFixed(3)}% 100%; background-position: ${photos.map((_, i) => `${photos.length > 1 ? ((i / (photos.length - 1)) * 100).toFixed(3) : 0}% 50%`).join(', ')};`
+  : '';
+const presentation = site.business.description ? paragraphs(site.business.description)[0] : '';
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+].filter(Boolean) as string[];
+const porte = actions().find((a) => a.kind !== 'call');
+---
+
+<section id="hero" class="pochoir-hero pb-[var(--section-y)]">
+  <p class:list={['pochoir-nom font-[family-name:var(--font-display)]', photos.length > 0 ? 'avec-photos' : 'sans-photo']} aria-hidden="true" style={`font-size: ${taille}vw; ${fond}`}>{nom}</p>
+  {illustration && <p class="pochoir-large mt-2 text-right text-xs text-muted">Photos d’illustration dans les lettres</p>}
+  <div class="pochoir-large mt-8 grid gap-8 md:mt-10 md:grid-cols-12 md:gap-x-10">
+    <h1 class="pochoir-phrase hero-titre md:col-span-5 md:col-start-2" set:html={site.business.tagline} />
+    <div class="md:col-span-5 md:col-start-7">
+      {presentation && <p class="text-base leading-relaxed md:text-[1.0625rem]">{presentation}</p>}
+      <p class="mt-4 text-sm font-semibold">{faits.join(', ')}.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        {porte && <Porte action={porte} size="md" />}
+        <Button href={tel()} variant="ghost" size="md">Appeler le {site.contact.phoneDisplay}</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pochoir-large { width: 100%; padding-inline: clamp(1.125rem, 3vw, 2.75rem); }
+  .pochoir-nom {
+    margin: clamp(1.5rem, 4vw, 3.5rem) 0 0; padding-inline: clamp(0.5rem, 1.5vw, 1.5rem); text-align: center; white-space: nowrap;
+    font-weight: 800; text-transform: uppercase; line-height: 0.84; letter-spacing: -0.01em;
+  }
+  .pochoir-nom.sans-photo { color: var(--accent); }
+  .pochoir-nom.avec-photos {
+    color: transparent; background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text;
+    background-color: var(--accent);
+  }
+  .pochoir-phrase { font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem); line-height: 1.08; max-width: 18ch; text-wrap: balance; }
+</style>

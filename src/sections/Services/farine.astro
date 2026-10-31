@@ -1,0 +1,146 @@
+---
+/**
+ * Services "farine" (geste signature du style farine, relevé sur impastofornoantico.com le 30 oct 2026, fiche
+ * docs/veille/styles/farine.md § Construction, blocs 3 et 5) :
+ * 1. LE TITRE CENTRÉ ET LES PHOTOS EN QUINCONCE : sur le crème, le titre de la section (wording.servicesTitle) en
+ *    capitales étroites de grand corps (64 px), centré sur trois lignes au plus, la phrase d'introduction en serif
+ *    dessous (wording.servicesIntro, sinon le métier à la ville) ; puis les prestations en rangées de deux photos
+ *    calées en haut, l'une à l'horizontale (4:3), l'autre à la verticale (2:3), l'ordre s'inversant d'une rangée à
+ *    l'autre, ce qui fait le quinconce de la source ; chaque photo porte dessous le nom de la prestation, sa phrase
+ *    courte et son prix « à partir de » s'il est donné, et mène à la page du service. Le mur continue avec les photos
+ *    de la galerie montrées nulle part ailleurs (huit cases au plus, sans légende), comme les six à huit photos de travail
+ *    de la source. Au téléphone : une colonne de
+ *    photos verticales (3:4) pleine largeur, comme la source.
+ * 2. LA PHRASE ÉCLATÉE SUR LA PHOTO (bloc 4) : une photo pleine largeur de la galerie (celle qui suit la photo
+ *    d'About/farine), haute d'un écran à l'ordinateur, sous un voile brun léger ; la phrase de l'entreprise (about.title)
+ *    en capitales étroites de grand corps (84 px), coupée en trois morceaux posés en haut à gauche, au milieu à droite et
+ *    en bas à gauche ; au téléphone, les trois morceaux s'empilent en haut à gauche, comme la source. Les morceaux
+ *    apparaissent l'un après l'autre à l'entrée (data-reveal="up", 120 ms). Sans about.title ou sans seconde photo, rien.
+ * 3. LA DOUBLE BANDE DES NOMS : les noms de toutes les prestations en capitales étroites géantes (11vw), deux bandes qui
+ *    défilent lentement en sens contraires (data-marquee="48s" du moteur, la seconde data-marquee-sens="inverse"),
+ *    arrêtées au survol et posées en mouvement réduit ; décoratives (aria-hidden), les noms sont lus au-dessus.
+ * Profil « mots-sous-la-photo » (docs/veille/styles/MOUVEMENTS.md) : les photos apparaissent en fondu à leur entrée
+ * (data-reveal), rien ne suit le défilement.
+ * Rien d'inventé : un service sans photo garde sa légende seule ; pas de prix s'il n'est pas donné ; jamais d'icône à la
+ * place d'une photo.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+const intro = site.wording.servicesIntro ?? metierEtVille();
+const noms = services.map((s) => s.title);
+// La phrase éclatée (bloc 4 de la source) : la phrase de l'entreprise (about.title) coupée en trois morceaux à peu près
+// égaux, posée sur une photo pleine largeur de la galerie, celle qui suit la photo d'About/farine.
+const galerie = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+const photoAbout = site.about.portrait ?? galerie[0];
+const large = galerie.find((g) => g.src !== photoAbout?.src);
+const titre = site.about.title?.replace(/<[^>]+>/g, '') ?? '';
+// Le mur de la source compte six à huit photos de travail : après les prestations, les photos de la galerie qui ne sont
+// montrées nulle part ailleurs (ni premier écran, ni About/farine, ni phrase éclatée, ni Proof/farine) prolongent le
+// quinconce, sans légende ni lien. La photo de Proof/farine est la première libre après celles d'About et de l'éclat.
+const reservees = new Set([photoAbout?.src, titre ? large?.src : undefined].filter(Boolean));
+const libres = galerie.filter((g) => !reservees.has(g.src));
+const enPlus = libres.slice(1).filter((g) => !site.services.some((x) => x.image?.src === g.src)).slice(0, Math.max(0, 8 - services.length));
+const morceaux: string[] = [];
+if (titre && large) {
+  const m = titre.split(/\s+/).filter(Boolean);
+  const par = Math.ceil(m.length / Math.min(3, m.length));
+  for (let i = 0; i < m.length; i += par) morceaux.push(m.slice(i, i + par).join(' '));
+}
+---
+
+<section id="services" class="farine-services pt-[var(--section-y)]" aria-labelledby="farine-services-titre">
+  <div class="farine-large">
+    <div class="mx-auto max-w-[44rem] text-center" data-reveal>
+      <Titre id="farine-services-titre" class="farine-titre" title={site.wording.servicesTitle} />
+      <p class="mx-auto mt-6 max-w-[40ch] text-base leading-relaxed">{intro}</p>
+    </div>
+    <div class="farine-quinconce mt-16 md:mt-24">
+      {services.map((s, i) => {
+        // Rangées de deux : à l'horizontale puis à la verticale, puis l'inverse (la source : 4:3 | 2:3, 2:3 | 4:3).
+        const verticale = (Math.floor(i / 2) + (i % 2)) % 2 === 1;
+        return (
+          <a href={`/services/${s.slug}`} class:list={['farine-piece group', verticale ? 'est-verticale' : 'est-large']} data-reveal>
+            {s.image && (
+              <figure class="farine-cadre relative m-0 overflow-hidden">
+                <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" sizes="(min-width: 48rem) 46vw, 92vw" loading="lazy" />
+              </figure>
+            )}
+            <div class="mt-4 grid grid-cols-[1fr_auto] items-baseline gap-x-4">
+              <h3 class="text-lg md:text-xl">{s.title}</h3>
+              {s.priceFrom && <span class="text-sm text-muted">{s.priceFrom}</span>}
+              <p class="col-span-2 mt-1 max-w-[42ch] text-[0.95rem] leading-snug text-muted">{s.short}</p>
+            </div>
+          </a>
+        );
+      })}
+      {enPlus.map((g, k) => {
+        const i = services.length + k;
+        const verticale = (Math.floor(i / 2) + (i % 2)) % 2 === 1;
+        return (
+          <figure class:list={['farine-piece farine-cadre relative m-0 overflow-hidden', verticale ? 'est-verticale' : 'est-large']} data-reveal>
+            <Img src={g.src} alt={g.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 46vw, 92vw" loading="lazy" />
+          </figure>
+        );
+      })}
+    </div>
+  </div>
+</section>
+  {morceaux.length > 0 && large && (
+    <div class="farine-eclat relative mt-20 overflow-hidden bg-ink text-on-ink md:mt-32" role="img" aria-label={`${titre} (${large.alt})`}>
+      <Img src={large.src} alt="" class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+      <div class="farine-voile absolute inset-0" aria-hidden="true"></div>
+      <div class="farine-large farine-eclat-grille relative" data-stagger="120" aria-hidden="true">
+        {morceaux.map((m, i) => <p class={`farine-morceau font-[family-name:var(--font-display)] farine-morceau-${i}`} data-reveal="up">{m}</p>)}
+      </div>
+    </div>
+  )}
+  <div class="farine-bandes my-16 md:my-24" aria-hidden="true">
+    {[0, 1].map((b) => (
+      <div class="farine-bande-noms font-[family-name:var(--font-display)]" data-marquee="48s" data-marquee-sens={b === 1 ? 'inverse' : undefined}>
+        <div class="marquee-track">
+          {(b === 1 ? [...noms].reverse() : noms).map((n) => <span>{n}</span>)}
+        </div>
+      </div>
+    ))}
+  </div>
+
+
+<style>
+  .farine-large { width: 100%; padding-inline: clamp(1.125rem, 3.3vw, 3rem); }
+  .farine-titre { font-size: clamp(2.2rem, 1.2rem + 3.4vw, 4rem); line-height: 1; text-wrap: balance; }
+  .farine-quinconce { display: grid; gap: 4rem; }
+  .farine-piece { display: block; color: inherit; }
+  .farine-cadre { aspect-ratio: 3 / 4; }
+  @media (min-width: 48rem) {
+    .farine-quinconce { grid-template-columns: 1fr 1fr; column-gap: clamp(1.5rem, 3.5vw, 3.5rem); row-gap: clamp(4rem, 7vw, 7rem); align-items: start; }
+    .est-large .farine-cadre, .farine-cadre.est-large { aspect-ratio: 4 / 3; }
+    .est-verticale .farine-cadre, .farine-cadre.est-verticale { aspect-ratio: 2 / 3; }
+  }
+  .farine-eclat { min-height: 34rem; }
+  @media (min-width: 48rem) { .farine-eclat { min-height: 100svh; } }
+  .farine-voile { background: color-mix(in oklab, var(--ink) 38%, transparent); }
+  .farine-eclat-grille { display: grid; min-height: inherit; padding-block: clamp(2rem, 5vw, 4rem); align-content: start; gap: 0.1em; }
+  .farine-morceau {
+    margin: 0; font-stretch: 86%; font-weight: 330; text-transform: uppercase;
+    font-size: clamp(2rem, 1rem + 4.4vw, 5.25rem); line-height: 1.02; max-width: 13ch;
+    hyphens: none; -webkit-hyphens: none; overflow-wrap: normal;
+  }
+  @media (min-width: 48rem) {
+    .farine-eclat-grille { grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; min-height: 100svh; }
+    .farine-morceau-0 { grid-column: 1; grid-row: 1; }
+    .farine-morceau-1 { grid-column: 2; grid-row: 2; align-self: center; }
+    .farine-morceau-2 { grid-column: 1; grid-row: 3; }
+  }
+  .farine-eclat :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+  .farine-bandes { display: grid; gap: 0.2rem; --marquee-gap: 0.5em; }
+  .farine-bande-noms {
+    font-stretch: 86%; font-weight: 330; text-transform: uppercase;
+    font-size: clamp(3.5rem, 11vw, 10rem); line-height: 1.02; letter-spacing: -0.015em; color: var(--fg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .farine-bande-noms :global(.marquee-track) { animation: none; }
+  }
+</style>

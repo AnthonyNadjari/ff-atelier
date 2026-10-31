@@ -1,0 +1,96 @@
+---
+/**
+ * Page d'un produit (/recoltes/<slug>, site.recoltes, src/lib/recoltes.ts) : architecture `calendrier-recoltes` (une page
+ * produit de la Cueillette de Compans : « Période de récolte », « Particularités », « Astuces : conservation, dégustation » ;
+ * docs/veille/architectures/calendrier-recoltes.md). Le nom, la période en mots, la rangée des douze mois, la photo, ce que le
+ * client en dit, le prix s'il le publie, ce qui se récolte en même temps, l'appel. Une page par produit complet.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, produitsRecoltes, periodeDeRecolte, recoltesEnMemeTemps, lienCalendrier, MOIS, MOIS_COURTS } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return produitsRecoltes(site.recoltes?.produits).map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const r = site.recoltes!;
+const page = lienCalendrier(r.produits, site.wording.calendrier);
+const memes = recoltesEnMemeTemps(r.produits, p.slug);
+const periode = periodeDeRecolte(p.mois);
+const douze = Array.from({ length: 12 }, (_, i) => i + 1);
+const Periode = periode.charAt(0).toUpperCase() + periode.slice(1);
+---
+
+<Base title={`${p.nom} | ${site.business.name}`} description={`${p.nom}, ${site.business.name} : récolte ${periode}.`} path={`/recoltes/${p.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff rp">
+    <p><a href={page ? '/calendrier' : '/#calendrier'} class="rp-lien"><Icon name="ArrowLeft" size={16} />{site.wording.calendrier}</a></p>
+    <header class="rp-tete">
+      <p class="rp-famille">{p.famille}</p>
+      <h1 class="rp-titre font-display">{p.nom}</h1>
+      <p class="rp-periode">{Periode}{p.ou ? `, ${p.ou}` : ''}.</p>
+    </header>
+    <ol class="rp-mois" aria-label={`Mois de récolte : ${periode}`}>
+      {douze.map((m) => (
+        <li class:list={['rp-m', p.mois.includes(m) && 'rp-on']} data-m={m}>
+          <span class="rp-m-nom" aria-hidden="true">{MOIS_COURTS[m - 1]}</span>
+          <span class="sr-only">{MOIS[m - 1]} : {p.mois.includes(m) ? 'récolte' : 'pas de récolte'}</span>
+        </li>
+      ))}
+    </ol>
+    {p.photo && <Img src={p.photo.src} alt={p.photo.alt} class="rp-photo" sizes="(min-width: 64rem) 60rem, 100vw" priority />}
+    {p.texte && <p class="rp-texte">{p.texte}</p>}
+    {p.conseils && (
+      <section aria-labelledby="rp-conseils">
+        <h2 id="rp-conseils" class="rp-h2 font-display">Conserver, cuisiner</h2>
+        <p class="rp-texte">{p.conseils}</p>
+      </section>
+    )}
+    {p.prix && <p class="rp-prix tabular-nums">{p.prix}</p>}
+    {r.avertissement && <p class="rp-muted">{r.avertissement}</p>}
+    <p><a href={tel()} class="rp-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+    {memes.length > 0 && (
+      <nav aria-labelledby="rp-memes">
+        <h2 id="rp-memes" class="rp-h2 font-display">En même temps</h2>
+        <ul class="rp-memes">{memes.map((x) => <li><a href={`/recoltes/${x.slug}`} class="rp-lien">{x.nom}</a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const m = Number(new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', month: 'numeric' }).format(new Date()));
+    document.querySelector<HTMLElement>(`.rp-mois [data-m="${m}"]`)?.classList.add('rp-maintenant');
+  });
+</script>
+
+<style>
+  .rp { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .rp-tete { display: grid; gap: 0.4rem; }
+  .rp-famille { font-weight: 700; color: var(--color-muted); }
+  .rp-titre { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; }
+  .rp-periode { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 700; }
+  .rp-mois { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2px; }
+  .rp-m { display: grid; gap: 0.3rem; justify-items: center; font-size: 0.72rem; color: var(--color-muted); }
+  .rp-m::after { content: ''; inline-size: 100%; block-size: 0.6rem; background: var(--color-line); }
+  .rp-on::after { background: var(--color-accent); }
+  .rp-on .rp-m-nom { color: var(--color-fg); font-weight: 700; }
+  .rp-maintenant .rp-m-nom { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; color: var(--color-fg); }
+  .rp-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .rp-texte { max-inline-size: 62ch; font-size: 1.1rem; }
+  .rp-muted { color: var(--color-muted); }
+  .rp-prix { font-size: 1.3rem; font-weight: 700; }
+  .rp-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .rp-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .rp-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rp-tel:focus-visible, .rp-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .rp-memes { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  @media (max-width: 30rem) { .rp-m-nom { writing-mode: vertical-rl; transform: rotate(180deg); } }
+</style>

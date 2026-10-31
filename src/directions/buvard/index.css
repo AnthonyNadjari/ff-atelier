@@ -1,0 +1,78 @@
+/* Direction BUVARD : style réel relevé sur https://www.florawellnesscafe.com/ (Flora Café, café de quartier à Modesto,
+   Californie ; via Awwwards, veille du 30 oct 2026, fiche docs/veille/styles/buvard.md, atomes
+   docs/veille/styles/atomes/buvard.json). On reprend le style et la construction (photo cadrée dans les marges, la carte en
+   colonnes à prix en machine à écrire, filets tremblés entre les blocs, grande photo à titre posé dessus, avis sous leurs
+   photos, pied lie-de-vin à colonnes), jamais les textes, images, dessins, logos ni le code de la source.
+   Une carte de café imprimée : papier crème #f2ecd9 sur toute la page, une seule encre lie-de-vin #5f1e1b pour le texte,
+   les filets et le pied, un rouge de tampon #b03530 pour les étiquettes et les boutons. Le titre en caslon de livre
+   droit (la source met certains titres en italique : refusé, GOUT § 2), le texte en caslon, la carte, les prix et les
+   étiquettes en machine à écrire, en capitales courtes sans interlettrage.
+   Polices : Adobe Caslon Pro (non libre) -> Libre Caslon Text (libre, OFL) ; la machine à écrire de la carte -> Courier
+   Prime (libre, OFL).
+   Couleurs relevées : fond #f2ecd9 (93 % des fonds, chroma OKLCH 0,026 : clair teinté doux), lie-de-vin #5f1e1b (6 % des
+   fonds, 64 % des textes), rouge #b53530 (étiquettes) assombri d'un cheveu (#b03530, 5,2:1 sur le crème). Pas de grain
+   de papier (GOUT § 2) : la matière vient des photos et des filets tremblés. */
+@import '@fontsource/libre-caslon-text/latin-400.css';
+@import '@fontsource/libre-caslon-text/latin-700.css';
+@import '@fontsource/courier-prime/latin-400.css';
+@import '@fontsource/courier-prime/latin-700.css';
+
+[data-direction='buvard'] {
+  --accent-h: 3;
+  --accent-s: 57%;
+  --accent-l: 44%;
+  --bg: #f2ecd9;
+  --bg-2: #ebe3cb;
+  --surface: #f7f2e3;
+  --fg: #5f1e1b;
+  --muted: #86504a;
+  --line: #d9c7b0;
+  --accent: #b03530;
+  --accent-2: #93292a;
+  --on-accent: #f7f2e3;
+  --ink: #5f1e1b;
+  --on-ink: #f2ecd9;
+  --font-display: 'Libre Caslon Text', Georgia, serif;
+  --font-body: 'Libre Caslon Text', Georgia, serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
+  --display-weight: 400;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.4s;
+  /* Courbe mesurée sur la source : 0,4 s linear sur 113 éléments (étiquettes, liens), écrite en cubic-bezier pour le moteur
+     (même traduction que courbeCubique de scripts/ff/melanger.mjs : linear = cubic-bezier(0, 0, 1, 1)). */
+  --ease-brand: cubic-bezier(0, 0, 1, 1);
+}
+
+[data-direction='buvard'] body { font-size: 1rem; line-height: 1.45; }
+[data-direction='buvard'] ::selection { background: var(--fg); color: var(--bg); }
+/* Titres en caslon droit, interlignage serré (0,93 mesuré ; 1,02 pour les accents), jamais d'italique (GOUT § 2) ;
+   h3 en caslon gras à petit corps. */
+[data-direction='buvard'] :is(h1, h2) { font-weight: 400; line-height: 1.02; letter-spacing: -0.01em; }
+[data-direction='buvard'] h3 { font-weight: 700; line-height: 1.2; }
+[data-direction='buvard'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Étiquettes de la source (« DISCOVER FLORA », « SHOP ALL ») : petite plaque rouge pleine, machine à écrire en capitales,
+   sans interlettrage, angles droits ; elles changent de rouge en 0,4 s linéaire. */
+[data-direction='buvard'] .btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), border-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='buvard'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='buvard'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='buvard'] .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+[data-direction='buvard'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='buvard'] .card { background: var(--surface); border-radius: 0; border: 1px solid var(--line); box-shadow: none; }
+[data-direction='buvard'] .rule { border-top: 1px solid var(--fg); }
+[data-direction='buvard'] .eyebrow { color: var(--fg); font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 400; letter-spacing: 0; text-transform: uppercase; }

@@ -1,0 +1,44 @@
+---
+/**
+ * Proof "dune" (style dune, fiche docs/veille/styles/dune.md § Construction) : la source n'a pas d'avis ; on les pose dans
+ * SA construction, la seule qu'elle ait pour du texte : deux colonnes, le titre à gauche en grotesque fine, à droite les avis
+ * recopiés du client en corps de lecture, l'un sous l'autre, chacun suivi de son auteur en petit, la première ligne des
+ * suivants rentrée comme les paragraphes de la source ; la note Google en tête et un lien à flèche vers la fiche.
+ * Rien d'inventé : avis recopiés seulement (trois au plus) ; sans avis ni note, pas de section ; ni carte, ni étoile, ni
+ * guillemet géant.
+ */
+import { site } from '@/lib/site';
+import Button from '@/components/Button.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="dune-avis section-y" aria-labelledby="dune-avis-titre">
+    <div class="dune-marges grid gap-8 md:grid-cols-12 md:gap-6">
+      <div class="md:col-span-4 md:col-start-2">
+        <h2 id="dune-avis-titre" class="dune-h2">Ils sont venus</h2>
+        {google && <p class="mt-4 text-sm">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</p>}
+      </div>
+      <div class="md:col-span-5 md:col-start-7">
+        {avis.map((t, i) => (
+          <figure class:list={[i > 0 && 'mt-8']}>
+            <blockquote class="text-base leading-relaxed md:text-[1.1875rem] md:leading-[1.47]">«&nbsp;{t.text}&nbsp;»</blockquote>
+            <figcaption class="mt-2 text-xs"><span class="font-semibold text-fg">{t.author}</span>{t.city && <>, {t.city}</>}</figcaption>
+          </figure>
+        ))}
+        {google && (
+          <div class="mt-6 text-sm">
+            <Button href={google.url} variant="ghost" size="sm" target="_blank" rel="noopener">Lire les avis sur Google</Button>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .dune-marges { width: 100%; padding-inline: clamp(2.75rem, 9vw, 8rem); }
+  .dune-h2 { font-size: clamp(1.6rem, 1.2rem + 1.1vw, 2.3rem); max-width: 14ch; text-wrap: balance; }
+</style>

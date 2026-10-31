@@ -1,0 +1,108 @@
+---
+/**
+ * Services "pochoir" (geste signature du style pochoir, relevé sur haven-annecy.fr le 30 oct 2026, fiche
+ * docs/veille/styles/pochoir.md § Construction, blocs 4 à 6) : CHAQUE OFFRE EN MOT GÉANT PÂLE BARRÉ DE SES HEURES ÉCRITES
+ * À LA MAIN. Pour chaque prestation, son nom (title) en capitales DIN très grasses, de bord à bord, dans la terre cuite
+ * pâlie (--pale, décoratif) ; par-dessus, en travers de la moitié basse des lettres, sa phrase courte (short : les heures
+ * « 9 h – 14 h », « Toute la journée ») écrite en script monoligne terre cuite, un peu inclinée. Dessous, deux colonnes :
+ * à gauche le premier paragraphe de la description en DIN demi-gras, à droite la suite et les points (bullets) en
+ * texte, puis le lien « <nom> → » vers la page de la prestation.
+ * Entre deux offres, LA BANDE DE PHOTOS qui sort des deux bords de l'écran : quatre à six photos 4:3 (verticales au
+ * téléphone) à 6 px de rayon, côte à côte, la première et la dernière coupées par les bords (photos de la prestation, puis
+ * de la galerie, sans répéter la précédente bande).
+ * Mouvement (profil « heures-ecrites-a-la-main », docs/veille/styles/MOUVEMENTS.md) : les heures se découvrent de gauche
+ * à droite quand le mot géant arrive à l'écran (data-reveal="wipe" du moteur : clip-path, une fois), comme une ligne
+ * qu'on écrit ; rien d'autre ne bouge ; en mouvement réduit, tout est en place.
+ * Rien d'inventé : sans description, l'offre garde son mot, ses heures et son lien ; une bande sans au moins trois photos
+ * n'est pas posée ; jamais une icône à la place d'une photo.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+const galerie = site.proof.gallery;
+const plusLong = Math.max(...services.map((s) => s.title.length), 5);
+// Barlow 800 en capitales : environ 0,64 em par lettre ; le nom le plus long tient dans 96 % de la largeur.
+const taille = Math.min(22, 96 / (plusLong * 0.64)).toFixed(2);
+let curseur = 0;
+const bandes = services.map((s, i) => {
+  if (i === services.length - 1) return [];
+  const propres = [s.image, ...s.images].filter(Boolean) as { src: string; alt: string }[];
+  const autres: { src: string; alt: string }[] = [];
+  for (let k = 0; k < galerie.length && propres.length + autres.length < 6; k++) autres.push(galerie[(curseur + k) % galerie.length]);
+  curseur += 3;
+  const vues = new Set<string>();
+  return [...propres, ...autres].filter((p) => !vues.has(p.src) && vues.add(p.src)).slice(0, 6);
+});
+---
+
+<div id="services" class="pochoir-offres">
+  <Titre class="sr-only" title={site.wording.servicesTitle} />
+  <p class="sr-only">{metierEtVille()}</p>
+  {services.map((s, i) => {
+    const [premier, ...suite] = s.description ? paragraphs(s.description) : [];
+    const bande = bandes[i];
+    return (
+      <>
+        <section class="pochoir-offre pt-[var(--section-y)]" aria-labelledby={`pochoir-offre-${s.slug}`}>
+          <div class="pochoir-mot-cadre font-[family-name:var(--font-script)]" style={`--pochoir-taille: ${taille}vw;`}>
+            <p class="pochoir-mot font-[family-name:var(--font-display)]" data-mot={s.title} aria-hidden="true"></p>
+            <div class="pochoir-heures"><p class="m-0" data-reveal="wipe">{s.short}</p></div>
+          </div>
+          <div class="pochoir-large mt-8 grid gap-6 md:mt-10 md:grid-cols-12 md:gap-x-10">
+            <div class="md:col-span-5 md:col-start-2">
+              <h2 id={`pochoir-offre-${s.slug}`} class="sr-only">{s.title}</h2>
+              {premier && <p class="text-lg font-semibold leading-snug">{premier}</p>}
+            </div>
+            <div class="grid content-start gap-3 leading-relaxed md:col-span-5 md:col-start-7">
+              {suite.map((p) => <p>{p}</p>)}
+              {s.bullets.length > 0 && <p class="font-semibold">{s.bullets.join(', ')}.</p>}
+              {s.priceFrom && <p class="text-muted">{s.priceFrom}</p>}
+              <a href={`/services/${s.slug}`} class="pochoir-fleche mt-3 inline-flex items-center gap-3 self-start justify-self-end font-semibold">{s.title}<span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+        {bande.length >= 3 && (
+          <div class="pochoir-bande mt-[var(--section-y)]" role="group" aria-label={`Photos : ${s.title}`}>
+            <ul class="pochoir-bande-piste">
+              {bande.map((p) => (
+                <li class="pochoir-bande-photo">
+                  <Img src={p.src} alt={p.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 26vw, 44vw" loading="lazy" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </>
+    );
+  })}
+</div>
+
+<style>
+  .pochoir-large { width: 100%; padding-inline: clamp(1.125rem, 3vw, 2.75rem); }
+  .pochoir-mot-cadre { position: relative; text-align: center; padding-inline: clamp(0.5rem, 1.5vw, 1.5rem); }
+  .pochoir-mot {
+    margin: 0; white-space: nowrap; color: var(--pale);
+    font-weight: 800; text-transform: uppercase; line-height: 0.84; letter-spacing: -0.01em;
+    font-size: var(--pochoir-taille);
+  }
+  /* Le mot pâle est décoratif (le nom de l'offre est le h2 lu plus bas) : écrit par le CSS, hors du texte du document. */
+  .pochoir-mot::before { content: attr(data-mot); }
+  /* Les heures écrites, en travers de la moitié basse du mot (la source : « 9am - 2pm » qui coupe « BRUNCH »). */
+  .pochoir-heures {
+    position: absolute; left: 50%; bottom: -0.32em; margin: 0; white-space: nowrap; transform: translateX(-46%) rotate(-3deg);
+    font-weight: 400; color: var(--accent);
+    font-size: max(2.6rem, calc(var(--pochoir-taille) * 0.46)); line-height: 1;
+  }
+  .pochoir-heures > p { white-space: nowrap; width: max-content; }
+  .pochoir-fleche span { transition: transform var(--motion-ui) var(--ease-brand); }
+  .pochoir-fleche:hover span { transform: translateX(4px); }
+  .pochoir-bande { overflow: hidden; }
+  .pochoir-bande-piste { display: flex; gap: clamp(0.75rem, 1.6vw, 1.5rem); margin: 0 0 0 -9vw; padding: 0; list-style: none; width: max-content; }
+  .pochoir-bande-photo { position: relative; flex: none; width: 44vw; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); }
+  @media (min-width: 48rem) {
+    .pochoir-bande-piste { margin-left: -7vw; }
+    .pochoir-bande-photo { width: 26vw; aspect-ratio: 4 / 3; }
+  }
+</style>

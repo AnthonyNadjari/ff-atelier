@@ -1,0 +1,109 @@
+/* Direction BARBOTINE : style réel relevé sur https://laboroflovestudio.com/ (Labor of Love Studio, atelier de céramique
+   et cours de tournage à Denver ; site Framer fait par Studio Sevd ; veille du 30 oct 2026, fiche
+   docs/veille/styles/barbotine.md, atomes docs/veille/styles/atomes/barbotine.json). On reprend le style et la construction
+   (photo de l'atelier plein écran avec deux plaques de couleur posées dessus et le nom géant en bas, présentation centrée,
+   plaques de couleur arrondies qui s'empilent en collant au défilement, bloc menthe à liste filetée, cartes vertes à
+   photo, avis sur cartes jaunes, invitation sur carte crème, pied vert au nom centré), jamais les textes, images, logos ni
+   le code de la source.
+   Une page de barbotine et d'émail : fond crème beurre #fff3d1 partout, une menthe pâle #caead7 en second fond, et des
+   aplats d'émail posés en plaques à 12 px de rayon : vert sapin, rouge brique, bleu de cobalt adouci, charbon, jaune
+   d'ocre pour les avis. Le vert est la couleur de la marque (titres, pied, boutons) ; le rouge sert aux liens et aux
+   signaux. Un serif d'affichage à fort contraste, rond et un peu rétro, pour les titres ; une sans-serif ronde pour le texte.
+   Polices : HV Analogue (non libre) -> Gloock (serif d'affichage à fort contraste et empattements arrondis, libre, OFL) ;
+   Nunito (celle de la source, libre) pour le texte. Paletone (capitales larges espacées des liens « LEARN MORE ») non
+   reprise : capitales espacées interdites (GOUT § 2), les liens sont en casse normale.
+   Couleurs relevées : #fff3d1 crème (37 % des fonds), #caead7 menthe, #2c7e50 vert, #df4836 rouge, #f4c037 jaune, #2f3330
+   charbon (20 % des textes), une plaque bleue ~#3a7ca0 lue sur capture. Les aplats sont foncés d'un cheveu pour que le
+   crème y tienne AA : vert #28754a (5,1:1), rouge #c23d2c (4,8:1), liens rouges en #b03522 (4,8:1 sur la menthe), bleu #2b678a (5,6:1). */
+@import '@fontsource/gloock/latin.css';
+@import '@fontsource-variable/nunito';
+
+[data-direction='barbotine'] {
+  --accent-h: 146;
+  --accent-s: 49%;
+  --accent-l: 31%;
+  --bg: #fff3d1;
+  --bg-2: #caead7;
+  --surface: #fff8e4;
+  --fg: #2f3330;
+  --muted: #625c4e;
+  --line: #d9c9a3;
+  --accent: #28754a;
+  --accent-2: #b03522;
+  --on-accent: #fff3d1;
+  /* Encre des bandes (premier écran sans photo, pied, bandeaux d'appel des pages de prestation) : le vert de la marque
+     foncé d'un cran (#1f613d) pour que le crème à 80 % d'opacité y tienne 4,9:1. */
+  --ink: #1f613d;
+  --on-ink: #fff3d1;
+  /* Les émaux : une couleur par plaque (Services/barbotine, Hero/barbotine) et le jaune des avis (Proof/barbotine). */
+  --email-1: #28754a;
+  --email-2: #c23d2c;
+  --email-3: #2b678a;
+  --email-4: #2f3330;
+  --on-email: #fff3d1;
+  --email-signal: #f4c037;
+  --sable: #efe3bf;
+  --font-display: 'Gloock', Georgia, serif;
+  --font-body: 'Nunito Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Nunito Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 10px;
+  --radius-card: 12px;
+  --shadow-card: none;
+  --shadow-lift: 0 -10px 30px -18px rgb(47 51 48 / 0.45);
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.3s;
+  /* Framer Motion sur la source (ressort doux) : approché par une sortie rapide qui se pose. */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-direction='barbotine'] body { font-weight: 450; }
+[data-direction='barbotine'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Titres en serif d'affichage, graisse unique de la police, interlignage serré ; jamais d'italique (GOUT § 2). Le h2 de
+   section est vert sur le crème, centré (« Classes », « Why Choose Us? » de la source). */
+[data-direction='barbotine'] :is(h1, h2) { font-weight: 400; line-height: 1.02; letter-spacing: -0.01em; }
+[data-direction='barbotine'] h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.08; }
+[data-direction='barbotine'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : plaques pleines à 10 px de rayon ; le lien de la source (« LEARN MORE », point devant, souligné) est repris en
+   casse normale : un point rouge, le texte souligné d'un filet, qui s'avance d'un cheveu au survol. */
+[data-direction='barbotine'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), transform var(--motion-ui) var(--ease-brand);
+}
+[data-direction='barbotine'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='barbotine'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='barbotine'] .btn-ghost {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent-2);
+  padding-inline: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.45em;
+}
+[data-direction='barbotine'] .btn-ghost::before {
+  content: '';
+  width: 0.4em;
+  height: 0.4em;
+  margin-right: 0.6em;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform var(--motion-ui) var(--ease-brand);
+}
+[data-direction='barbotine'] .btn-ghost:hover::before { transform: scale(1.5); }
+[data-direction='barbotine'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='barbotine'] .rule { border-top: 1px solid var(--line); }
+[data-direction='barbotine'] .eyebrow { color: var(--accent); font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; letter-spacing: 0; text-transform: none; }

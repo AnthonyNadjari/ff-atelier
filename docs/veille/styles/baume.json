@@ -1,0 +1,1384 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.fiziopont.hu/",
+  "nom": "baume",
+  "date": "2026-10-30",
+  "identite": {
+    "title": "FIZIOPONT - Gyógytorna és Manuálterápia",
+    "siteName": "",
+    "lang": "en",
+    "description": "",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fbfafa",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 20,
+      "images": 11,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Időpontfoglalás",
+        "x": 1201.703125,
+        "y": 23.671875,
+        "cx": 0.8922580295138889,
+        "cy": 0.046302083333333334,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 12576,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.section-marquee-scroll-row"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.heading-style-h2",
+        "famille": "Poppins, sans-serif",
+        "taille": 40,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.navbar1_link",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf71_Poppins-Black.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf72_Poppins-Bold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf74_Poppins-Thin.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf73_Poppins-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf8b_Poppins-SemiBold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf73_Poppins-Regular.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf72_Poppins-Bold.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf8b_Poppins-SemiBold.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf71_Poppins-Black.ttf",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Poppins",
+          "n": 135
+        },
+        {
+          "famille": "Montserrat",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fbfafa",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#fbfafa",
+          "n": 1,
+          "poids": 18109440
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 1,
+          "poids": 1163452.5
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 788535
+        },
+        {
+          "hex": "#e2ede8",
+          "n": 11,
+          "poids": 594056.80794999
+        },
+        {
+          "hex": "#94ceb3",
+          "n": 2,
+          "poids": 419859.78312429786
+        },
+        {
+          "hex": "#f5fefa",
+          "n": 4,
+          "poids": 367937.53125
+        },
+        {
+          "hex": "#e6946e",
+          "n": 7,
+          "poids": 70937.625
+        },
+        {
+          "hex": "#222222",
+          "n": 1,
+          "poids": 64
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#333333",
+          "n": 105,
+          "poids": 5757
+        },
+        {
+          "hex": "#fbfafa",
+          "n": 18,
+          "poids": 623
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 11,
+          "poids": 239
+        },
+        {
+          "hex": "#5a5a5a",
+          "n": 1,
+          "poids": 82
+        },
+        {
+          "hex": "#e6946e",
+          "n": 2,
+          "poids": 70
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 69
+        },
+        {
+          "hex": "#efcebf",
+          "n": 3,
+          "poids": 30
+        },
+        {
+          "hex": "#7c563e",
+          "n": 1,
+          "poids": 6
+        }
+      ],
+      "nbImages": 65,
+      "nbVideos": 0,
+      "nbFondsImage": 9,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fbfafa",
+          "n": 1,
+          "poids": 18109440,
+          "part": 0.842
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 1,
+          "poids": 1163452.5,
+          "part": 0.054
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 788535,
+          "part": 0.037
+        },
+        {
+          "hex": "#e2ede8",
+          "n": 11,
+          "poids": 594056.80794999,
+          "part": 0.028
+        },
+        {
+          "hex": "#94ceb3",
+          "n": 2,
+          "poids": 419859.78312429786,
+          "part": 0.02
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#333333",
+          "n": 105,
+          "poids": 5757,
+          "part": 0.837
+        },
+        {
+          "hex": "#fbfafa",
+          "n": 18,
+          "poids": 623,
+          "part": 0.091
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 11,
+          "poids": 239,
+          "part": 0.035
+        },
+        {
+          "hex": "#5a5a5a",
+          "n": 1,
+          "poids": 82,
+          "part": 0.012
+        },
+        {
+          "hex": "#e6946e",
+          "n": 2,
+          "poids": 70,
+          "part": 0.01
+        }
+      ],
+      "contraste": 12.13
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.about-us_services_content",
+          "ecrans": 3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.5s ease",
+          "n": 25
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.001s ease-in-out",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.1s ease",
+          "n": 5
+        },
+        {
+          "valeur": "color 0.1s ease",
+          "n": 5
+        },
+        {
+          "valeur": "all 0.7s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.5s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.4s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.7s cubic-bezier(0.749, -0.005, 0.374, 0.843)",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.5s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation",
+          "n": 3
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.navbar1_component",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animation"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-wrapper",
+      "sections": [
+        {
+          "selecteur": "header.section_hero-version-2",
+          "titre": null,
+          "top": 0,
+          "hauteur": 800,
+          "ecrans": 0.9,
+          "mots": 15,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 800,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_cards-layout",
+          "titre": "Miben segíthetünk?",
+          "top": 960,
+          "hauteur": 662,
+          "ecrans": 0.7,
+          "mots": 54,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_gallery18",
+          "titre": "FizioPont Képekben",
+          "top": 1622,
+          "hauteur": 808,
+          "ecrans": 0.9,
+          "mots": 6,
+          "images": 20,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_about-us_services",
+          "titre": "Lépésről lépésre",
+          "top": 2430,
+          "hauteur": 2700,
+          "ecrans": 3,
+          "mots": 91,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_parallax_cta",
+          "titre": "Kezelés már az első alkalommal",
+          "top": 5130,
+          "hauteur": 361,
+          "ecrans": 0.4,
+          "mots": 20,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#section-services",
+          "titre": "Alkalmazott módszereink",
+          "top": 5491,
+          "hauteur": 1215,
+          "ecrans": 1.4,
+          "mots": 29,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_parallax_cta",
+          "titre": "Meghallgatunk, mert fontos a történeted",
+          "top": 6706,
+          "hauteur": 387,
+          "ecrans": 0.4,
+          "mots": 21,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 7093,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_team-anita-version-2",
+          "titre": "Terapeutáink",
+          "top": 7253,
+          "hauteur": 942,
+          "ecrans": 1,
+          "mots": 52,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_team-anita-version-2",
+          "titre": null,
+          "top": 8195,
+          "hauteur": 815,
+          "ecrans": 0.9,
+          "mots": 49,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_testimonial11",
+          "titre": "Klienseink mondták",
+          "top": 9010,
+          "hauteur": 897,
+          "ecrans": 1,
+          "mots": 281,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 9907,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#location-section",
+          "titre": "Itt találsz minket",
+          "top": 10067,
+          "hauteur": 948,
+          "ecrans": 1.1,
+          "mots": 40,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_faq",
+          "titre": "Gyakori kérdések",
+          "top": 11015,
+          "hauteur": 1013,
+          "ecrans": 1.1,
+          "mots": 195,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.footer_component",
+          "titre": null,
+          "top": 12029,
+          "hauteur": 548,
+          "ecrans": 0.6,
+          "mots": 37,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "div.navbar1_component",
+        "hauteur": 96,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Módszereink",
+            "href": "#section-services",
+            "bouton": false
+          },
+          {
+            "texte": "Árak",
+            "href": "/prices",
+            "bouton": false
+          },
+          {
+            "texte": "Kapcsolat",
+            "href": "/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "Blog",
+            "href": "https://www.fiziopont.hu/alkalmazott-modszerek/osszes",
+            "bouton": false
+          },
+          {
+            "texte": "Időpontfoglalás",
+            "href": "https://fiziopont.salonic.hu/?ms_consent=1111",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer_component",
+        "liens": [
+          {
+            "texte": "Időpontfoglalás",
+            "href": "https://fiziopont.salonic.hu/?ms_consent=1111",
+            "bouton": true
+          },
+          {
+            "texte": "Módszereink",
+            "href": "#section-services",
+            "bouton": false
+          },
+          {
+            "texte": "Árak",
+            "href": "/prices",
+            "bouton": false
+          },
+          {
+            "texte": "Kapcsolat",
+            "href": "/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "+36 70 551 19 28",
+            "href": "tel:+36705511928",
+            "bouton": false
+          },
+          {
+            "texte": "fiziopont.info@gmail.com",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "1082 Budapest, Corvin sétány 6A, II. eme",
+            "href": "https://www.google.com/maps/search/VIII.+ker%C3%BClet,+Corvin+s%C3%A9t%C3%A1ny+6+sz%C3%A1m,+A+l%C3%A9pcs%C5%91h%C3%A1z,+",
+            "bouton": false
+          },
+          {
+            "texte": "Hétfő-Péntek: 08:00-20:00",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "ÁSZF",
+            "href": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/69301b93d06d247c753aea88_A%CC%81SZF%20-%20FIZIOPONT%20-%20ke",
+            "bouton": false
+          },
+          {
+            "texte": "Adatvédelmi tájékoztató",
+            "href": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/66713b85ada951f6406bf78b_Adatv%C3%A9delmi%20t%C3%A1j%C3%A9ko",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 4,
+        "href": "tel:+36306389590"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.navbar1_component",
+          "position": "fixed",
+          "hauteur": 96,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 5
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 14,
+        "pilules": 14,
+        "exemples": [
+          "Időpontfoglalás",
+          "Jelentkezz állapotfelmérésre",
+          "Itt találsz minket"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/baume-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fbfafa",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 15,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Jelentkezz állapotfelmérésre",
+        "x": 20,
+        "y": 306.75,
+        "cx": 0.5,
+        "cy": 0.38951421800947866,
+        "fixe": false,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 14455,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.heading-style-h2",
+        "famille": "Poppins, sans-serif",
+        "taille": 32,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button-primary",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.6px"
+      },
+      "nav": {
+        "selecteur": "a.button-primary",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.6px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf71_Poppins-Black.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf72_Poppins-Bold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf74_Poppins-Thin.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf73_Poppins-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf8b_Poppins-SemiBold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf72_Poppins-Bold.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf73_Poppins-Regular.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf8b_Poppins-SemiBold.ttf",
+        "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/662956a98a77a040300ecf71_Poppins-Black.ttf",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Poppins",
+          "n": 130
+        },
+        {
+          "famille": "Montserrat",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fbfafa",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#fbfafa",
+          "n": 1,
+          "poids": 5637450
+        },
+        {
+          "hex": "#f5fefa",
+          "n": 4,
+          "poids": 432600
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 398214.375
+        },
+        {
+          "hex": "#e2ede8",
+          "n": 11,
+          "poids": 347689.0030798912
+        },
+        {
+          "hex": "#94ceb3",
+          "n": 2,
+          "poids": 267714.1555339098
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 1,
+          "poids": 241410
+        },
+        {
+          "hex": "#e6946e",
+          "n": 7,
+          "poids": 107108.375
+        },
+        {
+          "hex": "#222222",
+          "n": 1,
+          "poids": 64
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#333333",
+          "n": 101,
+          "poids": 5723
+        },
+        {
+          "hex": "#fbfafa",
+          "n": 17,
+          "poids": 608
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 11,
+          "poids": 239
+        },
+        {
+          "hex": "#5a5a5a",
+          "n": 1,
+          "poids": 82
+        },
+        {
+          "hex": "#e6946e",
+          "n": 2,
+          "poids": 70
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 69
+        },
+        {
+          "hex": "#efcebf",
+          "n": 3,
+          "poids": 30
+        },
+        {
+          "hex": "#7c563e",
+          "n": 1,
+          "poids": 6
+        }
+      ],
+      "nbImages": 65,
+      "nbVideos": 0,
+      "nbFondsImage": 9,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fbfafa",
+          "n": 1,
+          "poids": 5637450,
+          "part": 0.759
+        },
+        {
+          "hex": "#f5fefa",
+          "n": 4,
+          "poids": 432600,
+          "part": 0.058
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 398214.375,
+          "part": 0.054
+        },
+        {
+          "hex": "#e2ede8",
+          "n": 11,
+          "poids": 347689.0030798912,
+          "part": 0.047
+        },
+        {
+          "hex": "#94ceb3",
+          "n": 2,
+          "poids": 267714.1555339098,
+          "part": 0.036
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#333333",
+          "n": 101,
+          "poids": 5723,
+          "part": 0.838
+        },
+        {
+          "hex": "#fbfafa",
+          "n": 17,
+          "poids": 608,
+          "part": 0.089
+        },
+        {
+          "hex": "#f2e2da",
+          "n": 11,
+          "poids": 239,
+          "part": 0.035
+        },
+        {
+          "hex": "#5a5a5a",
+          "n": 1,
+          "poids": 82,
+          "part": 0.012
+        },
+        {
+          "hex": "#e6946e",
+          "n": 2,
+          "poids": 70,
+          "part": 0.01
+        }
+      ],
+      "contraste": 12.13
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.about-us_services_content-right",
+          "ecrans": 3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.5s ease",
+          "n": 25
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.001s ease-in-out",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.1s ease",
+          "n": 5
+        },
+        {
+          "valeur": "color 0.1s ease",
+          "n": 5
+        },
+        {
+          "valeur": "all 0.7s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.5s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.7s cubic-bezier(0.749, -0.005, 0.374, 0.843)",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.5s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation",
+          "n": 3
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.navbar1_component",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animation"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-wrapper",
+      "sections": [
+        {
+          "selecteur": "header.section_hero-version-2",
+          "titre": null,
+          "top": 0,
+          "hauteur": 1021,
+          "ecrans": 1.2,
+          "mots": 15,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 1021,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_cards-layout",
+          "titre": "Miben segíthetünk?",
+          "top": 1181,
+          "hauteur": 1442,
+          "ecrans": 1.7,
+          "mots": 54,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_gallery18",
+          "titre": "FizioPont Képekben",
+          "top": 2623,
+          "hauteur": 619,
+          "ecrans": 0.7,
+          "mots": 6,
+          "images": 20,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_about-us_services",
+          "titre": "Lépésről lépésre",
+          "top": 3242,
+          "hauteur": 2532,
+          "ecrans": 3,
+          "mots": 91,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_parallax_cta",
+          "titre": "Kezelés már az első alkalommal",
+          "top": 5774,
+          "hauteur": 402,
+          "ecrans": 0.5,
+          "mots": 20,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#section-services",
+          "titre": "Alkalmazott módszereink",
+          "top": 6176,
+          "hauteur": 1085,
+          "ecrans": 1.3,
+          "mots": 28,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_parallax_cta",
+          "titre": "Meghallgatunk, mert fontos a történeted",
+          "top": 7261,
+          "hauteur": 421,
+          "ecrans": 0.5,
+          "mots": 21,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 7682,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_team-anita-version-2",
+          "titre": "Terapeutáink",
+          "top": 7842,
+          "hauteur": 1287,
+          "ecrans": 1.5,
+          "mots": 52,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_team-anita-version-2",
+          "titre": null,
+          "top": 9129,
+          "hauteur": 1219,
+          "ecrans": 1.4,
+          "mots": 49,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_testimonial11",
+          "titre": "Klienseink mondták",
+          "top": 10349,
+          "hauteur": 823,
+          "ecrans": 1,
+          "mots": 281,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.section-marquee-scroll",
+          "titre": null,
+          "top": 11171,
+          "hauteur": 160,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#location-section",
+          "titre": "Itt találsz minket",
+          "top": 11331,
+          "hauteur": 1189,
+          "ecrans": 1.4,
+          "mots": 40,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_faq",
+          "titre": "Gyakori kérdések",
+          "top": 12520,
+          "hauteur": 914,
+          "ecrans": 1.1,
+          "mots": 195,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.footer_component",
+          "titre": null,
+          "top": 13434,
+          "hauteur": 1021,
+          "ecrans": 1.2,
+          "mots": 37,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "div.navbar1_component",
+        "hauteur": 68,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "home",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer_component",
+        "liens": [
+          {
+            "texte": "Időpontfoglalás",
+            "href": "https://fiziopont.salonic.hu/?ms_consent=1111",
+            "bouton": true
+          },
+          {
+            "texte": "Módszereink",
+            "href": "#section-services",
+            "bouton": false
+          },
+          {
+            "texte": "Árak",
+            "href": "/prices",
+            "bouton": false
+          },
+          {
+            "texte": "Kapcsolat",
+            "href": "/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "+36 30 638 95 90",
+            "href": "tel:+36306389590",
+            "bouton": false
+          },
+          {
+            "texte": "fiziopont.info@gmail.com",
+            "href": "mailto:fiziopont.info@gmail.com",
+            "bouton": false
+          },
+          {
+            "texte": "1082 Budapest, Corvin sétány 6A, II. eme",
+            "href": "https://www.google.com/maps/dir/47.2717694,17.8986415/Budapest,+Fiziopont,+Corvin+s%C3%A9t%C3%A1ny+6A,+1082/@47.260753,1",
+            "bouton": false
+          },
+          {
+            "texte": "Hétfő-Péntek: 08:00-20:00",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "ÁSZF",
+            "href": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/69301b93d06d247c753aea88_A%CC%81SZF%20-%20FIZIOPONT%20-%20ke",
+            "bouton": false
+          },
+          {
+            "texte": "Adatvédelmi tájékoztató",
+            "href": "https://cdn.prod.website-files.com/662956a88a77a040300ecebb/66713b85ada951f6406bf78b_Adatv%C3%A9delmi%20t%C3%A1j%C3%A9ko",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 4,
+        "href": "tel:+36306389590"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.navbar1_component",
+          "position": "fixed",
+          "hauteur": 68,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 13,
+        "pilules": 13,
+        "exemples": [
+          "Jelentkezz állapotfelmérésre",
+          "Itt találsz minket",
+          "Időpontfoglalás"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "FIZIOPONT",
+  "dureeS": 25.1
+}

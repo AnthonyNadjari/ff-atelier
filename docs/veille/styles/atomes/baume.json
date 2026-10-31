@@ -1,0 +1,180 @@
+{
+  "id": "baume",
+  "version": 1,
+  "source": {
+    "url": "https://www.fiziopont.hu/",
+    "nom": "FizioPont",
+    "metier": "cabinet de kinésithérapie et de thérapie manuelle à Budapest (deux praticiennes)",
+    "fiche": "docs/veille/styles/baume.md",
+    "mesures": "docs/veille/styles/atomes/mesures/baume.json",
+    "date": "2026-10-30"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Poppins",
+      "libre": "redHat",
+      "graisse": 700,
+      "interlignage": 1.15,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Poppins",
+      "libre": "redHat",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 52
+      },
+      "h2": {
+        "telephone": 28,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Poppins (400 à 700) partout, une seule famille : Red Hat Display, géométrique ronde libre ; le logo en capitales fines (Futura Light dessiné) : Josefin Sans 300, porté par --baume-nom (nom qui défile, pied)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#fbfafa",
+      "texte": "#333333",
+      "fonds": [
+        {
+          "hex": "#fbfafa",
+          "part": 0.634
+        },
+        {
+          "hex": "#f2e2da",
+          "part": 0.125
+        },
+        {
+          "hex": "#333333",
+          "part": 0.085
+        },
+        {
+          "hex": "#e2ede8",
+          "part": 0.064
+        },
+        {
+          "hex": "#94ceb3",
+          "part": 0.045
+        },
+        {
+          "hex": "#f5fefa",
+          "part": 0.04
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#333333",
+          "part": 0.837
+        },
+        {
+          "hex": "#fbfafa",
+          "part": 0.091
+        },
+        {
+          "hex": "#f2e2da",
+          "part": 0.035
+        },
+        {
+          "hex": "#5a5a5a",
+          "part": 0.012
+        },
+        {
+          "hex": "#e6946e",
+          "part": 0.01
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.01
+        }
+      ],
+      "proches": 13158343
+    },
+    "clair": {
+      "fond": "#fbf2ec",
+      "surface": "#ffffff",
+      "texte": "#33302e",
+      "texte2": "#5d5753",
+      "accent": "#9d4f2a",
+      "accent2": "#4d7562",
+      "bordure": "#e8d6cc",
+      "encre": "#33302e"
+    },
+    "sombre": null,
+    "remarque": "Blanc rosé #fbfafa mesuré (63 % des fonds, neutre) réchauffé à #fbf2ec (chroma OKLCH 0,013) pour que le rose de la source se lise ; rose poudré #f2e2da (13 %, bandes) ; menthe #e2ede8 (6 %) ; sauge (cartes, plaques ; #94ceb3 et un vert plus sombre lus, assombrie à #4d7562 pour porter du blanc à 5,2:1) ; pêche #e6946e (boutons à texte anthracite 5,5:1, moitié du nom, plaque) ; anthracite #333333 (84 % des textes, pied). Terre cuite #9d4f2a pour le texte d'accent. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 72,
+      "ordinateur": 166
+    },
+    "gouttiere": {
+      "telephone": 36,
+      "ordinateur": 32
+    },
+    "conteneur": 1296,
+    "mesure": 60,
+    "rythme": "alterne",
+    "remarque": "Conteneur d'environ 1 200 px ; bandes alternées blanc rosé, rose poudré, menthe ; sections d'un écran environ, le bloc des étapes colle sur trois écrans."
+  },
+  "formes": {
+    "rayon": 8,
+    "rayonCarte": 14,
+    "rayonImage": 14,
+    "bordure": 1,
+    "ombre": "douce",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons pilule de la source (500 px) refusés : 8 px ; cadres de photo et cartes à coins adoucis (24 et 16 px mesurés, 14 px dans l'usine) avec ombre réelle douce ; plaques de couleur décalées derrière les photos."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:3",
+      "4:5",
+      "3:2"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photos du soin et des praticiennes dans des cadres aux coins adoucis, posées devant une plaque sauge ou pêche décalée (relief), cartes photo en haut de carte ; jamais plein cadre sauf les bandeaux sous voile (refusés)."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "linear"
+    },
+    "scene": {
+      "duree": 0.7,
+      "courbe": "cubic-bezier(0.22, 1.2, 0.36, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Webflow interactions"
+    ],
+    "profil": "cartes-qui-se-rebattent",
+    "remarque": "Webflow interactions sur la source : le nom qui défile en continu, le bloc des étapes collé trois écrans où les cartes s'empilent (transform 0,5 s ease mesuré), survols à 0,1-0,2 s. Gardé : la pile de cartes en étapes (seuils, transform en temps à léger dépassement), l'entrée de la photo sur sa plaque, le nom qui défile ; deux régimes : sec (0,2 s linéaire) et à rebond (0,7 s)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque"
+}

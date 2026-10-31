@@ -101,11 +101,15 @@ export interface LayoutArchi {
  *  - trajet          : communes desservies avec un temps de trajet (trajet.communes[] : slug, nom, minutes > 0 ;
  *                      src/lib/trajet.ts, communesCompletes) ;
  *  - directionsTrajet: les mêmes communes dont la direction depuis la base est donnée (placées sur le schéma) ;
+ *  - recoltes        : produits du calendrier des récoltes lisibles (recoltes.produits[] : slug, nom, famille, au moins un mois
+ *                      de 1 à 12 ; src/lib/recoltes.ts, produitsComplets) ;
+ *  - matieres        : matières du nuancier qui ont leur photo (matieres.liste[] : slug, nom, photo ; src/lib/matieres.ts,
+ *                      nuancier) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet' | 'recoltes' | 'matieres';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -162,6 +166,8 @@ export const ARCHITECTURE_IDS = [
   'honoraires-domaines',
   'carnet-interventions',
   'rayon-trajet',
+  'calendrier-recoltes',
+  'nuancier-matieres',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1285,6 +1291,68 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Artisan ou dépanneur qui se déplace depuis une base et dont le client demande d'abord « vous venez jusqu'ici ? » : électricien, frigoriste, chauffagiste, plombier de campagne, ramoneur, élagueur, piscinier, réparateur à domicile, laveur de vitres ; 4 communes avec leur temps de trajet, dont 3 avec leur direction. Pas pour une tournée à jours fixes (tournee-semaine), ni pour un commerce où l'on vient (pages-adresses).",
   },
+  'calendrier-recoltes': {
+    id: 'calendrier-recoltes',
+    modele:
+      "Le site d'une ferme ou d'une cueillette est son année : en tête le h1, le métier à la ville, le téléphone, et à côté « En ce moment » (les produits du mois du visiteur, choisi dans le navigateur, rangés par famille, chacun vers sa page ; sans script le mois du build) avec la phrase sur la météo et le répondeur de la liste du jour ; puis le calendrier des récoltes, chaque produit sur une rangée de douze mois, rangé par famille, le mois courant marqué ; les avis ; venir (adresse, saison d'ouverture, horaires) ; /calendrier mois par mois (avec les questions) et une page par produit avec sa période de récolte et ce qui se récolte en même temps.",
+    sources: [
+      { fiche: 'docs/veille/architectures/calendrier-recoltes.md', site: 'cueillettedecompans.fr' },
+      { fiche: 'docs/veille/architectures/calendrier-recoltes.md', site: 'jardindelavenir.fr' },
+    ],
+    layout: {
+      // Coquille `recoltes` (src/shells/recoltes.astro).
+      shell: 'recoltes',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Compans : « Calendrier des récoltes » dans la barre haute, « En ce moment » par fruits, légumes et fleurs, une page par
+      // produit avec sa période de récolte. Le Jardin de l'Avenir : « À cueillir en ce moment », le plan daté du jardin et le
+      // répondeur. La coquille met l'année en tête, puis les avis et l'accès ; les questions sont sur /calendrier : pas de fin
+      // de page d'usine.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'recoltes', min: 6, libelle: '6 produits au moins avec leurs mois de récolte (recoltes.produits[] : slug, nom, famille, mois)' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient à la ferme, on n'y appelle pas la nuit" },
+    ],
+    convientA:
+      "Ferme en vente directe, cueillette, maraîcher, arboriculteur, horticulteur ou pépiniériste dont l'offre change avec les mois : fruits, légumes, fleurs coupées, plants, sapins ; aussi un apiculteur (miels par floraison) ou un fromager fermier (fromages de saison). 6 produits avec leurs mois de récolte. Pas pour une gamme stable (gamme-vitrine), ni pour des paniers à commander avant un jour fixe (commande-retrait).",
+  },
+  'nuancier-matieres': {
+    id: 'nuancier-matieres',
+    modele:
+      "Le site d'un artisan qui travaille une matière se choisit par la matière : en tête le h1, le métier à la ville, le téléphone, et à côté « Pour quel usage ? » (chaque usage et ses matières, chacune vers sa page) ; puis le nuancier, le mur des matières en grands carrés (la photo du fil, du grain ou de la trame, le nom, l'origine) ; l'échelle du client (dureté, densité) en barres, chaque matière à sa vraie valeur ; les avis ; l'atelier et ses échantillons ; /matieres en tableau comparé (avec les questions) et une page par matière (photo en grand, fiche à filets, usages, prix, voisines sur l'échelle).",
+    sources: [
+      { fiche: 'docs/veille/architectures/nuancier-matieres.md', site: 'menuiserie-pipault-89.com' },
+      { fiche: 'docs/veille/architectures/nuancier-matieres.md', site: 'boudbois.fr' },
+    ],
+    layout: {
+      // Coquille `matieres` (src/shells/matieres.astro).
+      shell: 'matieres',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Pipault : « Essence bois » dans la barre, dix essences en fiches (photo, aubier, grain, densité, dureté, durabilité,
+      // usages). Boud'bOis : « Nos essences disponibles » sur l'accueil, une fiche par essence avec usage et prix moyen. La
+      // coquille met le nuancier en tête, puis l'échelle, les avis et l'atelier ; les questions sont sur /matieres.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'matieres', min: 4, libelle: '4 matières au moins avec leur photo en gros plan (matieres.liste[] : slug, nom, photo)' },
+    ],
+    convientA:
+      "Artisan dont le client choisit d'abord la matière : menuisier, ébéniste, parqueteur, marbrier, tailleur de pierre, tapissier (tissus), sellier (cuirs), carreleur, scierie ou négoce de bois local, potier (terres et émaux). 4 matières avec leur photo en gros plan, idéalement une valeur comparable (dureté, densité). Pas pour une gamme de produits finis (gamme-vitrine), ni pour des réalisations à montrer d'abord (index-projets, avant-apres).",
+  },
 };
 
 
@@ -1351,6 +1419,8 @@ export interface SiteArchi {
   honoraires?: { decouverte?: { prix?: string; duree?: string }; consultation?: { prix?: string; duree?: string }; modes?: { nom?: string; prix?: string }[] };
   interventions?: { slug?: string; date?: string; lieu?: string; titre?: string; photo?: unknown }[];
   trajet?: { communes?: { slug?: string; nom?: string; minutes?: number; direction?: string }[] };
+  recoltes?: { produits?: { slug?: string; nom?: string; famille?: string; mois?: number[]; photo?: unknown }[] };
+  matieres?: { liste?: { slug?: string; nom?: string; photo?: unknown }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1395,7 +1465,9 @@ export function photosDuClient(s: SiteArchi): number {
     (s.fetes ?? []).filter((x) => x.photo).length +
     (s.parcours ?? []).filter((x) => x.photo).length +
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0) +
-    (s.interventions ?? []).filter((x) => x.photo).length
+    (s.interventions ?? []).filter((x) => x.photo).length +
+    (s.recoltes?.produits ?? []).filter((x) => x.photo).length +
+    (s.matieres?.liste ?? []).filter((x) => x.photo).length
   );
 }
 
@@ -1637,6 +1709,28 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
           if (!slug || !(c.nom ?? '').trim() || !(typeof c.minutes === 'number' && c.minutes > 0) || vus.has(slug)) return false;
           vus.add(slug);
           return e.mesure === 'trajet' || Boolean(c.direction);
+        }).length;
+        break;
+      }
+      // Mêmes comptes que produitsComplets (src/lib/recoltes.ts) et nuancier (src/lib/matieres.ts), recopiés.
+      case 'recoltes': {
+        const vus = new Set<string>();
+        n = (s.recoltes?.produits ?? []).filter((p) => {
+          const slug = (p.slug ?? '').trim();
+          const mois = (p.mois ?? []).filter((m) => Number.isInteger(m) && m >= 1 && m <= 12);
+          if (!slug || !(p.nom ?? '').trim() || !(p.famille ?? '').trim() || mois.length === 0 || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'matieres': {
+        const vus = new Set<string>();
+        n = (s.matieres?.liste ?? []).filter((m) => {
+          const slug = (m.slug ?? '').trim();
+          if (!slug || !(m.nom ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return Boolean(m.photo);
         }).length;
         break;
       }

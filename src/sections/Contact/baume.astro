@@ -1,0 +1,67 @@
+---
+/**
+ * Contact "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * blocs 9 et 11 « Itt találsz minket » et l'appel final) : d'abord LE LIEU, sur une bande qui passe du blanc rosé au MENTHE :
+ * le titre à gauche, puis des cartes blanches à coins adoucis et ombre réelle, une par information, chacune avec sa petite
+ * icône au trait sauge (adresse et lien du plan, horaires, téléphone et e-mail) ; pas de formulaire (la source n'en a pas :
+ * une porte par intention, GOUT § 0, et la porte principale est le rendez-vous). Puis L'APPEL FINAL centré sur le blanc rosé :
+ * la phrase de contact (wording.contactTitle) en gras, la phrase dessous, les deux portes (pleine pêche et contour), comme
+ * la source juste avant son pied anthracite.
+ * Rien d'inventé : chaque carte disparaît sans sa donnée. Mouvement : aucun.
+ */
+import { site, tel, mailto, fullAddress, actions } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import Porte from '@/components/Porte.astro';
+import Button from '@/components/Button.astro';
+
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const [premiere] = actions();
+---
+
+<section id="contact" class="baume-contact" aria-labelledby="baume-lieu-titre">
+  <div class="baume-lieu py-[var(--section-y)]">
+    <div class="container-ff grid gap-10 md:grid-cols-12 md:gap-8">
+      <div class="md:col-span-12">
+        <h2 id="baume-lieu-titre" class="baume-h2">Nous trouver</h2>
+        <ul class="mt-8 grid gap-4 md:grid-cols-3">
+          {adresse && (
+            <li class="card flex gap-4 p-5">
+              <span class="baume-icone"><Icon name="MapPin" size={22} /></span>
+              <div><p class="font-semibold">Adresse</p><p class="mt-1 text-[0.9375rem] text-muted">{adresse}</p>{site.contact.mapsUrl && <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="mt-2 inline-block text-sm font-semibold underline underline-offset-4">Voir le plan</a>}</div>
+            </li>
+          )}
+          {horaires.length > 0 && (
+            <li class="card flex gap-4 p-5">
+              <span class="baume-icone"><Icon name="Clock" size={22} /></span>
+              <div><p class="font-semibold">Horaires</p>
+                <dl class="mt-1 grid grid-cols-[auto_1fr] gap-x-4 text-[0.9375rem] text-muted">
+                  {horaires.map((h) => (<><dt>{h.days}</dt><dd>{h.hours}</dd></>))}
+                </dl>
+              </div>
+            </li>
+          )}
+          <li class="card flex gap-4 p-5">
+            <span class="baume-icone"><Icon name="Phone" size={22} /></span>
+            <div><p class="font-semibold">Téléphone</p><a href={tel()} class="mt-1 inline-block text-[0.9375rem] underline underline-offset-4" data-porte="call">{site.contact.phoneDisplay}</a>{site.contact.email && <p class="mt-1 text-[0.9375rem]"><a href={mailto()} class="break-all underline underline-offset-4">{site.contact.email}</a></p>}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-ff py-[var(--section-y)] text-center">
+    <p class="baume-appel mx-auto" set:html={site.wording.contactTitle} />
+    <p class="mx-auto mt-3 max-w-[48ch] text-[0.9375rem] text-muted">{site.wording.contactText}</p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <Porte action={premiere} size="md" />
+      {premiere.kind !== 'call' && <Button href={tel()} variant="ghost" size="md" data-porte="call">Appeler le {site.contact.phoneDisplay}</Button>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .baume-h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); }
+  .baume-lieu { background: linear-gradient(to bottom, var(--bg), var(--baume-menthe)); }
+  .baume-icone { flex: none; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--baume-menthe); color: var(--baume-sauge); }
+  .baume-appel { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); font-weight: 700; max-width: 28ch; line-height: 1.2; }
+</style>

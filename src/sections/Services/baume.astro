@@ -1,0 +1,65 @@
+---
+/**
+ * Services "baume" (style baume, relevé sur fiziopont.hu le 30 oct 2026, fiche docs/veille/styles/baume.md § Construction,
+ * bloc 3 « Miben segíthetünk? ») : sur une bande ROSE POUDRÉ (--bg-2) pleine largeur, le titre centré en géométrique
+ * grasse, puis une rangée de cartes (quatre colonnes à l'ordinateur, une à une au téléphone) : chaque carte est blanche à
+ * coins adoucis (14 px) avec une ombre réelle, sa photo en haut collée aux bords de la carte (4:3), puis le nom du motif en
+ * gras et sa phrase courte ; toute la carte mène à la page de la prestation, elle monte de 4 px au survol (0,2 s, sec).
+ * Sous les cartes, LA FRISE de la source : les photos du cabinet (proof.gallery, dès trois) en piste qu'on fait glisser à
+ * la main (aimantée, focusable, jamais d'autoplay), coins adoucis. Rien d'inventé : une prestation sans photo garde sa carte avec un aplat menthe en tête (jamais une icône à la place d'une
+ * photo) ; le prix « à partir de » s'affiche seulement s'il est donné.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Titre from '@/components/Titre.astro';
+
+const services = site.services;
+// La frise de la source (« FizioPont Képekben ») : les photos du cabinet, dès trois.
+const frise = site.proof.gallery.filter((g) => g.src !== site.images.hero?.src);
+---
+
+<section id="services" class="baume-services bg-bg-2 py-[var(--section-y)]" aria-labelledby="baume-services-titre">
+  <div class="container-ff">
+    <Titre id="baume-services-titre" class="baume-h2 mx-auto text-center" title={site.wording.servicesTitle} />
+    <p class="mx-auto mt-3 max-w-[48ch] text-center text-[0.9375rem] text-muted">{metierEtVille()}</p>
+    <ul class:list={['mt-12 grid gap-6 sm:grid-cols-2', services.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3']}>
+      {services.map((s) => (
+        <li>
+          <a href={`/services/${s.slug}`} class="baume-carte-service card flex h-full flex-col overflow-hidden">
+            <figure class="relative aspect-[4/3] overflow-hidden bg-[var(--baume-menthe)]">
+              {s.image && <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 22vw, (min-width: 40rem) 45vw, 92vw" loading="lazy" />}
+            </figure>
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-lg">{s.title}</h3>
+              {s.short && <p class="mt-2 text-[0.9375rem] leading-relaxed text-muted">{s.short}</p>}
+              {s.priceFrom && <p class="mt-auto pt-4 text-sm font-semibold">{s.priceFrom}</p>}
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  {frise.length >= 3 && (
+    <div class="mt-16 md:mt-20" aria-labelledby="baume-frise-titre">
+      <h3 id="baume-frise-titre" class="baume-h3 container-ff text-center" set:html={site.wording.galleryTitle} />
+      <ul class="baume-frise mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-[max(1rem,calc((100vw-75rem)/2))] pb-4" tabindex="0" aria-label="Photos du cabinet, faire glisser">
+        {frise.map((g) => (
+          <li class="baume-frise-photo relative shrink-0 snap-center overflow-hidden">
+            <Img src={g.src} alt={g.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 30vw, 72vw" loading="lazy" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</section>
+
+<style>
+  .baume-h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); max-width: 22ch; }
+  .baume-h3 { font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.75rem); font-weight: 700; }
+  .baume-frise-photo { width: min(72vw, 26rem); aspect-ratio: 4 / 3; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .baume-frise-photo :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+  .baume-carte-service { transition: transform 0.2s linear, box-shadow 0.2s linear; }
+  .baume-carte-service:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+  @media (prefers-reduced-motion: reduce) { .baume-carte-service { transition: none; } .baume-carte-service:hover { transform: none; } }
+  .baume-carte-service figure :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

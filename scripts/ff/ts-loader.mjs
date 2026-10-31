@@ -402,6 +402,22 @@ export async function loadTrajetModule() {
   return loadPureLibModule('trajet.ts');
 }
 
+/**
+ * Copie src/lib/recoltes.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture calendrier-recoltes : mois de récolte,
+ * en ce moment, périodes ; tests/architectures-recoltes.test.mjs).
+ */
+export async function loadRecoltesModule() {
+  return loadPureLibModule('recoltes.ts');
+}
+
+/**
+ * Copie src/lib/matieres.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture nuancier-matieres : nuancier, échelle,
+ * usages ; tests/architectures-recoltes.test.mjs).
+ */
+export async function loadMatieresModule() {
+  return loadPureLibModule('matieres.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');
