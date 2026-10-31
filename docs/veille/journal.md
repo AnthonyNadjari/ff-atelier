@@ -82,6 +82,8 @@ gîte ou hôtel ?
 
 **Prochain tour commence par** : reprendre `ocre` (tour 18), puis `souffle` et `rideau` avec de vraies séries de photos.
 
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 29 oct 2026, tour 18 (routine en ligne, nuit) : 6 styles gardés, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-29-tour18.jpg)) : le style `enduit`, repris de BCG Building Design
