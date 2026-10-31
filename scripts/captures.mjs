@@ -21,6 +21,7 @@ import { readdirSync, existsSync, readFileSync, writeFileSync, statSync, mkdirSy
 import { join, extname } from 'node:path';
 import { comparePngBuffers, SEUIL_DIFF_PERCENT } from './ff/compare-images.mjs';
 import { loadHeadersRules, headersForPath } from './ff/headers-file.mjs';
+import { photosPriveesAbsentes, filtrerErreursPhotosPrivees } from './ff/photos-privees.mjs';
 
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain', '.mp4': 'video/mp4' };
 const rawArgs = process.argv.slice(2);
@@ -60,9 +61,8 @@ for (const slug of sites) {
   current = slug;
   for (const [label, viewport] of [['desktop', { width: 1400, height: 900 }], ['mobile', { width: 390, height: 844 }]]) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-    // Demo privee d'un prospect sans ses photos (.gitignore : sites/prospect-*/public/images/ reste en local,
-    // droits du commerce) : en CI ses images repondent 404. Ces 404-la, et seulement eux, ne sont pas une panne.
-    const photosPrivees = slug.startsWith('prospect-') && !existsSync(join('sites', slug, 'public', 'images'));
+    // Demo privee d'un prospect sans ses photos : ses 404 d'images ne sont pas une panne (scripts/ff/photos-privees.mjs).
+    const photosPrivees = photosPriveesAbsentes(slug);
     const erreursConsole = [];
     const absents = [];
     page.on('response', (r) => { if (r.status() === 404) absents.push(new URL(r.url()).pathname); });
@@ -75,9 +75,8 @@ for (const slug of sites) {
     for (let y = 0; y < h; y += 600) { await page.evaluate((y) => window.scrollTo(0, y), y); await page.waitForTimeout(80); }
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(1200);
-    const seulementPhotosPrivees = photosPrivees && absents.length > 0 && absents.every((u) => u.startsWith('/images/'));
-    const ignorees = erreursConsole.filter((t) => seulementPhotosPrivees && t.startsWith('Failed to load resource'));
-    for (const t of erreursConsole) if (!ignorees.includes(t)) problems.push(`${slug} ${label}: console ${t}`);
+    const { gardees, ignorees } = filtrerErreursPhotosPrivees(erreursConsole, absents, photosPrivees);
+    for (const t of gardees) problems.push(`${slug} ${label}: console ${t}`);
     if (ignorees.length) console.log(`  -   ${slug} ${label}: ${absents.length} photo(s) privee(s) absente(s) du depot, ignorees`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     if (overflow) problems.push(`${slug} ${label}: debordement horizontal`);

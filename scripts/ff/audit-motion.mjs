@@ -33,6 +33,7 @@ import { createServer } from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { DIST_DIR, ROOT, ok, fail, warn, info, c } from './util.mjs';
+import { photosPriveesAbsentes, filtrerErreursPhotosPrivees } from './photos-privees.mjs';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml',
@@ -327,6 +328,15 @@ function collectDiagnostics() {
     if (el.clientWidth <= 1 && el.clientHeight <= 1 && getComputedStyle(el).overflow === 'hidden') return;
     const rect = el.getBoundingClientRect();
     if (rect.right <= vw + 2 && rect.left >= -2) return;
+    // Contenu rogné exprès par un cadre (overflow hidden/clip) qui tient lui-même dans l'écran : invisible, donc pas un
+    // débordement (piste qui glisse dans une scène collante, mur d'écrans en 3D du site du studio, 31 oct 2026).
+    // body et html ne comptent pas : un contenu coupé au bord de la page est un vrai défaut.
+    for (let cadre = el; cadre && cadre !== document.body && cadre !== document.documentElement; cadre = cadre.parentElement) {
+      const ox = getComputedStyle(cadre).overflowX;
+      if (ox !== 'hidden' && ox !== 'clip') continue;
+      const rc = cadre.getBoundingClientRect();
+      if (rc.left >= -2 && rc.right <= vw + 2) return;
+    }
     const key = `${el.tagName}.${el.className || ''}`;
     if (seenOverflow.has(key)) return;
     seenOverflow.add(key);
@@ -473,6 +483,8 @@ async function auditSlug(browser, slug) {
     const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height }, deviceScaleFactor: 1 });
     const consoleErrors = [];
     const failedRequests = [];
+    const absents = [];
+    page.on('response', (r) => { if (r.status() === 404) absents.push(new URL(r.url()).pathname); });
     page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
     page.on('pageerror', (e) => consoleErrors.push(e.message));
     page.on('requestfailed', (r) => failedRequests.push(r.url()));
@@ -480,6 +492,10 @@ async function auditSlug(browser, slug) {
 
     await page.goto(`http://localhost:${port}/`, { waitUntil: 'networkidle' });
     const diagnostics = await auditPage(page);
+    // Démo prospect-* sans ses photos (CI) : ses 404 d'images ne sont pas une panne (scripts/ff/photos-privees.mjs).
+    const { gardees } = filtrerErreursPhotosPrivees(consoleErrors, absents, photosPriveesAbsentes(slug, ROOT));
+    consoleErrors.length = 0;
+    consoleErrors.push(...gardees);
     diagnostics.consoleErrors = consoleErrors;
     diagnostics.failedRequests = failedRequests;
     await page.close();
