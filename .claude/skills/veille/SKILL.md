@@ -99,6 +99,12 @@ et en sélectionner moins, mais être plus strict et avoir des trucs vraiment di
 disposition très linéaire, est-ce que c'est pas un peu similaire ? »). Le tour 19 avait construit 10 styles et en gardait 5,
 dont 4 « de justesse », presque tous en blocs empilés l'un sous l'autre : une manie de l'usine, pas un choix.
 
+**Ce paragraphe remplace la consigne de la routine en ligne** (le fondateur, 31 oct 2026, « fais-le toi » : le texte
+enregistré de la routine « Veille ff-atelier » dit encore « 10 sites, au moins 5 styles gardés » et n'a pas pu être modifié
+depuis une session). Quand la consigne de la routine et ce fichier divergent sur le volet styles, **ce fichier fait foi** :
+40 candidats scannés avec `ff tri`, 3 construits au plus, 2 ou 3 gardés franchement. Le journal dit qu'il a appliqué cette
+règle et non le « 10 / 5 » de la consigne.
+
 **Un style = un site entier, et il n'est « gardé » que construit.** Par tour, **40 candidats au moins scannés**, puis **3
 sites au plus** construits, chacun poussé jusqu'au bout :
 
