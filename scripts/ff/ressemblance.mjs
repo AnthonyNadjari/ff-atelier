@@ -63,7 +63,8 @@
 // des ancres, longueur de l'accueil en écrans, part d'image, modèle de navigation (longue page à ancres / plusieurs
 // pages / accueil-menu sans défilement / défilement horizontal / onglets). Ressemblance de déroulé = 0,5 x accord
 // des suites (distance d'édition normalisée) + 0,5 x accord du site (modèle 1, tranche de pages 1, longueur 0,5,
-// image 0,5 ; sur 3).
+// image 0,5 ; sur 3 ; sur 2 sans la tranche de pages quand les deux sites ont 4 pages de contenu ou plus, le socle :
+// recalibré le 31 oct 2026, voir accordSite dans deroule.mjs).
 //
 // CALIBRATION DU DÉROULÉ (17 oct 2026 vers 20 h, dist de ce moment ; suites figées dans tests/ressemblance.test.mjs) :
 //

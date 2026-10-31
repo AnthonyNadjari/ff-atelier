@@ -94,12 +94,24 @@ Mélangés sept par sept, les atomes donnaient une moyenne ; posés sur toujours
 donnaient le même squelette repeint. C'est un studio qui vend des sites à 1 200 € : un style qui ne change que les couleurs ne
 vaut rien au client.
 
-**Un style = un site entier, et il n'est « gardé » que construit.** Par tour, **3 sites** (pas dix), chacun poussé jusqu'au bout :
+**Scanner large, garder peu, être strict** (31 oct 2026, le fondateur : « je préfère scanner beaucoup plus de sites par jour
+et en sélectionner moins, mais être plus strict et avoir des trucs vraiment différents » ; et devant `dune` : « la
+disposition très linéaire, est-ce que c'est pas un peu similaire ? »). Le tour 19 avait construit 10 styles et en gardait 5,
+dont 4 « de justesse », presque tous en blocs empilés l'un sous l'autre : une manie de l'usine, pas un choix.
 
-1. **Choisir** : galeries (Awwwards, godly.website, siteinspire, minimal.gallery, onepagelove, Framer et Webflow showcase)
-   ET les sites qui vendent du marché (§ 2a) ; petites structures, faits par des humains ; jamais déjà dans
-   `docs/veille/styles/INDEX.md`. Priorité aux régimes de palette en besoin (`ff atomes`) et aux métiers de
-   `docs/OBJECTIF.md`. Question de tri : « un artisan paierait-il 1 200 € pour ÇA ? » ; sinon on passe.
+**Un style = un site entier, et il n'est « gardé » que construit.** Par tour, **40 candidats au moins scannés**, puis **3
+sites au plus** construits, chacun poussé jusqu'au bout :
+
+0. **Scanner** : `node scripts/ff.mjs tri --fichier <liste>` sur 40 URL ou plus (galeries ci-dessous, sites du marché,
+   catégories et métiers variés ; une liste par tour dans `docs/veille/styles/tri/`). `ff tri` mesure chaque site en ligne
+   (premier écran, déroulé, disposition des blocs, linéarité), le compare à toute l'usine et à toutes les sources déjà
+   triées, et le refuse s'il est linéaire (blocs empilés) ou trop proche de ce qu'on a. On ne regarde à l'œil que ses
+   meilleurs. Un tour qui scanne moins de 40 candidats le dit au journal, avec la raison.
+1. **Choisir** parmi les meilleurs du tri : petites structures, faites par des humains ; jamais déjà dans
+   `docs/veille/styles/INDEX.md`. Priorité à ce que l'usine ne sait pas encore faire (une disposition absente : grille
+   éclatée, colonne fixe, piste, chevauchement, page-menu), puis aux régimes de palette en besoin (`ff atomes`) et aux
+   métiers de `docs/OBJECTIF.md`. Question de tri : « un artisan paierait-il 1 200 € pour ÇA, et est-ce que ça ne
+   ressemble à RIEN de ce que l'usine fait déjà ? » ; sinon on passe.
 2. **Relever la construction, pas seulement la peinture** : `ff demonter` + `ff atomes mesurer` comme avant, PUIS, en
    regardant les captures (outil Read, obligatoire), une section « ## Construction » dans la fiche `<id>.md` : pour chaque
    bloc de l'accueil, dans l'ordre, sa grille (colonnes, part de l'écran), la part et la place de l'image (plein cadre,
@@ -119,15 +131,19 @@ vaut rien au client.
 4. **Prouver avec des photos**, côte à côte avec la source : site jetable (copie de `_exemple`), `ff photos-demo` pour
    avoir de vraies photos d'illustration (jamais une démo sans photo : « ce qui fait vraiment la différence, c'est les
    photos », GOUT § 0), `ff melanger … --style <id>`, `ff apercu-rapide`, et l'image source à côté. Un agent neuf (lecture
-   seule, captures + GOUT § 0) répond en une ligne : « tient la comparaison / ne la tient pas, parce que ». Ne tient pas =
-   on reprend ou on ne garde pas. Puis `ff verifier`, `ff ia`, `ff ressemblance <jetable>` < 0,65 contre tous les sites.
+   seule, captures + GOUT § 0, et les captures des trois styles de l'usine les plus proches) répond en une ligne : « tient
+   la comparaison / ne la tient pas, parce que », et « différent de l'usine / ressemble à <id> ». **« De justesse » ne
+   compte pas comme gardé** (31 oct 2026) : on reprend ou on ne garde pas. Puis `ff verifier`, `ff ia`,
+   `ff ressemblance <jetable>` < 0,65 contre tous les sites, linéarité sous le seuil de `ff tri`.
    Les captures de l'essai se prennent avant de supprimer le jetable.
 5. **Une ligne dans `docs/veille/styles/INDEX.md`** : id, source, construction en une phrase (pas la palette), ce qui est
    codé (hero, section, coquille, modèle), convient à quels clients. La colonne « Direction » dit `atomes` seulement pour
    un relevé partiel, qui ne compte pas comme style gardé.
 
-**Un tour qui ne garde pas au moins 2 styles construits est un tour raté** (le journal dit pourquoi). Dix fiches de polices
-ne valent pas un style construit. Le journal donne, par style : la source, ce qui a été codé, l'image de comparaison.
+**Un tour qui ne garde pas au moins 2 styles construits, franchement tenus et différents de l'usine, est un tour raté** (le
+journal dit pourquoi). Deux styles vraiment différents valent mieux que cinq gardés de justesse ; dix fiches de polices ne
+valent pas un style construit. Le journal donne aussi le chiffre « style maison » de `ff ressemblance --tous` (linéarité
+moyenne de l'usine) avant et après le tour : il doit baisser. Le journal donne, par style : la source, ce qui a été codé, l'image de comparaison.
 
 **Équilibrer les régimes de palette** (21 oct 2026 : trois pistes de L'Épi d'Or tiraient trois palettes blanc / gris /
 noir). Chaque palette tombe dans un régime (`regimePalette`, ATOMES.md § Régimes de palette) : clair neutre, clair teinté

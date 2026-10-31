@@ -440,14 +440,21 @@ export function accordSuites(a = [], b = []) {
 
 const tranche = (n) => (n >= 4 ? '4+' : n >= 1 ? '1-3' : '0');
 /** Pure : accord (0…1) des mesures de site : modèle de navigation (poids 1), tranche de pages de contenu (1),
- *  longueur en écrans (0,5), part d'image de la page (0,5). Le modèle et les pages sont le squelette du site. */
+ *  longueur en écrans (0,5), part d'image de la page (0,5). Le modèle et les pages sont le squelette du site.
+ *  Recalibré le 31 oct 2026 (accord du fondateur) : quand les DEUX sites ont 4 pages de contenu ou plus, le critère
+ *  « pages » ne compte plus (poids total 2 au lieu de 3). Ces pages sont exigées par le socle (GOUT § 0, une page par
+ *  service) : presque tous les sites les ont, le score mesurait le socle et refusait des styles fidèles à leur source.
+ *  Simulé sur le registre du 30 oct : 211 → 180 paires refusées, les six paires du fondateur restent toutes au-dessus
+ *  de 0,65 (0,69 à 0,88). L'autre piste (ordre des blocs à 70 %) faisait passer une de ces paires : écartée. */
 export function accordSite(p, q) {
   if (!p || !q) return 0;
   const modele = p.modele === q.modele ? 1 : 0;
+  const socle = tranche(p.pagesContenu) === '4+' && tranche(q.pagesContenu) === '4+';
   const pages = tranche(p.pagesContenu) === tranche(q.pagesContenu) ? 1 : 0;
   const lp = p.ecrans || 0, lq = q.ecrans || 0;
   const longueur = Math.max(lp, lq) ? 1 - Math.abs(lp - lq) / Math.max(lp, lq) : 1;
   const image = 1 - Math.min(1, 2 * Math.abs((p.partImage || 0) - (q.partImage || 0)));
+  if (socle) return Math.round((modele + 0.5 * longueur + 0.5 * image) / 2 * 1000) / 1000;
   return Math.round((modele + pages + 0.5 * longueur + 0.5 * image) / 3 * 1000) / 1000;
 }
 

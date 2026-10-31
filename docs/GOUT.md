@@ -80,6 +80,15 @@ sur demande ; un style qui n'a pas sa construction codée n'est pas un style ; u
 (`ff photos-demo`, mention « Photo d'illustration ») ; et une paire de sites trop proches (`ff ressemblance`) se corrige, elle
 ne se signale pas pendant des jours. C'est un studio qui vend : ce qui ne change que la peinture ne vaut rien au client.
 
+**Pas de style maison : l'usine ne doit pas se reconnaître** (31 oct 2026, devant `dune`, style gîte repris de
+steuermann.haus : « tu vois encore sur la disposition très linéaire, est-ce que c'est pas un peu similaire dans ce
+sens-là ? » ; « ce qui compte pour moi, c'est de pouvoir faire plein de designs en un clic pour mes clients »). Dix styles
+du 30 oct, d'ordres et de couleurs différents, empilaient tous leurs blocs pleine largeur l'un sous l'autre : c'est la
+signature de l'usine, et elle se voit d'un site à l'autre. Règles : la **disposition** (pile, colonnes, grille, chevauchement,
+plein cadre, piste, colonne fixe, décalé) compte autant que l'ordre des blocs ; un style linéaire n'entre que si l'usine n'a
+rien de tel ; la veille **scanne beaucoup et garde peu** (`ff tri`, 40 candidats ou plus par tour, 3 construits au plus) et
+« de justesse » ne compte pas comme gardé.
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,
@@ -222,6 +231,8 @@ les autres servent à la relecture adverse et à `ff verifier` (bloc « règles 
 
 ## Journal des ajouts
 
+- 31 oct 2026 : § 0 « pas de style maison » (dune trop linéaire ; scanner beaucoup, garder peu, plus strict ; veille § 2a quater
+  réécrite, `ff tri` et mesure de disposition).
 - 29 oct 2026 : § 0 « un style, c'est une construction, pas une peinture » (démo brasserie monotone ; veille réécrite en
   conséquence : `.claude/skills/veille/SKILL.md` § 2a quater, 3 sites entiers construits par tour, paire trop proche corrigée).
 

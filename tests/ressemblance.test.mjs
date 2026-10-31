@@ -230,12 +230,17 @@ test('déroulé : distance d\'édition, voisins à moitié, alignement', () => {
   assert.equal(suiteDeRoles([{ role: 'heros', hEcrans: 1 }, { role: 'autre', hEcrans: 0.3 }, { role: 'autre', hEcrans: 1.2 }, { role: 'pied' }]).join(','), 'heros,autre,pied');
 });
 
-test('déroulé : accord du site (modèle et pages pèsent 1, longueur et image 0,5)', () => {
+test('déroulé : accord du site (modèle et pages pèsent 1, longueur et image 0,5 ; pages hors jeu quand les deux ont le socle)', () => {
   const p = { modele: 'plusieurs pages', pagesContenu: 5, ecrans: 8, partImage: 0.2 };
   assert.equal(accordSite(p, p), 1);
   assert.equal(accordSite(p, { ...p, modele: 'longue page à ancres', pagesContenu: 0 }), Math.round(1 / 3 * 1000) / 1000);
-  assert.equal(accordSite(p, { ...p, ecrans: 4 }), Math.round((2 + 0.5 * 0.5 + 0.5) / 3 * 1000) / 1000);
+  assert.equal(accordSite(p, { ...p, ecrans: 4 }), Math.round((1 + 0.5 * 0.5 + 0.5) / 2 * 1000) / 1000);
   assert.equal(accordSite(p, null), 0);
+  // 31 oct 2026 : deux sites à 4 pages de contenu ou plus (le socle) ne s'accordent plus par ce seul fait
+  assert.equal(accordSite(p, { ...p, pagesContenu: 9, ecrans: 4 }), Math.round((1 + 0.5 * 0.5 + 0.5) / 2 * 1000) / 1000);
+  const petit = { ...p, pagesContenu: 2 };
+  assert.equal(accordSite(petit, petit), 1, 'sous 4 pages, le critère compte toujours');
+  assert.equal(accordSite(petit, { ...petit, modele: 'longue page à ancres' }), Math.round(2 / 3 * 1000) / 1000);
   assert.equal(similariteDeroule({ roles: [] }, { roles: ['heros'] }), null);
 });
 
