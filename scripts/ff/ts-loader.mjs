@@ -434,6 +434,22 @@ export async function loadDepartsModule() {
   return loadPureLibModule('departs.ts');
 }
 
+/**
+ * Copie src/lib/sessions.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture sessions-places : formations,
+ * sessions datées, places ; tests/architectures-sessions.test.mjs).
+ */
+export async function loadSessionsModule() {
+  return loadPureLibModule('sessions.ts');
+}
+
+/**
+ * Copie src/lib/forfaits.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture forfaits-atelier : forfaits, gabarits,
+ * rendez-vous ; tests/architectures-forfaits.test.mjs).
+ */
+export async function loadForfaitsModule() {
+  return loadPureLibModule('forfaits.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

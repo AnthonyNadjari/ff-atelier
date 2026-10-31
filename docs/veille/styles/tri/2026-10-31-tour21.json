@@ -1,0 +1,788 @@
+{
+ "date": "2026-10-31",
+ "seuil": 0.65,
+ "seuilLinearite": 0.65,
+ "garder": 5,
+ "lignes": [
+  {
+   "url": "https://www.dezeen.com",
+   "cle": "dezeen.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.37",
+   "nouveaute": 0.372,
+   "linearite": 0.38,
+   "formes": "collant, piste, pile, collant, piste, collant…",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "deroule",
+    "valeur": 0.628,
+    "pareil": "déroulé : même ordre : héros, réalisations, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 27 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://37signals.com",
+   "cle": "37signals.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.527,
+   "linearite": 1,
+   "formes": "décalé, décalé, décalé, décalé, décalé, décalé…",
+   "proche": {
+    "nom": "fromagerie-ravanel-d",
+    "axe": "deroule",
+    "valeur": 0.473,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 6 et 5 pages de contenu"
+   }
+  },
+  {
+   "url": "https://craigmod.com",
+   "cle": "craigmod.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.90 > 0.65)",
+   "nouveaute": 0.356,
+   "linearite": 0.9,
+   "formes": "pile, pile, grille, colonnes, grille, colonnes…",
+   "proche": {
+    "nom": "encre-noire",
+    "axe": "disposition",
+    "valeur": 0.644,
+    "pareil": "disposition : les deux empilent (90 % et 93 % de la hauteur en bandes) ; même suite au téléphone : colonnes, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://www.hey.com",
+   "cle": "hey.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.95 > 0.65)",
+   "nouveaute": 0.302,
+   "linearite": 0.95,
+   "formes": "pile, pile, grille, pile, pile, pile…",
+   "proche": {
+    "nom": "dubois-plomberie",
+    "axe": "d",
+    "valeur": 0.698,
+    "pareil": "premier écran (ordinateur) : h1 au milieu hors de l'image, carte posée, 74 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.theverge.com",
+   "cle": "theverge.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de demo-informatique (0.75, déroulé)",
+   "nouveaute": 0.248,
+   "linearite": 0.5,
+   "formes": "piste, grille, grille, grille, grille, grille…",
+   "proche": {
+    "nom": "demo-informatique",
+    "axe": "deroule",
+    "valeur": 0.752,
+    "pareil": "déroulé : même ordre : héros, outil, pied de page ; même navigation : onglets ; 70 et 12 pages de contenu"
+   }
+  },
+  {
+   "url": "https://www.frieze.com",
+   "cle": "frieze.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.awwwards.com",
+   "cle": "awwwards.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 502",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.designboom.com",
+   "cle": "designboom.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de jardins-mael (0.65, déroulé)",
+   "nouveaute": 0.346,
+   "linearite": 0.33,
+   "formes": "piste, piste, pile, décalé, colonnes, grille…",
+   "proche": {
+    "nom": "jardins-mael",
+    "axe": "deroule",
+    "valeur": 0.654,
+    "pareil": "déroulé : même ordre : héros, réalisations, autre, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 22 et 5 pages de contenu ; même longueur (13,5 et 12 écrans)"
+   }
+  },
+  {
+   "url": "https://www.cosstores.com",
+   "cle": "cosstores.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://davesocozy.com",
+   "cle": "davesocozy.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.56",
+   "nouveaute": 0.558,
+   "linearite": null,
+   "formes": null,
+   "proche": {
+    "nom": "prospect-epi-dor-d",
+    "axe": "m",
+    "valeur": 0.442,
+    "pareil": "premier écran (téléphone) : 46 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://elev8h2o.shop/",
+   "cle": "elev8h2o.shop",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.46",
+   "nouveaute": 0.463,
+   "linearite": null,
+   "formes": null,
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "deroule",
+    "valeur": 0.537,
+    "pareil": "déroulé : rien de saillant"
+   }
+  },
+  {
+   "url": "https://www.11elevenbar.com/",
+   "cle": "11elevenbar.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.41",
+   "nouveaute": 0.411,
+   "linearite": 0.19,
+   "formes": "décalé, collant, plein cadre, plein cadre, collant, pile",
+   "proche": {
+    "nom": "https://convicts.nyc/",
+    "axe": "deroule",
+    "valeur": 0.589,
+    "pareil": "déroulé : même ordre : héros, autre, contact, contact"
+   }
+  },
+  {
+   "url": "https://officecommun.com/",
+   "cle": "officecommun.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.40",
+   "nouveaute": 0.397,
+   "linearite": 0.13,
+   "formes": "décalé, piste, piste, piste, piste, piste",
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "disposition",
+    "valeur": 0.603,
+    "pareil": "disposition : rien de saillant"
+   }
+  },
+  {
+   "url": "https://www.cafechezteta.com",
+   "cle": "cafechezteta.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.38",
+   "nouveaute": 0.384,
+   "linearite": 0.63,
+   "formes": "collant, décalé, chevauchement, pile, colonnes",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "deroule",
+    "valeur": 0.616,
+    "pareil": "déroulé : même navigation à ancres"
+   }
+  },
+  {
+   "url": "https://meliketurgut.com/",
+   "cle": "meliketurgut.com",
+   "verdict": "refuser",
+   "pourquoi": "pas dans les 5 plus nouveaux du tri",
+   "nouveaute": 0.382,
+   "linearite": 0.5,
+   "formes": "pile, chevauchement",
+   "proche": {
+    "nom": "borie-des-chenes",
+    "axe": "deroule",
+    "valeur": 0.618,
+    "pareil": "déroulé : même longueur (1 et 1,2 écrans)"
+   }
+  },
+  {
+   "url": "https://rendez-vous.franceclat.fr",
+   "cle": "rendez-vous.franceclat.fr",
+   "verdict": "refuser",
+   "pourquoi": "pas dans les 5 plus nouveaux du tri",
+   "nouveaute": 0.378,
+   "linearite": 0.61,
+   "formes": "collant, plein cadre, pile, décalé, pile, colonnes…",
+   "proche": {
+    "nom": "finck-fisch",
+    "axe": "deroule",
+    "valeur": 0.622,
+    "pareil": "déroulé : même ordre : héros, avis, réalisations, réalisations, pied de page ; même navigation à ancres"
+   }
+  },
+  {
+   "url": "https://www.peakuppercervicalcenter.com",
+   "cle": "peakuppercervicalcenter.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.84 > 0.65)",
+   "nouveaute": 0.352,
+   "linearite": 0.84,
+   "formes": "plein cadre, plein cadre, plein cadre, collant, plein cadre, plein cadre…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.648,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 58 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://the-commonwell.webflow.io",
+   "cle": "the-commonwell.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.92 > 0.65)",
+   "nouveaute": 0.35,
+   "linearite": 0.92,
+   "formes": "pile, pile, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "demo-plomberie",
+    "axe": "disposition",
+    "valeur": 0.65,
+    "pareil": "disposition : les deux empilent (92 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://www.thisisfc88.com/",
+   "cle": "thisisfc88.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.95 > 0.65)",
+   "nouveaute": 0.345,
+   "linearite": 0.95,
+   "formes": "pile, chevauchement, chevauchement, colonnes, colonnes, chevauchement…",
+   "proche": {
+    "nom": "https://convicts.nyc/",
+    "axe": "deroule",
+    "valeur": 0.655,
+    "pareil": "déroulé : même ordre : héros, autre, autre, contact ; même navigation à ancres ; même longueur (7 et 7,4 écrans)"
+   }
+  },
+  {
+   "url": "https://www.ptmdowntown.pt",
+   "cle": "ptmdowntown.pt",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.329,
+   "linearite": 1,
+   "formes": "pile, pile",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.671,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://smallbits.design",
+   "cle": "smallbits.design",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de https://driessenarchitectuur.nl/ (0.69, premier écran (téléphone))",
+   "nouveaute": 0.306,
+   "linearite": null,
+   "formes": null,
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "m",
+    "valeur": 0.694,
+    "pareil": "premier écran (téléphone) : barre basse, pas d'image, 78 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://lilguy.net/",
+   "cle": "lilguy.net",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de chez-malo (0.70, premier écran (téléphone))",
+   "nouveaute": 0.302,
+   "linearite": 0.28,
+   "formes": "chevauchement, chevauchement, pile",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "m",
+    "valeur": 0.698,
+    "pareil": "premier écran (téléphone) : h1 sur l'image, image sur plus de la moitié de l'écran, 74 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://stolaze.com/",
+   "cle": "stolaze.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.299,
+   "linearite": 1,
+   "formes": "pile",
+   "proche": {
+    "nom": "https://agronomywork.shop/",
+    "axe": "deroule",
+    "valeur": 0.701,
+    "pareil": "déroulé : rien de saillant"
+   }
+  },
+  {
+   "url": "https://glory-sun.webflow.io",
+   "cle": "glory-sun.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.69 > 0.65)",
+   "nouveaute": 0.278,
+   "linearite": 0.69,
+   "formes": "plein cadre, grille, collant, grille, colonnes, pile",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.722,
+    "pareil": "premier écran (ordinateur) : image sur plus de la moitié de l'écran, 86 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://soul-surf-house.webflow.io",
+   "cle": "soul-surf-house.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.91 > 0.65)",
+   "nouveaute": 0.274,
+   "linearite": 0.91,
+   "formes": "plein cadre, pile, chevauchement, colonnes, décalé, colonnes…",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "disposition",
+    "valeur": 0.726,
+    "pareil": "disposition : les deux empilent (91 % et 87 % de la hauteur en bandes) ; même suite au téléphone : plein cadre, pile, chevauchement, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://scoutgraphics.com",
+   "cle": "scoutgraphics.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.85 > 0.65)",
+   "nouveaute": 0.272,
+   "linearite": 0.85,
+   "formes": "pile, piste, pile, pile, colonnes, pile…",
+   "proche": {
+    "nom": "dentaire-morvan",
+    "axe": "disposition",
+    "valeur": 0.728,
+    "pareil": "disposition : les deux empilent (85 % et 100 % de la hauteur en bandes) ; même suite au téléphone : pile, piste, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://www.1313west.com",
+   "cle": "1313west.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.269,
+   "linearite": 1,
+   "formes": "plein cadre, décalé, pile, décalé, colonnes, pile",
+   "proche": {
+    "nom": "fromagerie-ravanel-c",
+    "axe": "disposition",
+    "valeur": 0.731,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes) ; même suite au téléphone : plein cadre, pile, pile, pile, pile, pile"
+   }
+  },
+  {
+   "url": "https://www.healthandstrengthchiro.com",
+   "cle": "healthandstrengthchiro.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.79 > 0.65)",
+   "nouveaute": 0.262,
+   "linearite": 0.79,
+   "formes": "chevauchement, plein cadre, chevauchement, piste, pile",
+   "proche": {
+    "nom": "lemaire-avocats",
+    "axe": "m",
+    "valeur": 0.738,
+    "pareil": "premier écran (téléphone) : h1 sur l'image, image sur plus de la moitié de l'écran, 80 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://katjawolfinger.com/en/",
+   "cle": "katjawolfinger.com/en",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de forge-delacroix (0.74, premier écran (téléphone))",
+   "nouveaute": 0.257,
+   "linearite": 0.58,
+   "formes": "plein cadre, décalé, grille, chevauchement, colonnes, grille…",
+   "proche": {
+    "nom": "forge-delacroix",
+    "axe": "m",
+    "valeur": 0.743,
+    "pareil": "premier écran (téléphone) : h1 sur l'image en bas, image sur plus de la moitié de l'écran, 72 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.barenagolf.com/",
+   "cle": "barenagolf.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.87 > 0.65)",
+   "nouveaute": 0.256,
+   "linearite": 0.87,
+   "formes": "décalé, plein cadre, pile, grille, colonnes, grille…",
+   "proche": {
+    "nom": "encre-noire",
+    "axe": "disposition",
+    "valeur": 0.744,
+    "pareil": "disposition : les deux empilent (87 % et 93 % de la hauteur en bandes) ; même suite au téléphone : plein cadre, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://timvandamme.com/",
+   "cle": "timvandamme.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.251,
+   "linearite": 1,
+   "formes": "pile, pile, décalé, décalé, pile",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.749,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 81 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://anidachi.com",
+   "cle": "anidachi.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.74 > 0.65)",
+   "nouveaute": 0.244,
+   "linearite": 0.74,
+   "formes": "plein cadre, décalé, pile, chevauchement, pile, piste…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.756,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 82 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://belgrade.klmln.com",
+   "cle": "belgrade.klmln.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.88 > 0.65)",
+   "nouveaute": 0.24,
+   "linearite": 0.88,
+   "formes": "plein cadre, pile, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "m",
+    "valeur": 0.76,
+    "pareil": "premier écran (téléphone) : h1 sur l'image, image sur plus de la moitié de l'écran, 83 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.devonshiresoho.co.uk/",
+   "cle": "devonshiresoho.co.uk",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.239,
+   "linearite": 1,
+   "formes": "pile, chevauchement, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "demo-plomberie",
+    "axe": "disposition",
+    "valeur": 0.761,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://deeo.studio",
+   "cle": "deeo.studio",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.74 > 0.65)",
+   "nouveaute": 0.238,
+   "linearite": 0.74,
+   "formes": "décalé, colonnes, colonnes, piste, décalé, colonnes…",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "m",
+    "valeur": 0.762,
+    "pareil": "premier écran (téléphone) : image sur plus de la moitié de l'écran, 92 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.cliniquesantedorsale.com",
+   "cle": "cliniquesantedorsale.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.92 > 0.65)",
+   "nouveaute": 0.224,
+   "linearite": 0.92,
+   "formes": "collant, colonnes, grille, pile, pile, pile…",
+   "proche": {
+    "nom": "demo-paysagiste",
+    "axe": "disposition",
+    "valeur": 0.776,
+    "pareil": "disposition : les deux empilent (92 % et 96 % de la hauteur en bandes) ; même suite au téléphone : collant, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://cityxofxangels.com",
+   "cle": "cityxofxangels.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de https://agronomywork.shop/ (0.78, déroulé)",
+   "nouveaute": 0.216,
+   "linearite": 0.5,
+   "formes": "collant",
+   "proche": {
+    "nom": "https://agronomywork.shop/",
+    "axe": "deroule",
+    "valeur": 0.784,
+    "pareil": "déroulé : même longueur (7 et 7,4 écrans)"
+   }
+  },
+  {
+   "url": "https://nor.ma/",
+   "cle": "nor.ma",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.85 > 0.65)",
+   "nouveaute": 0.189,
+   "linearite": 0.85,
+   "formes": "plein cadre, pile, colonnes, grille, pile, plein cadre…",
+   "proche": {
+    "nom": "lemaire-avocats",
+    "axe": "d",
+    "valeur": 0.811,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image en haut, image sur plus de la moitié de l'écran, 82 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.hitpause.co.nz",
+   "cle": "hitpause.co.nz",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.184,
+   "linearite": 1,
+   "formes": "plein cadre, décalé, pile, décalé, colonnes",
+   "proche": {
+    "nom": "forge-delacroix",
+    "axe": "m",
+    "valeur": 0.816,
+    "pareil": "premier écran (téléphone) : h1 sur l'image en bas, image sur plus de la moitié de l'écran, 82 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://bueno.fyi",
+   "cle": "bueno.fyi",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 1,
+   "formes": null,
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "d",
+    "valeur": 0.82,
+    "pareil": "premier écran (ordinateur) : pas d'image, 100 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://builderstable.net",
+   "cle": "builderstable.net",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 1,
+   "formes": "décalé, décalé, plein cadre",
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "d",
+    "valeur": 0.82,
+    "pareil": "premier écran (ordinateur) : pas d'image, 100 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://nowa.restaurant/",
+   "cle": "nowa.restaurant",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 1,
+   "formes": "pile, pile, pile, pile",
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "d",
+    "valeur": 0.82,
+    "pareil": "premier écran (ordinateur) : pas d'image, 100 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://sarahandmatt.wedding",
+   "cle": "sarahandmatt.wedding",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.75 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 0.75,
+   "formes": "chevauchement, piste, piste, chevauchement, chevauchement, colonnes…",
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "d",
+    "valeur": 0.82,
+    "pareil": "premier écran (ordinateur) : pas d'image, 100 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.caitobin.com",
+   "cle": "caitobin.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.99 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 0.99,
+   "formes": "colonnes, piste, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "forge-delacroix",
+    "axe": "m",
+    "valeur": 0.82,
+    "pareil": "premier écran (téléphone) : h1 sur l'image en bas, image sur plus de la moitié de l'écran, 83 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://gunespeksen.com",
+   "cle": "gunespeksen.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de https://driessenarchitectuur.nl/ (0.82, premier écran (ordinateur))",
+   "nouveaute": 0.18,
+   "linearite": null,
+   "formes": null,
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "d",
+    "valeur": 0.82,
+    "pareil": "premier écran (ordinateur) : pas d'image, 100 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.lepetitbleucafe.com/",
+   "cle": "lepetitbleucafe.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.72 > 0.65)",
+   "nouveaute": 0.173,
+   "linearite": 0.72,
+   "formes": null,
+   "proche": {
+    "nom": "fromagerie-ravanel-d",
+    "axe": "disposition",
+    "valeur": 0.827,
+    "pareil": "disposition : même suite au téléphone : piste, grille, piste, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://poetry.camera/",
+   "cle": "poetry.camera",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.67 > 0.65)",
+   "nouveaute": 0.147,
+   "linearite": 0.67,
+   "formes": "plein cadre, piste, grille, pile, pile, colonnes",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "m",
+    "valeur": 0.853,
+    "pareil": "premier écran (téléphone) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 88 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://nomads-hub.webflow.io",
+   "cle": "nomads-hub.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.78 > 0.65)",
+   "nouveaute": 0.14,
+   "linearite": 0.78,
+   "formes": "plein cadre, plein cadre, piste, plein cadre, plein cadre, plein cadre",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.86,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 89 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://tabkitchenbakery.com/",
+   "cle": "tabkitchenbakery.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.88, premier écran (ordinateur))",
+   "nouveaute": 0.122,
+   "linearite": 0.04,
+   "formes": "piste",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.878,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 91 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://madie.es",
+   "cle": "madie.es",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de encre-noire (0.88, premier écran (téléphone))",
+   "nouveaute": 0.118,
+   "linearite": 0.55,
+   "formes": "plein cadre, pile, pile, chevauchement, pile, piste…",
+   "proche": {
+    "nom": "encre-noire",
+    "axe": "m",
+    "valeur": 0.882,
+    "pareil": "premier écran (téléphone) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 92 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://thenewindustrials.com/",
+   "cle": "thenewindustrials.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.096,
+   "linearite": 1,
+   "formes": "plein cadre, pile, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.904,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 95 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://alkemexmason.webflow.io",
+   "cle": "alkemexmason.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "refusé : robots.txt interdit cette page",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://by-raven.webflow.io",
+   "cle": "by-raven.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "refusé : robots.txt interdit cette page",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://hermo.webflow.io",
+   "cle": "hermo.webflow.io",
+   "verdict": "refuser",
+   "pourquoi": "refusé : robots.txt interdit cette page",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  }
+ ]
+}

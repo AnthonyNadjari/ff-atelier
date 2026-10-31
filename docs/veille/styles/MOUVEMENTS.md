@@ -943,6 +943,35 @@ les fait passer au doigt, comme on feuillette un dossier de plans ; la photo qui
   défilement vertical, tout se passe sous le doigt, dans la piste. Calme : oui. Poids : léger (une soixantaine de lignes
   de script, aucune bibliothèque).
 
+### `rangee-tiree-a-la-main`
+Office Commun (`rangees.md`, [officecommun.com](https://officecommun.com/), petit studio de design, veille du 31 oct 2026,
+tour 21, style construit `rangees` ; CSS de la source lu : `.strip__scroll { overflow-x: auto; cursor: grab }` et
+`.is-dragging { cursor: grabbing }` (on tire la rangée à la souris), `.tile img { opacity: 0; transition: opacity .4s }`
+puis `.is-loaded` (chaque image apparaît une fois chargée), `.rise.is-in { transition: opacity .6s, transform .6s
+cubic-bezier(.32, .72, 0, 1) }` sur la phrase d'ouverture ; aucune bibliothèque, aucun aimant, rien qui bouge seul). Un
+index de travaux qu'on feuillette à la main : chaque rangée se tire comme une bande de planche-contact, un fil dessous dit
+où l'on en est ; rien d'autre ne bouge.
+- Entrée colonne qui monte · apparition photo qui apparaît une fois chargée · survol gris qui fonce · fond aucun.
+- Moteur : `src/components/RangeeDePhotos.astro` (Services, About rangees ; la rangée des avis de Proof/rangees a la même
+  piste, sans fil) : piste NATIVE (`overflow-x: auto`, sans `scroll-snap` : la rangée s'arrête où on la lâche,
+  `overscroll-behavior-x: contain`, `touch-action: pan-x pan-y`, `tabindex="0"`) ; script `onPage` : à la souris,
+  `pointerdown` puis `pointermove` sur la fenêtre (`scrollLeft = départ - dx`, classe `.rg-tire` au-delà de 4 px : main
+  fermée, clic annulé en phase de capture) ; LE FIL `[data-rangee-fil]` : `--rg-part` (vue / largeur totale) et `--rg-pos`
+  (position) recalculés une fois par image d'animation au défilement de la piste, le trait d'encre suit le doigt
+  linéairement, caché quand rien ne déborde ; les photos chargées d'emblée (première rangée) attendent à `opacity: 0` sous `.rg-attente` (posée
+  par le script) et apparaissent en 0,4 s `ease` à leur `load`. Entrée : Hero/rangees, `@keyframes rg-monte` (12 px et
+  opacité, 0,6 s `cubic-bezier(0.32, 0.72, 0, 1)`, 0 / 80 / 160 ms), CSS seul, une fois. Régime sec : le gris d'une ligne de
+  rangée et le filet des liens passent à l'encre en 0,2 s `ease` (souris seulement, `(hover: hover) and (pointer: fine)`).
+- Garde : rien ne suit le défilement vertical, rien ne tourne tout seul, aucun défilement détourné (le tirage à la souris
+  ne touche que la piste, jamais la molette) ; au doigt, c'est le navigateur qui fait glisser (tient sur iPhone) ; sans
+  script, la piste glisse quand même et toutes les photos sont visibles ; en mouvement réduit, ni montée ni fondu.
+- Quand : menuisier, ébéniste, architecte d'intérieur, paysagiste, photographe, tapissier, carreleur : un client qui a
+  plusieurs réalisations (trois au moins) et plusieurs photos de chacune, et qui veut une page calme. Distinct de
+  `travee-au-doigt` (une seule bande, aimantée, la photo du moment qui se pose, flèches et « 2 sur 7 ») et de
+  `etagere-qui-se-remplit` (des objets qui arrivent case après case à l'entrée dans l'écran) : ici plusieurs rangées
+  empilées, sans aimant ni flèche, tirées à la main, et un fil qui suit. Calme : oui. Poids : léger (une cinquantaine de
+  lignes de script, aucune bibliothèque).
+
 ### `fiche-collee-a-l-objet`
 Agronomy Workshop (`etabli.md`, [agronomywork.shop](https://agronomywork.shop/), vêtements de travail cousus à Los Angeles,
 site Framer, veille du 31 oct 2026, tour 20, style construit `etabli` ; DOM lu à 1 440 px : sept blocs `position: sticky;

@@ -1,0 +1,24 @@
+---
+/**
+ * About "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction, page projet) : le bloc « à propos » des pages de la source, en rangée (src/components/AtelierEnRangee.astro :
+ * la ligne « L'atelier, Depuis <année> », l'histoire en colonne de 34em, la rangée des photos de l'atelier). Le modèle de
+ * site entier presets/rangees.json n'a pas cette section : Services/rangees pose le même bloc en dernière rangée de l'index ;
+ * elle sert aux modèles qui gardent un « à propos » à part (presets/rangees-menuisier.json).
+ */
+import { site } from '@/lib/site';
+import AtelierEnRangee from '@/components/AtelierEnRangee.astro';
+
+// Sans histoire, description, portrait ni équipe, rien à dire : pas de section (rien d'inventé).
+const montrer = Boolean(site.about.story || site.business.description || site.about.portrait || site.about.team.length);
+---
+
+{montrer && (
+  <section id="about" class="rg-apropos" aria-labelledby="rg-apropos-titre">
+    <AtelierEnRangee niveau="h2" />
+  </section>
+)}
+
+<style>
+  .rg-apropos { padding: clamp(3rem, 6vw, 4rem) 0; }
+</style>

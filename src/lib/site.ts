@@ -70,6 +70,10 @@ export { PRODUCTEURS_MIN, producteursComplets, parDistance as producteursParDist
 import { lienProducteurs } from './producteurs';
 export { DEPARTS_MIN, AUTRES_TRAJETS, trajetsComplets, groupesParType as trajetsParType, dureeDuTrajet, avecPrix as trajetsAvecPrix, priseEnCharge, autresTrajets, lienTrajets } from './departs';
 import { lienTrajets } from './departs';
+export { FORMATIONS_MIN, SESSIONS_MIN, AUTRES_FORMATIONS, formationsCompletes, sessionsAVenir, sessionsDe, placesEnMots, dateDeSession, parCategorie as formationsParCategorie, lienFormations } from './sessions';
+import { lienFormations } from './sessions';
+export { FORFAITS_MIN, forfaitsComplets, gabaritsUtilises, prixPour, parRendezVous as forfaitsParRendezVous, autresForfaits, lienForfaits } from './forfaits';
+import { lienForfaits } from './forfaits';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -395,6 +399,14 @@ export const navLinks = (s: Site = site) => {
   // Annecy, vers tous les trajets (/trajets).
   const trajets = lienTrajets(s.departs?.trajets, s.wording.trajets);
   if (trajets) links.unshift(trajets);
+  // Formations et sessions (src/lib/sessions.ts, architecture sessions-places) : la vitrine des formations de MAP, en tête
+  // de la nav (/formations).
+  const formations = lienFormations(s.formations?.liste, s.wording.formations);
+  if (formations) links.unshift(formations);
+  // Forfaits d'atelier (src/lib/forfaits.ts, architecture forfaits-atelier) : « Forfaits » entre Accueil et Contact dans la
+  // barre du Garage de la Route Nationale (/forfaits).
+  const forfaits = lienForfaits(s.forfaits?.liste, s.wording.forfaits);
+  if (forfaits) links.unshift(forfaits);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);
@@ -411,7 +423,7 @@ export const navLinks = (s: Site = site) => {
   // garde que le carnet (ou les temps de trajet) et le contact, sans ancre vers un bloc absent.
   // Idem pour `recoltes` et `matieres` (questions sur /calendrier ou /matieres), `producteurs` et `departs` (questions sur
   // /producteurs ou /trajets).
-  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet' || s.layout.shell === 'recoltes' || s.layout.shell === 'matieres' || s.layout.shell === 'producteurs' || s.layout.shell === 'departs') {
+  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet' || s.layout.shell === 'recoltes' || s.layout.shell === 'matieres' || s.layout.shell === 'producteurs' || s.layout.shell === 'departs' || s.layout.shell === 'sessions' || s.layout.shell === 'forfaits') {
     const absents = ['/#services', '/#zones', '/#about', '/#faq', ...(s.proof.testimonials.length || s.proof.google ? [] : ['/#proof'])];
     const garde = links.filter((l) => !absents.includes(l.href));
     links.splice(0, links.length, ...garde);

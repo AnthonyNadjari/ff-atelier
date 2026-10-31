@@ -1,0 +1,99 @@
+---
+/**
+ * Page d'une formation (/formations/<slug>, site.formations, src/lib/sessions.ts) : architecture `sessions-places` (une fiche
+ * de formation de MAP : le prix, ce qu'il faut avant, l'évaluation de départ, les pièces à fournir, le centre d'examen, les
+ * sessions datées à places comptées ; docs/veille/architectures/sessions-places.md). Une page par formation complète ; aucun
+ * paiement : « S'inscrire » mène à la demande.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, formationsCompletes, sessionsDe, dateDeSession, placesEnMots, lienFormations } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return formationsCompletes(site.formations?.liste).map((f) => ({ params: { slug: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const fo = site.formations!;
+const page = lienFormations(fo.liste, site.wording.formations);
+const sessions = sessionsDe(f);
+const finDe = (s: { debut: string; fin?: string }) => (s.fin && s.fin >= s.debut ? s.fin : s.debut);
+const blocs = [
+  ['Avant de commencer', f.prerequis],
+  ['Le prix comprend', f.comprend],
+  ['Pièces à fournir', f.documents],
+].filter(([, v]) => (v as string[]).length > 0) as [string, string[]][];
+---
+
+<Base title={`${f.nom} | ${site.business.name}`} description={`${f.nom}${f.prix ? `, ${f.prix}` : ''} : ${site.business.trade}. Prochaines sessions et inscription.`} path={`/formations/${f.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff fp">
+    <p><a href={page ? '/formations' : '/#formations'} class="fp-lien"><Icon name="ArrowLeft" size={16} />{site.wording.formations}</a></p>
+    <header class="fp-tete">
+      {f.categorie && <p class="fp-cat">{f.categorie}</p>}
+      <h1 class="fp-titre font-display">{f.nom}</h1>
+      <p class="fp-prix tabular-nums">{f.prix ?? 'Prix sur demande'}{f.duree ? `, ${f.duree}` : ''}</p>
+    </header>
+    {f.photo && <Img src={f.photo.src} alt={f.photo.alt} class="fp-photo" sizes="(min-width: 64rem) 60rem, 100vw" priority />}
+    {f.texte && <p class="fp-texte">{f.texte}</p>}
+    {sessions.length > 0 && (
+      <section aria-labelledby="fp-sessions" class="fp-sessions">
+        <h2 id="fp-sessions" class="fp-h2 font-display">Les prochaines sessions</h2>
+        <ul class="fp-liste">
+          {sessions.map((s) => (
+            <li class="fp-session" data-fp-fin={finDe(s)}>
+              <p class="fp-date"><time datetime={s.debut}>{dateDeSession(s).long}</time></p>
+              <p class="fp-muted">{[s.horaires, s.lieu].filter(Boolean).join(', ')}</p>
+              {placesEnMots(s.places) && <p class="fp-places" data-places={s.places}>{placesEnMots(s.places)}</p>}
+              {s.places !== 0 && <p><a href="/#contact" class="fp-lien">S’inscrire à cette session</a></p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+    {blocs.map(([t, v]) => (
+      <section class="fp-bloc" aria-label={t}>
+        <h2 class="fp-h2 font-display">{t}</h2>
+        <ul class="fp-points">{v.map((x) => <li>{x}</li>)}</ul>
+      </section>
+    ))}
+    {fo.inscription && <p class="fp-muted">{fo.inscription}</p>}
+    {fo.examen && <p class="fp-muted">Centre d’examen&nbsp;: {fo.examen}</p>}
+    <p><a href={tel()} class="fp-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/sessions';
+  onPage(() => {
+    const jour = isoDuJour();
+    for (const el of document.querySelectorAll<HTMLElement>('[data-fp-fin]')) if ((el.dataset.fpFin ?? '') < jour) el.hidden = true;
+  });
+</script>
+
+<style>
+  .fp { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .fp-tete { display: grid; gap: 0.4rem; }
+  .fp-cat { font-weight: 700; color: var(--color-muted); }
+  .fp-titre { font-size: clamp(2.2rem, 7vw, 4.4rem); line-height: 0.98; letter-spacing: -0.02em; }
+  .fp-prix { font-size: clamp(1.2rem, 2.4vw, 1.5rem); font-weight: 700; }
+  .fp-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .fp-texte { max-inline-size: 62ch; font-size: 1.1rem; }
+  .fp-muted { color: var(--color-muted); }
+  .fp-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .fp-sessions, .fp-bloc { display: grid; gap: 0.6rem; }
+  .fp-liste { display: grid; gap: 0.75rem; }
+  .fp-session { display: grid; gap: 0.2rem; padding: 1rem 1.15rem; background: var(--color-bg-2); border: 1px solid var(--color-line); border-inline-start: 5px solid var(--color-accent); border-radius: var(--radius-card); }
+  .fp-session[hidden] { display: none; }
+  .fp-date { font-weight: 700; font-size: 1.1rem; }
+  .fp-places { font-weight: 700; }
+  .fp-points { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .fp-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .fp-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fp-tel:focus-visible, .fp-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+</style>

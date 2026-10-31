@@ -1,0 +1,84 @@
+---
+/**
+ * Page d'un forfait (/forfaits/<slug>, site.forfaits, src/lib/forfaits.ts) : architecture `forfaits-atelier` (un forfait de
+ * la page Forfaits du Garage de la Route Nationale : le prix, « Ce prix comprend », pour quelles voitures, ce qu'il faut
+ * apporter, le véhicule de prêt ; docs/veille/architectures/forfaits-atelier.md). Le ticket en grand, les prix par gabarit,
+ * le rendez-vous, l'appel, les autres forfaits. Une page par forfait à prix.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, forfaitsComplets, gabaritsUtilises, prixPour, autresForfaits, lienForfaits } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return forfaitsComplets(site.forfaits?.liste).map((f) => ({ params: { slug: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const fo = site.forfaits!;
+const page = lienForfaits(fo.liste, site.wording.forfaits);
+const gabarits = gabaritsUtilises(fo.gabarits, fo.liste).map((g) => ({ g, p: prixPour(f, g) })).filter((x) => x.p);
+const autres = autresForfaits(fo.liste, f.slug);
+const RDV = { sans: 'Sans rendez-vous, aux heures d’ouverture', sur: 'Sur rendez-vous' } as const;
+---
+
+<Base title={`${f.nom} | ${site.business.name}`} description={`${f.nom}${prixPour(f) ? `, ${prixPour(f)}` : ''} : ${site.business.trade}. Ce que le prix comprend.`} path={`/forfaits/${f.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff fd">
+    <p><a href={page ? '/forfaits' : '/#forfaits'} class="fd-lien"><Icon name="ArrowLeft" size={16} />{site.wording.forfaits}</a></p>
+    <header class="fd-tete">
+      {f.famille && <p class="fd-famille">{f.famille}</p>}
+      <h1 class="fd-titre font-display">{f.nom}</h1>
+      {prixPour(f) && <p class="fd-prix tabular-nums">{prixPour(f)}</p>}
+    </header>
+    {gabarits.length > 0 && (
+      <dl class="fd-gabarits tabular-nums">
+        {gabarits.map((x) => <div class="fd-g"><dt>{x.g}</dt><dd>{x.p}</dd></div>)}
+      </dl>
+    )}
+    {f.comprend.length > 0 && (
+      <section aria-labelledby="fd-comprend" class="fd-ticket">
+        <h2 id="fd-comprend" class="fd-h2 font-display">Ce prix comprend</h2>
+        <ul class="fd-points">{f.comprend.map((c) => <li>{c}</li>)}</ul>
+      </section>
+    )}
+    {f.pour && <p><strong>Pour&nbsp;:</strong> {f.pour}</p>}
+    {(f.rendezVous || f.duree) && <p class="fd-muted">{[f.rendezVous ? RDV[f.rendezVous] : '', f.duree].filter(Boolean).join('. ')}</p>}
+    {f.photo && <Img src={f.photo.src} alt={f.photo.alt} class="fd-photo" sizes="(min-width: 64rem) 60rem, 100vw" priority />}
+    {f.texte && <p class="fd-texte">{f.texte}</p>}
+    {fo.apporter.length > 0 && <p class="fd-muted">À apporter&nbsp;: {fo.apporter.join(', ')}.</p>}
+    {fo.avertissement && <p class="fd-muted">{fo.avertissement}</p>}
+    <p><a href={tel()} class="fd-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+    {autres.length > 0 && (
+      <nav aria-labelledby="fd-autres">
+        <h2 id="fd-autres" class="fd-h2 font-display">Les autres forfaits</h2>
+        <ul class="fd-autres">{autres.map((x) => <li><a href={`/forfaits/${x.slug}`} class="fd-lien">{x.nom}</a><span class="fd-muted tabular-nums">, {prixPour(x) || 'prix selon votre voiture'}</span></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .fd { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .fd-tete { display: grid; gap: 0.4rem; }
+  .fd-famille { font-weight: 700; color: var(--color-muted); }
+  .fd-titre { font-size: clamp(2.2rem, 7vw, 4.4rem); line-height: 0.98; letter-spacing: -0.02em; }
+  .fd-prix { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; }
+  .fd-gabarits { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.75rem; }
+  .fd-g { display: grid; gap: 0.15rem; padding: 0.85rem 1rem; background: var(--color-bg-2); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .fd-g dt { font-weight: 600; color: var(--color-muted); }
+  .fd-g dd { font-size: 1.35rem; font-weight: 700; }
+  .fd-ticket { display: grid; gap: 0.5rem; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-line); border-block-start: 3px dashed var(--color-line); border-radius: 0 0 var(--radius-card) var(--radius-card); box-shadow: var(--shadow-card); }
+  .fd-points { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .fd-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .fd-texte { max-inline-size: 62ch; font-size: 1.1rem; }
+  .fd-muted { color: var(--color-muted); }
+  .fd-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .fd-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .fd-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fd-tel:focus-visible, .fd-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .fd-autres { display: grid; }
+</style>

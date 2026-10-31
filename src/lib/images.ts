@@ -57,6 +57,7 @@ export const HERO_SIZES: Record<string, string> = {
   rideau: '100vw', // grand vide noir puis écran plein de photo, nom centré (style rideau)
   cartouche: '100vw', // en-tête au nom géant puis photo pleine largeur (style cartouche)
   travee: '100vw', // la travée du premier écran : photos bord à bord dans une piste horizontale (style travee)
+  rangees: '(min-width: 48rem) 32vw, 80vw', // pas de photo au premier écran : images.hero = la première photo de la première rangée, une « grande » (style rangees)
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

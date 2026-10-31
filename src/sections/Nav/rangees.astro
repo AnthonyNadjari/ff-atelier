@@ -1,0 +1,42 @@
+---
+/**
+ * Nav "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction, bloc 1) : la barre de la source, rien de plus : le nom du client en petit à gauche (son logo s'il en a
+ * un, à la hauteur d'une ligne), et à droite « Contact ». Le socle (GOUT § 0) y ajoute le numéro, cliquable, avant
+ * « Contact », au téléphone comme à l'ordinateur. Rien d'autre : les pages du site (une par prestation, une par
+ * réalisation) sont citées dans la phrase du premier écran et sur chaque rangée, comme les projets de la source. Pas de
+ * fond, pas de filet : la barre s'en va avec la page (la source ne la colle pas).
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+---
+
+<header class="rg-nav" data-nav>
+  <a href="/" class="rg-nom" aria-label={site.images.logo ? `${site.business.name}, accueil` : undefined}>
+    {site.images.logo ? <Img src={site.images.logo.src} alt="" class="rg-logo" sizes="120px" loading="eager" /> : site.business.name}
+  </a>
+  <nav class="rg-droite" aria-label="Navigation principale">
+    <a href={tel()} class="rg-tel" data-porte="call" aria-label={`Appeler le ${site.contact.phoneDisplay}`}>{site.contact.phoneDisplay}</a>
+    <a href="/#contact" class="rg-contact">Contact</a>
+  </nav>
+</header>
+
+<style>
+  .rg-nav {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.25rem; flex-wrap: wrap;
+    padding: 1rem var(--rg-bord, 1rem) 0;
+    font-size: var(--rg-t, 0.9375rem); line-height: 1.6; color: var(--fg);
+  }
+  .rg-nom { color: var(--fg); min-width: 0; overflow-wrap: anywhere; transition: color var(--motion-ui, 0.2s) ease; }
+  .rg-nom :global(.rg-logo) { height: 1.5rem; width: auto; }
+  .rg-droite { display: flex; align-items: baseline; gap: 1rem; margin-left: auto; }
+  .rg-tel { white-space: nowrap; font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--line); transition: border-color var(--motion-ui, 0.2s) ease; }
+  .rg-contact { color: var(--fg); transition: color var(--motion-ui, 0.2s) ease; }
+  .rg-nav a { padding-block: 0.6rem; }
+  .rg-nav a:focus-visible { outline: 1px solid var(--fg); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .rg-nom:hover, .rg-contact:hover { color: var(--muted); }
+    .rg-tel:hover { border-bottom-color: var(--fg); }
+  }
+</style>

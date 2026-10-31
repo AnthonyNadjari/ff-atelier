@@ -233,6 +233,14 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   avec l'avance et la marge du client), les avis en piste, `/trajets`, `/trajets/<slug>` ; aucune donnée = aucune page ;
   `ff ressemblance` les voit comme « annuaire de fiches » et « tableau des départs » (`src/lib/producteurs.ts`,
   `src/lib/departs.ts`, `tests/architectures-fermiers.test.mjs`, `tests/architectures-departs.test.mjs`).
+  `formations` (optionnel, architecture `sessions-places`, coquille `sessions`) → le guichet d'une auto-école : le billet de la
+  prochaine session posé à cheval sur la photo, les prochaines sessions de toutes les formations en billets datés (places
+  restantes, « Complet », sessions passées retirées au build et dans le navigateur), les formations en colonnes par catégorie,
+  `/formations`, `/formations/<slug>` ; `forfaits` (optionnel, architecture `forfaits-atelier`, coquille `forfaits`) → le comptoir
+  d'un garage : « Votre voiture ? » (prix par gabarit, tous écrits sans script) et les forfaits en tickets (« Ce prix comprend »,
+  pour quelles voitures, sans ou sur rendez-vous), barre du comptoir collée à l'ordinateur, les deux files et « À apporter »,
+  `/forfaits` en tableau, `/forfaits/<slug>` ; aucune donnée = aucune page ; `ff ressemblance` voit le second comme « comptoir de
+  forfaits » (`src/lib/sessions.ts`, `src/lib/forfaits.ts`, `tests/architectures-sessions.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

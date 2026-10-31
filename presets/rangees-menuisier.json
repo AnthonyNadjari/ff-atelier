@@ -1,0 +1,33 @@
+{
+  "nom": "rangees-menuisier",
+  "titre": "Rangées menuisier",
+  "description": "La direction rangees pour un menuisier, un carreleur ou un tapissier qui préfère une photo au premier écran : barre de navigation, le titre et la photo côte à côte, les avis en rangée de cases tout de suite après, l'atelier en colonne étroite avec sa rangée de photos, les prestations en alternance, les étapes d'un chantier, les questions, l'invitation en bandeau, puis le contact à filets de la source.",
+  "metiers": [
+    "menuisier",
+    "carreleur",
+    "tapissier",
+    "agenceur"
+  ],
+  "look": {
+    "direction": "rangees",
+    "motion": "subtle",
+    "scale": "normal",
+    "layout": {
+      "nav": "bar",
+      "hero": "split",
+      "sections": [
+        { "type": "proof", "variant": "rangees" },
+        { "type": "about", "variant": "rangees" },
+        { "type": "services", "variant": "alternating" },
+        { "type": "process", "variant": "steps" },
+        { "type": "faq", "variant": "accordion" },
+        { "type": "cta", "variant": "band" },
+        { "type": "contact", "variant": "rangees" }
+      ],
+      "footer": "columns",
+      "divider": "none",
+      "tone": "alternate",
+      "actionBar": false
+    }
+  }
+}

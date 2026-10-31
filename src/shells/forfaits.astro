@@ -1,0 +1,286 @@
+---
+/**
+ * Coquille "forfaits" : architecture `forfaits-atelier` (src/lib/architectures.ts ; sources Garage de la Route Nationale,
+ * Nouvion : les forfaits à prix dès l'accueil, « Ce prix comprend » pièces et main-d'œuvre, pour quelles voitures, avec ou sans
+ * rendez-vous, ce qu'il faut apporter, le véhicule de prêt ; Garage de la République, Échirolles : forfaits « à partir de » et
+ * prix par gabarit ; docs/veille/architectures/forfaits-atelier.md).
+ * Le client se demande « combien pour ma voiture, qu'est-ce qui est compris, faut-il prendre rendez-vous ? » : l'accueil est
+ * le comptoir des forfaits.
+ *   → id="hero" : le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0), ce qui se fait
+ *     sans rendez-vous ; la photo du client à côté ;
+ *   → id="forfaits" : « Votre voiture ? » (un bouton par gabarit, le prix de chaque ticket suit ; sans script tous les prix
+ *     restent écrits) puis les forfaits en tickets posés en quinconce (piste au doigt au téléphone) : famille, nom, prix,
+ *     « Ce prix comprend » ligne à ligne, pour quelles voitures, sans ou sur rendez-vous, durée ;
+ *   → id="venir" : les deux files (sans rendez-vous, sur rendez-vous) à côté de « À apporter » et du véhicule de prêt ;
+ *   → id="avis" : les avis ; les sections du layout ; id="contact" : l'adresse, les horaires, la demande ; le pied.
+ * Pages : /forfaits (tableau comparé, avec les questions), /forfaits/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans forfaits : le h1, l'appel et la demande restent, le build dit ce qui manque.
+ * Signes des sources NON repris : capitales partout, « prix imbattable de la région », le « 200 € offert » en chiffre géant,
+ * le texte en gras mot à mot.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, forfaitsComplets, gabaritsUtilises, prixPour, forfaitsParRendezVous } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const fo = site.forfaits;
+const forfaits = forfaitsComplets(fo?.liste);
+const gabarits = gabaritsUtilises(fo?.gabarits, forfaits);
+const files = forfaitsParRendezVous(forfaits);
+const apporter = fo?.apporter ?? [];
+const avis = site.proof.testimonials;
+const photo = site.images.hero;
+const lien = (slug: string) => `/forfaits/${slug}`;
+const RDV = { sans: 'Sans rendez-vous', sur: 'Sur rendez-vous' } as const;
+const manque = donneesManquantes('forfaits-atelier', site);
+if (manque.length > 0) console.warn(`[coquille forfaits] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="fa-page">
+  <section id="hero" class="fa-tete container-ff" aria-labelledby="fa-h1">
+    <div class="fa-identite">
+      <h1 id="fa-h1" class="fa-h1 font-display" set:html={site.business.tagline} />
+      <p class="fa-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="fa-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="fa-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+      {files.sans.length > 0 && <p class="fa-fort">Sans rendez-vous&nbsp;: {files.sans.map((f) => f.nom.replace(/^Forfait\s+/i, '')).join(', ')}.</p>}
+      <p><a href="#contact" class="fa-lien">{site.wording.devis}</a></p>
+    </div>
+    {photo && <div class="fa-photo-cadre"><Img src={photo.src} alt={photo.alt} class="fa-photo" sizes="(min-width: 64rem) 50vw, 100vw" priority /></div>}
+  </section>
+
+  {forfaits.length > 0 && (
+    <section id="forfaits" class="fa-comptoir" aria-labelledby="fa-forfaits-t" data-fa-comptoir data-gabarit="">
+      <div class="fa-comptoir-in">
+      <div class="fa-entete">
+        <h2 id="fa-forfaits-t" class="fa-h2 font-display">{site.wording.forfaits}</h2>
+        {gabarits.length > 0 && (
+          <fieldset class="fa-gabarits" data-fa-gabarits hidden>
+            <legend class="fa-legende">Votre voiture&nbsp;?</legend>
+            {gabarits.map((g, i) => (
+              <label class="fa-gabarit"><input type="radio" name="fa-gabarit" value={g} checked={i === 0} />{g}</label>
+            ))}
+          </fieldset>
+        )}
+        {fo?.avertissement && <p class="fa-muted">{fo.avertissement}</p>}
+        <p class="fa-autre">Votre voiture n’est pas dans la liste&nbsp;? <a href={tel()} class="fa-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      <ul class="fa-tickets" tabindex="0" aria-label="Les forfaits, à faire défiler au téléphone">
+        {forfaits.map((f) => {
+          const parGabarit = gabarits.map((g) => ({ g, p: prixPour(f, g) })).filter((x) => x.p);
+          const memes = parGabarit.length > 0 && parGabarit.every((x) => x.p === parGabarit[0].p);
+          return (
+            <li class="fa-ticket">
+              <div class="fa-t-tete">
+              {f.famille && <p class="fa-famille">{f.famille}</p>}
+              <a href={lien(f.slug)} class="fa-nom font-display">{f.nom}</a>
+              {parGabarit.length > 0 && !memes ? (
+                <dl class="fa-prix-gabarits tabular-nums">
+                  {parGabarit.map((x) => <div class="fa-pg" data-g={x.g}><dt>{x.g}</dt><dd class="fa-prix">{x.p}</dd></div>)}
+                </dl>
+              ) : (
+                <p class="fa-prix fa-prix-seul tabular-nums">{memes ? parGabarit[0].p : prixPour(f)}</p>
+              )}
+              <p class="fa-bas">
+                {f.rendezVous && <span class="fa-rdv" data-rdv={f.rendezVous}>{RDV[f.rendezVous]}</span>}
+                {f.duree && <span class="fa-muted">{f.duree}</span>}
+              </p>
+              </div>
+              <div class="fa-t-corps">
+              {f.comprend.length > 0 && (
+                <div class="fa-comprend">
+                  <p class="fa-comprend-t">Ce prix comprend</p>
+                  <ul class="fa-lignes">{f.comprend.map((c) => <li>{c}</li>)}</ul>
+                </div>
+              )}
+              {f.pour && <p class="fa-muted">Pour&nbsp;: {f.pour}</p>}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      </div>
+    </section>
+  )}
+
+  {(files.sans.length > 0 || files.sur.length > 0 || apporter.length > 0 || fo?.pret) && (
+    <section id="venir" class="fa-venir container-ff" aria-labelledby="fa-venir-t">
+      <h2 id="fa-venir-t" class="fa-h2 font-display">Venir au garage</h2>
+      <div class="fa-venir-grille">
+        {files.sans.length > 0 && (
+          <div class="fa-file">
+            <h3 class="fa-h3 font-display">Sans rendez-vous</h3>
+            <ul class="fa-file-liste">{files.sans.map((f) => <li><a href={lien(f.slug)} class="fa-lien">{f.nom}</a></li>)}</ul>
+          </div>
+        )}
+        {files.sur.length > 0 && (
+          <div class="fa-file">
+            <h3 class="fa-h3 font-display">Sur rendez-vous</h3>
+            <ul class="fa-file-liste">{files.sur.map((f) => <li><a href={lien(f.slug)} class="fa-lien">{f.nom}</a></li>)}</ul>
+            <p><a href={tel()} class="fa-lien tabular-nums"><Icon name="CalendarCheck" size={18} />Prendre rendez-vous au {site.contact.phoneDisplay}</a></p>
+          </div>
+        )}
+        {(apporter.length > 0 || fo?.pret) && (
+          <div class="fa-apporter">
+            {apporter.length > 0 && (<><h3 class="fa-h3 font-display">À apporter</h3><ul class="fa-coches">{apporter.map((a) => <li>{a}</li>)}</ul></>)}
+            {fo?.pret && <p class="fa-pret">{fo.pret}</p>}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {avis.length > 0 && (
+    <section id="avis" class="fa-avis container-ff" aria-labelledby="fa-avis-t">
+      <h2 id="fa-avis-t" class="fa-h2 font-display">Ce qu’en disent les clients</h2>
+      <ul class="fa-avis-grille" tabindex="0" aria-label="Avis des clients, à faire défiler au téléphone">
+        {avis.map((a) => (
+          <li class="fa-avis-carte">
+            <blockquote><p>{a.text}</p></blockquote>
+            <p class="fa-auteur">{a.author}{a.source ? `, ${a.source}` : ''}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="fa-demande" aria-labelledby="fa-demande-t">
+    <div class="container-ff fa-demande-in">
+      <div class="fa-col">
+        <h2 id="fa-demande-t" class="fa-h2 font-display">{site.wording.devis}</h2>
+        <p><a href={tel()} class="fa-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+        {fullAddress() && <p><Icon name="MapPin" size={18} /> {fullAddress()}</p>}
+        <Horaires class="fa-semaine tabular-nums" />
+      </div>
+      <ContactForm compact idPrefix="atelier" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // « Votre voiture ? » : le prix du gabarit choisi reste seul dans chaque ticket. Sans script, tous les prix restent écrits.
+  onPage(() => {
+    const c = document.querySelector<HTMLElement>('[data-fa-comptoir]');
+    const f = c?.querySelector<HTMLFieldSetElement>('[data-fa-gabarits]');
+    if (!c || !f) return;
+    const choisir = () => {
+      const g = f.querySelector<HTMLInputElement>('input:checked')?.value ?? '';
+      c.dataset.gabarit = g;
+      for (const el of c.querySelectorAll<HTMLElement>('[data-g]')) el.classList.toggle('fa-on', el.dataset.g === g);
+    };
+    f.hidden = false;
+    f.addEventListener('change', choisir);
+    choisir();
+  });
+</script>
+
+<style>
+  .fa-page { display: grid; gap: clamp(2.5rem, 7vh, 5rem); }
+  .fa-tete { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 4vh, 2.5rem); padding-block-start: clamp(1.5rem, 5vh, 4rem); }
+  .fa-identite { display: grid; gap: 0.9rem; align-content: start; }
+  .fa-h1 { font-size: clamp(2.2rem, 7vw, 4.6rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .fa-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 36ch; }
+  .fa-fort { font-weight: 700; max-inline-size: 40ch; }
+  .fa-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .fa-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fa-tel:focus-visible, .fa-lien:focus-visible, .fa-nom:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .fa-muted { color: var(--color-muted); }
+  .fa-autre { font-weight: 600; }
+  .fa-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  /* Au téléphone l'atelier d'abord : la photo en tête, le h1 et le numéro dessous. */
+  @media (max-width: 63.99rem) {
+    .fa-tete { padding-block-start: 0; }
+    .fa-photo-cadre { order: -1; padding-block-start: 1rem; }
+    .fa-photo { aspect-ratio: 16 / 9; }
+  }
+  .fa-h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.04; letter-spacing: -0.01em; }
+  .fa-h3 { font-size: clamp(1.15rem, 2.2vw, 1.4rem); line-height: 1.1; }
+  /* Le comptoir : le choix du gabarit, puis les tickets d'atelier. */
+  .fa-comptoir { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .fa-comptoir-in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .fa-entete { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; align-content: start; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .fa-gabarits { display: flex; flex-wrap: wrap; gap: 0.5rem; border: 0; padding: 0; margin: 0; }
+  .fa-gabarits[hidden] { display: none; }
+  .fa-legende { inline-size: 100%; font-weight: 700; font-size: 1.1rem; margin-block-end: 0.4rem; }
+  .fa-gabarit { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); font-weight: 600; cursor: pointer; }
+  .fa-gabarit:has(input:checked) { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .fa-gabarit:has(input:focus-visible) { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .fa-gabarit input { accent-color: var(--color-accent); }
+  .fa-tickets { display: grid; grid-auto-flow: column; grid-auto-columns: min(84%, 21rem); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: clamp(1.25rem, 4vw, 2.5rem); padding-block: 0.25rem 1rem; overscroll-behavior-x: contain; align-items: start; }
+  .fa-tickets:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+  /* Un ticket : papier blanc, bord haut cranté comme un bon d'atelier détaché, ombre portée réelle. */
+  .fa-ticket { scroll-snap-align: start; display: grid; gap: 0.75rem; align-content: start; padding: 1.4rem 1.25rem 1.25rem; background: var(--color-surface); border: 1px solid var(--color-line); border-block-start: 3px dashed var(--color-line); border-radius: 0 0 var(--radius-card) var(--radius-card); box-shadow: var(--shadow-card); }
+  .fa-t-tete, .fa-t-corps { display: grid; gap: 0.6rem; align-content: start; }
+  .fa-famille { font-size: 0.9rem; font-weight: 700; color: var(--color-muted); }
+  .fa-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-size: clamp(1.25rem, 2.2vw, 1.55rem); line-height: 1.1; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .fa-prix { font-weight: 700; }
+  .fa-prix-seul { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
+  .fa-prix-gabarits { display: grid; gap: 0.15rem; }
+  .fa-pg { position: relative; display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.2rem; border-block-end: 1px dotted var(--color-line); }
+  [data-fa-comptoir]:not([data-gabarit=""]) .fa-pg:not(.fa-on) { display: none; }
+  [data-fa-comptoir]:not([data-gabarit=""]) .fa-pg.fa-on { border: 0; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
+  [data-fa-comptoir]:not([data-gabarit=""]) .fa-pg.fa-on dt { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .fa-comprend { display: grid; gap: 0.3rem; padding-block-start: 0.5rem; border-block-start: 1px solid var(--color-line); }
+  .fa-comprend-t { font-weight: 700; }
+  .fa-lignes { display: grid; gap: 0.15rem; }
+  .fa-lignes li { display: flex; gap: 0.5rem; }
+  .fa-lignes li::before { content: ''; flex: 0 0 0.5rem; block-size: 0.5rem; margin-block-start: 0.5em; background: var(--color-accent); border-radius: var(--radius-ui, 2px); }
+  .fa-bas { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+  .fa-rdv { font-weight: 700; padding: 0.15rem 0.6rem; border: 1px solid currentColor; border-radius: var(--radius-ui, 4px); }
+  .fa-rdv[data-rdv="sans"] { color: var(--color-fg); background: var(--color-bg-2); }
+  /* Venir : les deux files et ce qu'il faut apporter côte à côte. */
+  .fa-venir { display: grid; gap: 1.25rem; }
+  .fa-venir-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.25rem; }
+  .fa-file, .fa-apporter { display: grid; gap: 0.5rem; align-content: start; padding: 1.25rem; border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .fa-apporter { background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .fa-file-liste { display: grid; }
+  .fa-coches { display: grid; gap: 0.3rem; }
+  .fa-coches li { padding-inline-start: 1rem; border-inline-start: 3px solid var(--color-accent); }
+  .fa-pret { font-weight: 600; padding-block-start: 0.5rem; }
+  .fa-avis-grille { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 22rem); gap: 1rem; margin-block-start: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding-block-end: 0.75rem; }
+  .fa-avis-grille:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .fa-avis-carte { scroll-snap-align: start; display: grid; gap: 0.75rem; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .fa-auteur { font-weight: 700; }
+  .fa-demande { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .fa-demande-in { display: grid; gap: 2rem; }
+  .fa-col { display: grid; gap: 0.75rem; align-content: start; }
+  @media (min-width: 48rem) {
+    .fa-demande-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 3rem; }
+  }
+  @media (min-width: 64rem) {
+    .fa-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: 3rem; align-items: center; }
+    /* À l'ordinateur la barre du comptoir (le choix de la voiture, l'appel) reste collée sous la barre de navigation pendant
+       que les tickets d'atelier défilent dessous, un par rangée, le prix d'un côté et ce qu'il comprend de l'autre. */
+    .fa-comptoir { padding-block-start: 0; }
+    .fa-comptoir-in { max-inline-size: var(--container); margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+    .fa-entete { position: sticky; inset-block-start: 72px; z-index: 2; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 2.5rem; align-items: center; padding: 1rem 0; background: var(--color-bg-2); border-block-end: 1px solid var(--color-line); }
+    .fa-entete > .fa-muted { grid-column: 1 / -1; grid-row: 2; }
+    .fa-legende { inline-size: auto; float: left; margin: 0 0.75rem 0 0; align-self: center; }
+    .fa-gabarits { align-items: center; }
+    .fa-tickets { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); overflow: visible; padding-inline: 0; row-gap: 1.5rem; }
+    .fa-ticket { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 2.5rem; padding: 1.75rem 2rem 1.5rem; }
+    .fa-ticket:nth-child(odd) { rotate: -0.5deg; }
+    .fa-ticket:nth-child(even) { rotate: 0.4deg; }
+    .fa-t-corps { border-inline-start: 1px dashed var(--color-line); padding-inline-start: 2.5rem; }
+    .fa-t-corps .fa-comprend { border-block-start: 0; padding-block-start: 0; }
+    .fa-avis-grille { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; }
+  }
+</style>

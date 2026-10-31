@@ -1,0 +1,24 @@
+---
+/**
+ * Proof "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction) : les avis du client deviennent UNE RANGÉE de plus, dans la même grammaire que les chantiers
+ * (src/components/AvisEnRangee.astro : « Avis » et la note Google sur la ligne, puis une piste de cases de texte tirée à
+ * la main). Le modèle de site entier presets/rangees.json n'a pas cette section : Services/rangees pose la même rangée en
+ * deuxième position de l'index ; elle sert aux modèles qui gardent un bloc d'avis à part (presets/rangees-menuisier.json).
+ * Rien d'inventé : sans avis ni note, pas de section.
+ */
+import { site } from '@/lib/site';
+import AvisEnRangee from '@/components/AvisEnRangee.astro';
+
+const montrer = site.proof.testimonials.length > 0 || Boolean(site.proof.google);
+---
+
+{montrer && (
+  <section id="proof" class="rg-avis" aria-labelledby="rg-avis-titre">
+    <AvisEnRangee niveau="h2" />
+  </section>
+)}
+
+<style>
+  .rg-avis { padding: clamp(2rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 4rem); }
+</style>

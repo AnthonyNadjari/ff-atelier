@@ -47,7 +47,7 @@ export const GENRES = {
   judson: 'serif', lexendZetta: 'sans-affichage', intelOneMono: 'mono', jetbrains: 'mono', spaceMono: 'mono', dmMono: 'mono', fragmentMono: 'mono',
   bigShoulders: 'condensee', azeretMono: 'mono',
   hostGrotesk: 'sans', mulish: 'sans', // 29 oct 2026, styles enduit et ocre
-  barlow: 'sans', sacramento: 'manuscrite', permanentMarker: 'manuscrite', libreCaslonText: 'serif', courierPrime: 'mono', // 30 oct 2026, styles pochoir et buvard (farine : archivo, spectral)
+  barlow: 'sans', sacramento: 'manuscrite', permanentMarker: 'manuscrite', onest: 'sans', libreCaslonText: 'serif', courierPrime: 'mono', // 30 oct 2026, styles pochoir et buvard (farine : archivo, spectral)
 };
 const AFFICHAGE = new Set(['serif-affichage', 'sans-affichage', 'condensee', 'manuscrite', 'slab-affichage']);
 

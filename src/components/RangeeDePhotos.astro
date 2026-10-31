@@ -1,0 +1,112 @@
+---
+/**
+ * Rangée du style `rangees` (fiche docs/veille/styles/rangees.md § Construction et § Le geste signature) : une ligne de
+ * photos à HAUTEUR CONSTANTE (--rg-h) et de LARGEURS VARIÉES (src/lib/rangees.ts, gabaritsDeRangee : grande 16:9, carrée
+ * 8:9, étroite 5:8, selon un motif qui change d'une rangée à l'autre et le vrai format de chaque photo), sans légende, un
+ * gris très clair derrière chaque image, 8 px entre elles. La piste part du bord de la page et va jusqu'au bord droit de
+ * l'écran (la vignette suivante est coupée : on voit qu'il y en a d'autres).
+ * Le geste : on la TIRE à la main. Au doigt, c'est le défilement natif ; à la souris, on l'attrape et on la tire (main
+ * ouverte, main fermée, comme la source), et un clic après un tirage n'ouvre rien ; au clavier, elle reçoit le focus et
+ * les flèches la font glisser. Jamais d'autoplay, aucun aimant (la rangée s'arrête là où on la lâche).
+ * LE FIL : sous la rangée, un filet d'1 px et, dessus, un trait d'encre long comme la part visible de la rangée qui suit
+ * sa position (calculé au défilement de la piste, rAF) : il suit le doigt, linéairement. Pas de fil quand rien ne déborde.
+ * Mouvement (profil « rangee-tiree-a-la-main », docs/veille/styles/MOUVEMENTS.md) : les photos de la première rangée
+ * apparaissent quand elles sont chargées (opacité 0,4 s, mesuré sur la source ; les autres gardent l'aperçu flou de <Img>) ; le régime sec est le fil et la main. L'état « pas encore chargée »
+ * n'existe que sous la classe posée par le script ; mouvement réduit : aucune transition.
+ * Chaque vignette mène à `href` (la page de la réalisation ou de la prestation) ; sans href, de simples images.
+ */
+import Img from '@/components/Img.astro';
+import { slugCourant } from '@/lib/site';
+import { lookupImageEntry } from '@/lib/images';
+import { gabaritsDeRangee, RAPPORTS, type Gabarit } from '@/lib/rangees';
+
+interface Props {
+  photos: { src: string; alt: string }[];
+  label: string;
+  href?: string;
+  /** Rang de la rangée sur la page : choisit le motif des largeurs. */
+  index?: number;
+  /** Première rangée de la page : les trois premières photos sont chargées tout de suite. */
+  priority?: boolean;
+}
+const { photos, label, href, index = 0, priority = false } = Astro.props;
+const rapports = photos.map((p) => lookupImageEntry(slugCourant, p.src)?.ratio);
+const gabarits = gabaritsDeRangee(rapports, index);
+// Largeur réelle d'une vignette = hauteur de rangée (--rg-h, 18vw à l'ordinateur) x son rapport, multipliée par
+// l'étirement d'une rangée courte (elle s'élargit jusqu'au bord droit) ; au téléphone la grande passe en 4:3 et la rangée
+// déborde : pas d'étirement. Ainsi `sizes` dit la vraie largeur affichée et le navigateur choisit une source nette.
+const somme = gabarits.reduce((t, g) => t + RAPPORTS[g], 0);
+const etirement = Math.max(1, 96 / (18 * somme));
+const telephone: Record<Gabarit, string> = { grande: '80vw', carree: '60vw', etroite: '40vw' };
+const tailles = (g: Gabarit) => `(min-width: 48rem) ${Math.min(100, Math.ceil(18 * RAPPORTS[g] * etirement))}vw, ${telephone[g]}`;
+const Tag = href ? 'a' : 'span';
+---
+
+{photos.length > 0 && (
+  <div class="rg-rangee" data-rangee>
+    <ul class="rg-piste" aria-label={label} tabindex="0" data-rangee-piste>
+      {photos.map((p, i) => (
+        <li class="rg-tuile" style={`--ar: ${RAPPORTS[gabarits[i]].toFixed(4)}`} data-gabarit={gabarits[i]}>
+          <Tag href={href} class="rg-cadre" draggable="false" tabindex={href ? '-1' : undefined}>
+            <Img src={p.src} alt={p.alt} class="rg-img absolute inset-0 h-full w-full object-cover" sizes={tailles(gabarits[i])} loading={priority && i < 3 ? 'eager' : 'lazy'} priority={priority && i === 0} draggable="false" />
+          </Tag>
+        </li>
+      ))}
+    </ul>
+    <div class="rg-fil" aria-hidden="true"><span data-rangee-fil></span></div>
+  </div>
+)}
+
+<style>
+  .rg-rangee { position: relative; min-width: 0; }
+  /* La piste : de bord à bord de l'écran, la première photo alignée sur le texte (padding = bord de page) ; défilement
+     natif, barre cachée (le fil la remplace), main ouverte à la souris. */
+  .rg-piste {
+    display: flex;
+    gap: var(--rg-ecart, 0.5rem);
+    margin: 0;
+    padding: 0 0 0 var(--rg-bord, 1rem);
+    list-style: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    scrollbar-width: none;
+    cursor: grab;
+  }
+  .rg-piste::-webkit-scrollbar { display: none; }
+  .rg-piste:focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+  :global(.rg-tire) { cursor: grabbing; }
+  :global(.rg-tire) .rg-cadre { pointer-events: none; }
+
+  /* La vignette : hauteur de la rangée, largeur donnée par son gabarit, le gris clair derrière l'image. */
+  /* Une rangée court toujours jusqu'au bord droit de la fenêtre (la source : elle file hors champ) : quand ses photos ne
+     suffisent pas à remplir la largeur, chacune s'élargit en proportion de sa largeur (flex-grow = son rapport), à
+     hauteur égale ; quand elles débordent, la dernière est coupée par le bord. */
+  .rg-tuile { flex: var(--ar, 1.7778) 0 auto; height: var(--rg-h, 11rem); aspect-ratio: var(--ar, 1.7778); min-width: 0; }
+  /* Au téléphone, la grande passe en 4:3 : elle tient dans l'écran et laisse voir le bord de la suivante. */
+  @media (max-width: 47.99rem) { .rg-tuile[data-gabarit='grande'] { aspect-ratio: 4 / 3; } }
+  .rg-cadre { position: relative; display: block; width: 100%; height: 100%; overflow: hidden; background: var(--bg-2); -webkit-user-drag: none; user-select: none; }
+  .rg-cadre :global(img) { -webkit-user-drag: none; }
+  .rg-cadre:focus-visible { outline: 1px solid var(--fg); outline-offset: 2px; }
+
+  /* Le fil : un filet clair, et le trait d'encre de la part visible, qui suit la piste. */
+  .rg-fil { position: relative; height: 1px; margin: 0.75rem var(--rg-bord, 1rem) 0; background: var(--line); overflow: hidden; }
+  .rg-fil[hidden] { display: none; }
+  .rg-fil span { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--rg-part, 1) * 100%); background: var(--fg); transform: translateX(calc(var(--rg-pos, 0) * 100%)); }
+
+  /* L'apparition de chaque photo une fois chargée (sous la classe posée par le script, jamais sans lui). */
+  :global(.rg-attente) .rg-cadre :global(img) { opacity: 0; }
+  :global(.rg-attente) .rg-cadre :global(img.rg-chargee) { opacity: 1; transition: opacity 0.4s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.rg-attente) .rg-cadre :global(img) { opacity: 1; transition: none; }
+  }
+</style>
+
+<script>
+  // Le moteur des rangées (src/scripts/rangees.ts) s'arme lui-même par onPage() : il se relance après une navigation
+  // ClientRouter (tirage à la souris, fil, chargement anticipé), une seule fois par rangée.
+  import { onPage } from '@/scripts/page';
+  import { armerRangees } from '@/scripts/rangees';
+  onPage(armerRangees);
+</script>

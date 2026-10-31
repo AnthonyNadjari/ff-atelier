@@ -60,6 +60,7 @@ export const DIRECTIONS = [
   'cartouche', // papeterie d'hotel : blanc et un seul cobalt, nom geant en serif d'affiche entre deux filets, cartouches a filet poses a cheval sur le bas des photos, machine a ecrire, papier quadrille (hotel, barbier, institut ; hotel-gilbert.at, 30 oct 2026)
   'rayon', // boutique de papier : blanc franc, une encre indigo, la gamme en etageres qu on fait glisser au doigt dans des cases gris lavande, titres de rayons au feutre avec une fleche dessinee, etiquettes a contour et ombre dure (papeterie, epicerie fine, fromager, caviste ; blankinside.co.uk, 31 oct 2026)
   'travee', // agence d'architecture : blanc casse, noir d'encre, grotesque technique serree, la travee (sous l'en-tete, les photos du client et de chaque metier cote a cote dans une bande qu'on fait glisser au doigt), realisations posees en quinconce dans une piste, l'avis sur une plaque verte posee sur une photo, fin noire (architecte, menuisier-agenceur, charpentier, renovation, paysagiste ; driessenarchitectuur.nl, 31 oct 2026)
+  'rangees', // index de chantiers : papier blanc casse uniforme, une encre noire, un gris, pas de titre geant ; une rangee par realisation, son nom et son lieu en petit puis une piste bord a bord de photos de largeurs variees a hauteur constante qu on tire a la main, son fil dessous (menuisier, ebeniste, architecte d interieur, paysagiste, photographe ; officecommun.com, 31 oct 2026)
   // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
@@ -122,22 +123,24 @@ export const SHELLS = [
   'matieres', // l accueil est le nuancier de l atelier : en tete h1, metier a la ville, telephone et « Pour quel usage ? » (chaque usage et ses matieres) ; puis le mur des matieres (la photo de la matiere en grand carre, son nom, son origine), l echelle du client (durete, densite) en barres, chaque matiere a sa valeur ; une page par matiere ; /matieres en tableau compare (architecture nuancier-matieres)
   'producteurs', // l accueil est le mur des producteurs du magasin : a l ordinateur une colonne collee a gauche (h1, metier a la ville, telephone, horaires du jour, adresse, « Qui fait quoi » : chaque rayon et ses producteurs) a cote du mur, les producteurs en grille (portrait, commune, « a 12 km », ce qu ils apportent) ; au telephone la colonne en tete ; une page par producteur ; /producteurs du plus proche au plus loin (architecture mur-producteurs)
   'departs', // l accueil est le tableau des departs d un taxi ou d un transporteur : en tete h1, metier a la ville, telephone ; a cote (a l ordinateur) le tableau des destinations au depart de la base (destination, distance, duree, prix s il est publie), chaque ligne vers sa page ; « A quelle heure partir ? » (l heure du vol ou du train, la prise en charge calculee dans le navigateur avec les marges du client) ; les avis en piste ; une page par trajet ; /trajets (architecture tableau-departs)
+  'sessions', // l accueil est le guichet d une auto-ecole : en tete h1, metier a la ville, telephone ; puis les prochaines sessions datees de toutes les formations en billets (date, formation, horaires, prix, places restantes ou complet), les sessions passees retirees au build et dans le navigateur ; les formations en colonnes par categorie (voiture, deux-roues, code) ; une page par formation (prerequis, ce qui est compris, pieces a fournir, ses sessions) ; /formations (architecture sessions-places)
+  'forfaits', // l accueil est le comptoir d un garage : en tete h1, metier a la ville, telephone, avec ou sans rendez-vous ; puis « Votre voiture ? » (le gabarit choisi, sans script tous les prix) et les forfaits en tickets (prix, ce que le prix comprend ligne a ligne, pour quelles voitures, sans ou sur rendez-vous) ; ce qu il faut apporter et le vehicule de pret ; une page par forfait ; /forfaits en tableau compare (architecture forfaits-atelier)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
-  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock', 'calque', 'chapitre', 'talus', 'etabli', 'rayon'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
-  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'cartouche', 'rayon', 'travee'],
-  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations', 'pinceau', 'lin', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
+  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock', 'calque', 'chapitre', 'talus', 'etabli', 'rayon', 'rangees'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee', 'rangees'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee', 'rangees'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'cartouche', 'rayon', 'travee', 'rangees'],
+  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations', 'pinceau', 'lin', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee', 'rangees'],
   zones: ['list', 'map', 'chips', 'adresses', 'tournee', 'fiches'],
   process: ['steps', 'timeline', 'numbered', 'horizon', 'baume'],
   faq: ['accordion', 'two-columns', 'chapitre', 'etabli'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
-  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran', 'pinceau', 'lin', 'bouteille', 'calque', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
+  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran', 'pinceau', 'lin', 'bouteille', 'calque', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee', 'rangees'],
   footer: ['columns', 'minimal', 'big-name', 'liens', 'chapitre', 'ocre', 'barbotine', 'baume', 'bande', 'souffle'],
 } as const;
 export type SectionType = keyof typeof VARIANTS;
@@ -1477,6 +1480,76 @@ export const siteSchema = z.object({
       "Le tableau des départs d'un taxi, d'un VTC ou d'un transporteur (architecture tableau-departs, docs/veille/architectures/tableau-departs.md, sources Taxi Annecy : « Départs · Annecy », chaque destination avec sa distance et sa durée, « Voir le trajet », une page par trajet avec l'heure à laquelle partir et ce qu'il faut fournir ; VTC Rousseau, Les Houches : les tarifs au départ ou à destination de Chamonix, jour et nuit, « si vous ne trouvez pas votre destination, appelez ») : le tableau à côté du h1, « À quelle heure partir ? », les avis en piste ; /trajets et une page par trajet (/trajets/<slug>). Absent = ni tableau ni pages. Jamais une destination, une distance, une durée ou un prix inventés.",
     ),
 
+  formations: z
+    .object({
+      intro: z.string().optional().describe('Une ou deux phrases du client sur ses formations (« Code, voiture et deux-roues, inscription en ligne ou à l’agence. »). Absente = rien.'),
+      inscription: z.string().optional().describe('Comment on s’inscrit, mots du client (« Inscription en ligne au nom de l’élève, ou à l’agence aux heures d’ouverture »). Absente = rien.'),
+      examen: z.string().optional().describe('Le centre d’examen, mots du client (« 15 rue Henry-Bordeaux, Annecy »). Absent = rien.'),
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /formations/<slug> (« permis-b-boite-auto »)'),
+            nom: z.string().describe('Le nom de la formation, tel que le client le donne (« Permis B en boîte automatique »)'),
+            categorie: z.string().optional().describe('La catégorie, mots du client (« Voiture », « Deux-roues », « Code ») : les colonnes de l’accueil, dans l’ordre de première apparition. Absente = « Autres formations ».'),
+            prix: z.string().optional().describe('Le prix publié (« 979 € », « 499 € la session »). Absent = « sur demande », jamais deviné.'),
+            duree: z.string().optional().describe('La durée, mots du client (« 13 h de conduite au minimum », « 7 h sur une journée »). Absente = rien.'),
+            prerequis: z.array(z.string()).default([]).describe('Ce qu’il faut avant, mots du client (« 16 ans révolus », « ASSR2 », « Le code obtenu »). Vide = rien.'),
+            comprend: z.array(z.string()).default([]).describe('Ce que le prix comprend, mots du client (« Une heure d’évaluation sur simulateur », « Livret d’apprentissage numérique »). Vide = rien.'),
+            documents: z.array(z.string()).default([]).describe('Les pièces à fournir à l’inscription, mots du client (« Pièce d’identité », « Photo d’identité numérique »). Vide = rien.'),
+            texte: z.string().optional().describe('Ce que le client dit de cette formation. Absent = rien.'),
+            photo: img.optional().describe('Photo du client (la voiture, la piste, une leçon). Absente = pas d’image.'),
+            sessions: z
+              .array(
+                z.object({
+                  debut: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Premier jour de la session, AAAA-MM-JJ (« 2026-11-25 »)'),
+                  fin: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Dernier jour si la session dure plusieurs jours, AAAA-MM-JJ. Absent = un seul jour.'),
+                  horaires: z.string().optional().describe('Les horaires, mots du client (« 9 h à 13 h et 14 h à 17 h »). Absents = rien.'),
+                  places: z.number().int().min(0).optional().describe('Places restantes, données par le client (0 = complet). Absentes = rien d’écrit, jamais deviné.'),
+                  lieu: z.string().optional().describe('L’agence ou le lieu de la session si le client en a plusieurs (« Agence de Seynod »). Absent = rien.'),
+                }),
+              )
+              .default([])
+              .describe('Les sessions datées de cette formation (stage, journée, passerelle) ; une formation sans session se fait au fil de l’année. Les sessions passées tombent au build.'),
+          }),
+        )
+        .default([])
+        .describe('Les formations, dans l’ordre du client.'),
+    })
+    .optional()
+    .describe(
+      "Les formations d'une auto-école, d'une moto-école ou d'un centre de formation, et leurs sessions datées à places comptées (architecture sessions-places, docs/veille/architectures/sessions-places.md, source MAP, Moto-Auto-Pédagogie, Annecy et Seynod : chaque formation est une fiche à prix, ce qu'il faut avant (âge, ASSR2, le code), les pièces à fournir, et ses sessions datées avec les places qui restent, « plus qu'une seule place ») : les prochaines sessions en billets sous le h1, les formations en colonnes par catégorie ; /formations et une page par formation (/formations/<slug>). Absent = ni billets ni pages. Jamais une formation, une date, un prix ou un nombre de places inventés.",
+    ),
+
+  forfaits: z
+    .object({
+      gabarits: z.array(z.string()).default([]).describe('Les gabarits de voiture pour lesquels le client donne un prix, dans son ordre (« Citadine », « Berline », « Monospace / 4x4 ») : le choix « Votre voiture ? ». Vide = un prix par forfait.'),
+      avertissement: z.string().optional().describe('La phrase du client sur ses prix (« Prix TTC, pièces et main-d’œuvre comprises, pour les véhicules courants. »). Absente = rien.'),
+      apporter: z.array(z.string()).default([]).describe('Ce qu’il faut apporter au garage, mots du client (« La carte grise », « La carte verte d’assurance »). Vide = rien.'),
+      pret: z.string().optional().describe('Le véhicule de prêt, mots du client (« Un véhicule de prêt pendant le remplacement du pare-brise »). Absent = rien, jamais promis.'),
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /forfaits/<slug> (« distribution »)'),
+            nom: z.string().describe('Le nom du forfait, tel que le client le donne (« Forfait distribution »)'),
+            famille: z.string().optional().describe('La famille, mots du client (« Entretien », « Freinage », « Pneus », « Soins ») : les autres forfaits de la même famille. Absente = rien.'),
+            prix: z.string().optional().describe('Le prix unique publié (« À partir de 399 € TTC »). Avec des tarifs par gabarit, le prix des gabarits non cités.'),
+            tarifs: z.array(z.object({ gabarit: z.string().describe('Un gabarit de forfaits.gabarits (« Berline »)'), prix: z.string().describe('Le prix publié pour ce gabarit (« 30 € »)') })).default([]).describe('Le prix par gabarit si le client le publie. Vide = le prix unique.'),
+            comprend: z.array(z.string()).default([]).describe('Ce que le prix comprend, ligne à ligne, mots du client (« Kit de distribution », « Pompe à eau », « Main-d’œuvre »). Vide = pas de ticket de pièces.'),
+            pour: z.string().optional().describe('Pour quelles voitures, mots du client (« Véhicules français courants : 208, C4, Clio 4 », « Pneus 205/55/16 »). Absent = rien.'),
+            rendezVous: z.enum(['sans', 'sur']).optional().describe('« sans » si le client le fait sans rendez-vous, « sur » s’il faut prendre rendez-vous. Absent = rien d’écrit.'),
+            duree: z.string().optional().describe('L’immobilisation, mots du client (« Une demi-journée »). Absente = rien.'),
+            texte: z.string().optional().describe('Ce que le client dit de ce forfait. Absent = rien.'),
+            photo: img.optional().describe('Photo prise à l’atelier. Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les forfaits, dans l’ordre du client.'),
+    })
+    .optional()
+    .describe(
+      "Les forfaits d'atelier d'un garage, d'un centre auto ou d'un carrossier (architecture forfaits-atelier, docs/veille/architectures/forfaits-atelier.md, sources Garage de la Route Nationale, Nouvion : les forfaits à prix dès l'accueil, « Ce prix comprend » pièces et main-d'œuvre, pour quelles voitures, avec ou sans rendez-vous, ce qu'il faut apporter, le véhicule de prêt ; Garage de la République, Échirolles : forfaits « à partir de » et prix par gabarit, citadine, berline, monospace) : « Votre voiture ? » et les forfaits en tickets sous le h1 ; /forfaits en tableau comparé et une page par forfait (/forfaits/<slug>). Absent = ni tickets ni pages. Jamais un prix, une pièce comprise, un gabarit ou un véhicule de prêt inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1566,6 +1639,8 @@ export const siteSchema = z.object({
       matieres: z.string().default('Nos matières').describe('Libellé du lien de nav et titre de la page /matieres (site.matieres, architecture nuancier-matieres) : « Nos matières », « Essences de bois »'),
       producteurs: z.string().default('Nos producteurs').describe('Libellé du lien de nav et titre de la page /producteurs (site.producteurs, architecture mur-producteurs) : « Nos producteurs », « Les fermes »'),
       trajets: z.string().default('Les trajets').describe('Libellé du lien de nav et titre de la page /trajets (site.departs, architecture tableau-departs) : « Les trajets », « Destinations »'),
+      formations: z.string().default('Les formations').describe('Libellé du lien de nav et titre de la page /formations (site.formations, architecture sessions-places) : « Les formations », « Permis et stages »'),
+      forfaits: z.string().default('Nos forfaits').describe('Libellé du lien de nav et titre de la page /forfaits (site.forfaits, architecture forfaits-atelier) : « Nos forfaits », « Tarifs atelier »'),
       domaines: z.string().default('Domaines d’intervention').describe('Titre du sommaire des domaines sur l’accueil (architecture honoraires-domaines) : « Domaines d’intervention », « Ce que nous plaidons »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),

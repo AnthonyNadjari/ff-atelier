@@ -1,0 +1,70 @@
+---
+/**
+ * Contact "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction, page « Contact ») : la page contact de la source posée en fin d'accueil. Une phrase grise en tête
+ * (« Appelez le <numéro> ou écrivez à <e-mail>, ou remplissez ceci. » : la source dit « Write to hello@…, or fill in the
+ * form below »), le numéro et l'e-mail en liens à l'encre sur filet ; puis le formulaire de la source : des champs à un
+ * seul filet dessous, sans cadre (direction rangees), le bouton d'envoi en rectangle d'encre pleine largeur
+ * (src/components/ContactForm.astro, le formulaire partagé). En gris sous la phrase, ce qui se trouve « ailleurs » chez la
+ * source : l'adresse et « Voir sur le plan », les horaires du jour, les réseaux.
+ * Deux colonnes à l'ordinateur : à gauche la phrase et, sous un filet, les coordonnées (colonne de 34em), à droite le
+ * formulaire sur le reste de la largeur ; au téléphone, l'un sous l'autre.
+ * Rien d'inventé : sans e-mail, la phrase ne parle que du numéro ; chaque information disparaît sans sa donnée ;
+ * sans formulaire (form.provider « none »), la phrase et les informations seules.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+
+const c = site.contact;
+const adresse = c.address?.city ? fullAddress() : '';
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok' };
+const formulaire = site.form?.provider !== 'none';
+---
+
+<section id="contact" class="rg-contact" aria-labelledby="rg-contact-titre">
+  <div class:list={['rg-grille', formulaire && 'rg-avec-form']}>
+    <div class="rg-gauche">
+      <h2 id="rg-contact-titre" class="rg-h2" set:html={site.wording.contactTitle} />
+      <p class="rg-note">
+        Appelez le <a href={tel()} class="rg-lien whitespace-nowrap" data-porte="call">{c.phoneDisplay}</a>
+        {c.email && <> ou écrivez à <a href={mailto()} class="rg-lien rg-mail">{c.email}</a></>}{formulaire ? ', ou remplissez ceci.' : '.'}
+      </p>
+      {site.wording.contactText && <p class="rg-note">{site.wording.contactText}</p>}
+      {(adresse || c.hours.length > 0 || reseaux.length > 0) && (
+        <div class="rg-ailleurs">
+          {adresse && (
+            <p>{site.business.name}<br />{adresse}{c.mapsUrl && <><br /><a href={c.mapsUrl} class="rg-lien" target="_blank" rel="noopener">Voir sur le plan</a></>}</p>
+          )}
+          {c.hours.length > 0 && <div class="rg-horaires"><HorairesDuJour /></div>}
+          {reseaux.length > 0 && (
+            <p>{reseaux.map(([k, url], i) => <>{i > 0 && ', '}<a href={url} class="rg-lien" target="_blank" rel="noopener">{noms[k] ?? k}</a></>)}</p>
+          )}
+        </div>
+      )}
+    </div>
+    {formulaire && <div class="rg-droite-form"><ContactForm class="rg-form" compact idPrefix="rg-contact" /></div>}
+  </div>
+</section>
+
+<style>
+  .rg-contact { padding: clamp(4rem, 8vw, 6rem) var(--rg-bord, 1rem) clamp(3rem, 6vw, 4rem); }
+  .rg-grille { display: grid; gap: 2.5rem; }
+  .rg-gauche { min-width: 0; max-width: var(--rg-mesure, 34em); }
+  .rg-h2 { margin: 0; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); line-height: 1.3; text-wrap: balance; }
+  .rg-note { margin: 1rem 0 0; color: var(--muted); font-size: var(--rg-t, 0.9375rem); text-wrap: pretty; }
+  .rg-mail { overflow-wrap: anywhere; }
+  .rg-droite-form { min-width: 0; }
+  .rg-droite-form :global(.rg-form button[type='submit']) { width: 100%; border-radius: 0; }
+  .rg-ailleurs { display: grid; gap: 1.25rem; align-content: start; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: var(--rg-t, 0.9375rem); }
+  .rg-ailleurs p { margin: 0; }
+  /* Les horaires pâlissent eux-mêmes les autres jours : posés sur le gris, ils passeraient sous l’AA ; on part de l’encre. */
+  .rg-horaires { color: var(--fg); }
+  /* À l'ordinateur, la phrase et les coordonnées à gauche dans la colonne de 34em, le formulaire à droite sur le reste de
+     la largeur (reprise du 31 oct 2026 : la moitié droite restait vide). */
+  @media (min-width: 64rem) {
+    .rg-avec-form { grid-template-columns: minmax(0, 34em) minmax(0, 1fr); column-gap: clamp(3rem, 8vw, 8rem); align-items: start; }
+    .rg-droite-form { max-width: 40rem; padding-top: 0.35rem; }
+  }
+</style>

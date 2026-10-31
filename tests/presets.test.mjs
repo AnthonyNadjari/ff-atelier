@@ -306,10 +306,15 @@ if (!tsImportable) {
     }
     for (const v of VARIANTS.footer) assert.ok((footerCounts.get(v) || 0) >= 2, `footer "${v}" utilise ${footerCounts.get(v) || 0} fois, attendu >= 2`);
 
+    // Variante d'un style construit dont le modèle de site entier (presets/<id>.json) n'a pas cette section (style rangees :
+    // l'accueil est l'index, les avis et l'atelier y sont des rangées, le contact est en tiroir) : posée par le second
+    // modèle de la direction seulement, jamais répétée ailleurs pour faire nombre.
+    const stylesEntiers = new Set(all.filter(estModeleDeStyle).map((d) => d.nom));
     for (const type of ['proof', 'contact', 'cta', 'about']) {
       const counts = countSectionVariant(all, type);
       for (const v of VARIANTS[type]) {
         if (VARIANTES_D_ARCHITECTURE.includes(`${type}/${v}`)) continue; // composées pour leur architecture, jamais tirées dans un modèle
+        if (stylesEntiers.has(v) && (counts.get(v) || 0) >= 1) continue;
         assert.ok((counts.get(v) || 0) >= 2, `${type} "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 2`);
       }
     }

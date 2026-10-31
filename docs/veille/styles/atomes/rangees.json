@@ -1,0 +1,136 @@
+{
+  "id": "rangees",
+  "version": 1,
+  "source": {
+    "url": "https://officecommun.com/",
+    "nom": "Office Commun",
+    "metier": "petit studio indépendant de design (identité, produit, motion) : la page d'accueil est l'index de ses projets",
+    "fiche": "docs/veille/styles/rangees.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rangees.json",
+    "date": "2026-10-31"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Inter",
+      "libre": "onest",
+      "graisse": 500,
+      "interlignage": 1.6,
+      "casse": "none",
+      "interlettrage": 0.005,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Inter",
+      "libre": "onest",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 15,
+        "ordinateur": 15
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Inter de la source (liste IA, GOUT § 2) -> Onest (OFL, ajoutée au registre src/lib/fonts.ts), néo-grotesque libre la plus proche (mêmes proportions, ouvertures, ss01). Tout est en 15 px sur la source, noms et texte (le titre affiché est le texte d'ouverture) ; la source n'a pas de h1 visible (le texte affiché le plus gros fait 15 px) : h1 du socle GOUT § 0 à 22/32 px, graisse 500, comme pour rayon, les noms de rangée restent à 15 px graisse 400."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#fcfcfc",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#fcfcfc",
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 1
+        }
+      ],
+      "proches": 16579836
+    },
+    "clair": {
+      "fond": "#fcfcfc",
+      "surface": "#f2f2f2",
+      "texte": "#000000",
+      "texte2": "#6b6b6b",
+      "accent": "#000000",
+      "accent2": "#2b2b2b",
+      "bordure": "#e3e3e3",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "remarque": "Papier #fcfcfc (100 % des fonds, --paper), encre #000 (100 % des caractères), gris rgba(0,0,0,.45) (--mute) sur tout ce qui n'est pas un nom : 3,4:1, ramené à #6b6b6b (5,2:1) pour l'AA ; fond des vignettes rgba(0,0,0,.04) -> #f2f2f2 ; filet rgba(0,0,0,.1) -> #e3e3e3. Clair neutre : toute la couleur vient des photos."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 8
+    },
+    "conteneur": 1280,
+    "mesure": 72,
+    "rythme": "uni",
+    "remarque": "Lu dans le CSS : --m 16 px (bord), --gap 8 px entre les vignettes, 64 px entre deux rangées (48 au téléphone), 128 px avant la première, colonne de texte 34em ; --max-w 1280 px n'encadre rien de visible : les rangées vont de bord à bord. Hauteur de rangée clamp(152px, 14vw, 240px), 144 au téléphone (agrandie dans l'usine : clamp(11rem, 16vw, 17rem))."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun angle arrondi, aucune ombre ; le seul bouton est l'envoi du formulaire, rectangle d'encre pleine largeur ; liens à l'encre sur un filet clair qui fonce au survol ; champs à un seul filet dessous ; « chips » carrées à filet de la page contact (pas de pilule)."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Aucune photo plein cadre : des vignettes sans légende à hauteur constante, largeurs 16:9 et 8:9 (une grande vaut deux carrées et l'écart, --ar par vignette), fond rgba(0,0,0,.04) derrière chaque image ; l'usine ajoute une étroite 5:8 et suit le vrai format de la photo (gabaritsDeRangee)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.32, 0.72, 0, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "rangee-tiree-a-la-main",
+    "remarque": "Mesuré : opacity 0.4s ease ×73 (chaque image apparaît une fois chargée), opacity et transform 0.6s cubic-bezier(0.32, 0.72, 0, 1) ×7 (la phrase d'ouverture monte, .rise), color 0.2s ease ×11 (liens) ; .strip__scroll cursor grab / .is-dragging : la rangée se tire à la souris. Codé : profil rangee-tiree-a-la-main (RangeeDePhotos.astro, src/scripts/rangees.ts), avec le fil qui suit la position."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune : papier uni, fond gris clair des vignettes"
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante"
+}

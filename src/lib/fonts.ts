@@ -67,6 +67,8 @@ export const FONTS = {
   sacramento: { family: "'Sacramento', cursive", pkg: '@fontsource/sacramento/latin.css', role: 'display', mood: 'script monoligne, heures ecrites a la main' },
   // 31 oct 2026 (style rayon, blankinside.co.uk) : titres de rayons ecrits au feutre -> Permanent Marker (OFL), titres de rayons seulement.
   permanentMarker: { family: "'Permanent Marker', cursive", pkg: '@fontsource/permanent-marker/latin.css', role: 'display', mood: 'feutre, titres de rayons ecrits a la main' },
+  // 31 oct 2026 (style rangees, officecommun.com) : Inter (liste IA) -> Onest (OFL), neo-grotesque libre la plus proche, tout le texte.
+  onest: { family: "'Onest Variable', 'Helvetica Neue', Arial, sans-serif", pkg: '@fontsource-variable/onest', role: 'both', mood: 'neo-grotesque nette, studio, index de projets' },
   // 30 oct 2026 (style buvard, florawellnesscafe.com) : Adobe Caslon Pro (non libre) -> Libre Caslon Text ; machine a ecrire -> Courier Prime.
   libreCaslonText: { family: "'Libre Caslon Text', Georgia, serif", pkg: '@fontsource/libre-caslon-text/latin.css', role: 'both', mood: 'caslon de livre, carte de cafe' },
   bungee: { family: "'Bungee', Impact, sans-serif", pkg: '@fontsource/bungee/latin.css', role: 'display', mood: 'urbain, signaletique' },

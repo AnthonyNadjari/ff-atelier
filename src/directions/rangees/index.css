@@ -1,0 +1,107 @@
+/* Direction RANGEES : style réel relevé sur https://officecommun.com/ (Office Commun, petit studio de design ; veille du
+   31 oct 2026, tour 21, fiche docs/veille/styles/rangees.md, atomes docs/veille/styles/atomes/rangees.json).
+   On reprend le style et la construction (le nom en petit et « Contact » aux deux bouts de la barre, deux courts
+   paragraphes gris en colonne étroite, puis une RANGÉE par projet : une ligne « nom, description » en petit et une piste
+   bord à bord de vignettes de largeurs variées à hauteur constante, sans légende, gris très clair derrière l'image),
+   jamais les textes, images, logos ni le code de la source.
+   Une page de studio : papier blanc cassé uniforme, une seule encre noire, un gris pour tout ce qui n'est pas un nom ;
+   aucun titre géant, aucune ombre, aucun angle arrondi ; toute la couleur vient des photos du client.
+   Polices : Inter de la source (liste IA, GOUT § 2) -> Onest (OFL), néo-grotesque libre la plus proche, pour tout le
+   texte, en deux graisses (400 le texte et les noms, 500 le h1 et les h2).
+   Couleurs relevées (CSS de la source) : papier #fcfcfc (--paper), encre #000 (--ink), gris rgba(0,0,0,.45) (--mute :
+   3,4:1, trop pâle pour l'AA : ramené à #6b6b6b, 5,2:1), filet rgba(0,0,0,.1) (#e3e3e3), fond des vignettes
+   rgba(0,0,0,.04) (#f2f2f2). Mesures : bord 16 px, 8 px entre les vignettes, hauteur de rangée clamp(152px, 14vw, 240px)
+   (144 px au téléphone ; agrandie ici à 224-304 px, les photos d'un artisan sont son argument), 64 px entre deux rangées. */
+@import '@fontsource-variable/onest';
+
+[data-direction='rangees'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 0%;
+  --bg: #fcfcfc;
+  --bg-2: #f2f2f2;
+  --surface: #f2f2f2;
+  --fg: #000000;
+  --muted: #6b6b6b;
+  --line: #e3e3e3;
+  --accent: #000000;
+  --accent-2: #2b2b2b;
+  --on-accent: #fcfcfc;
+  --ink: #000000;
+  --on-ink: #fcfcfc;
+  --font-display: 'Onest Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Onest Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Onest Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.005em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3rem, 6vw, 4rem);
+  /* Le bord de page de la source (16 px), un peu plus large à l'ordinateur ; les rangées partent de ce bord et vont
+     jusqu'au bord droit de l'écran. */
+  --rg-bord: clamp(1rem, 1.7vw, 1.5rem);
+  /* 8 px entre deux vignettes, comme la source. */
+  --rg-ecart: 0.5rem;
+  /* La hauteur d'une rangée : toutes les vignettes d'une rangée ont cette hauteur, seule leur largeur change. */
+  --rg-h: clamp(14rem, 18vw, 20rem);
+  /* Le corps de la source : 15 px partout. Reprise du 31 oct 2026 (« le texte gris est minuscule à 1 400 px ») : il monte
+     avec l'écran, 15 px au téléphone, 17 px à 1 400, 18 px au-delà ; noms de rangée, phrase d'ouverture, avis, contact. */
+  --rg-t: clamp(0.9375rem, 0.78rem + 0.42vw, 1.125rem);
+  /* La colonne de texte de la source : 34em. */
+  --rg-mesure: 34em;
+  --motion-duration: 0.6s;
+  --motion-ui: 0.2s;
+  /* Courbes mesurées sur la source : arrivée du texte (opacity et transform 0,6 s cubic-bezier(.32, .72, 0, 1)) ;
+     liens (color 0,2 s ease) ; images (opacity 0,4 s). */
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-ui: ease;
+}
+
+[data-direction='rangees'] body { font-size: var(--rg-t); line-height: 1.6; letter-spacing: 0.005em; }
+[data-direction='rangees'] ::selection { background: var(--fg); color: var(--on-ink); }
+[data-direction='rangees'] :is(h1, h2, h3) { color: var(--fg); line-height: 1.3; letter-spacing: -0.005em; }
+[data-direction='rangees'] h1 { font-weight: 500; }
+[data-direction='rangees'] h2 { font-weight: 500; }
+[data-direction='rangees'] h3 { font-weight: 400; letter-spacing: 0; }
+[data-direction='rangees'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Le lien de la source : l'encre sur le gris, posé sur un filet clair qui fonce au survol (0,2 s). */
+[data-direction='rangees'] .rg-lien {
+  color: var(--fg);
+  border-bottom: 1px solid var(--line);
+  transition: border-color var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui);
+}
+[data-direction='rangees'] .rg-lien:hover { border-bottom-color: var(--fg); }
+[data-direction='rangees'] .rg-lien:focus-visible { outline: 1px solid var(--fg); outline-offset: 2px; }
+
+/* Boutons : le bouton d'envoi de la source, un rectangle d'encre à angles droits, texte en casse normale. */
+[data-direction='rangees'] .btn {
+  border-radius: 0;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: background var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui), opacity var(--motion-ui) var(--ease-ui);
+}
+[data-direction='rangees'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='rangees'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='rangees'] .btn-ghost { border: 1px solid var(--line); background: transparent; color: var(--fg); }
+[data-direction='rangees'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='rangees'] .btn:active { opacity: 0.8; }
+[data-direction='rangees'] .card { background: var(--surface); border: 0; border-radius: 0; box-shadow: none; }
+[data-direction='rangees'] .rule { border-top: 1px solid var(--line); }
+[data-direction='rangees'] .eyebrow { color: var(--muted); font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+/* Les champs du formulaire de la source : un seul filet dessous, sans cadre, qui fonce au focus. */
+[data-direction='rangees'] :is(input:not([type='checkbox']):not([type='radio']), select, textarea) {
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transition: border-color var(--motion-ui) var(--ease-ui);
+}
+[data-direction='rangees'] :is(input, select, textarea):focus { border-color: var(--fg); }

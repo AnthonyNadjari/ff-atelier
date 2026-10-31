@@ -1,0 +1,271 @@
+---
+/**
+ * Coquille "sessions" : architecture `sessions-places` (src/lib/architectures.ts ; source MAP, Moto-Auto-Pédagogie, Annecy et
+ * Seynod : chaque formation est une fiche à prix, ce qu'il faut avant, les pièces à fournir, et ses sessions datées à places
+ * comptées, « plus qu'une seule place » ; docs/veille/architectures/sessions-places.md).
+ * Le client se demande « quand est la prochaine session, reste-t-il de la place, combien ? » : l'accueil est le guichet des
+ * sessions.
+ *   → id="hero" : le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0), l'inscription ; à
+ *     côté la photo du client et, posé à cheval sur son bord, le billet de la toute prochaine session ;
+ *   → id="sessions" : les prochaines sessions de toutes les formations en billets datés (jour, formation, horaires, lieu, prix,
+ *     places restantes en mots), un filtre par catégorie dans le navigateur ; les sessions passées tombent au build et, dans le
+ *     navigateur, le jour venu (data-fin) ;
+ *   → id="formations" : les formations en colonnes par catégorie (piste au doigt au téléphone), prix et prochaine date ;
+ *   → id="avis" : les avis en quinconce ;
+ *   → les sections du layout ; id="contact" : l'agence, les horaires, le centre d'examen, la demande ; le pied.
+ * Pages : /formations (avec les questions), /formations/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans formations : le h1, l'appel et la demande restent, le build dit ce qui manque.
+ * Signes de la source NON repris : panier et « Acheter maintenant » (aucun paiement : la demande d'inscription part au
+ * client), capitales sur les titres, carrousel de formations.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, formationsCompletes, sessionsAVenir, sessionsDe, placesEnMots, dateDeSession, formationsParCategorie } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const fo = site.formations;
+const formations = formationsCompletes(fo?.liste);
+const billets = sessionsAVenir(formations);
+const prochaine = billets[0];
+const categories = formationsParCategorie(formations);
+const filtres = [...new Set(billets.map((b) => b.formation.categorie?.trim()).filter(Boolean))] as string[];
+const avis = site.proof.testimonials;
+const photo = site.images.hero;
+const lien = (slug: string) => `/formations/${slug}`;
+const finDe = (s: { debut: string; fin?: string }) => (s.fin && s.fin >= s.debut ? s.fin : s.debut);
+const manque = donneesManquantes('sessions-places', site);
+if (manque.length > 0) console.warn(`[coquille sessions] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="se-page">
+  <section id="hero" class="se-tete container-ff" aria-labelledby="se-h1">
+    <div class="se-identite">
+      <h1 id="se-h1" class="se-h1 font-display" set:html={site.business.tagline} />
+      <p class="se-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="se-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="se-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+      {fo?.inscription && <p class="se-muted">{fo.inscription}</p>}
+      <p><a href="#contact" class="se-lien">{site.wording.devis}</a></p>
+    </div>
+    <div class="se-vitrine">
+      {photo && <Img src={photo.src} alt={photo.alt} class="se-photo" sizes="(min-width: 64rem) 50vw, 100vw" priority />}
+      {prochaine && (
+        <a href={lien(prochaine.formation.slug)} class="se-prochaine" data-se-fin={finDe(prochaine.session)}>
+          <span class="se-prochaine-t">Prochaine session</span>
+          <span class="se-prochaine-d font-display">{dateDeSession(prochaine.session).court}</span>
+          <span class="se-prochaine-f">{prochaine.formation.nom}</span>
+          {placesEnMots(prochaine.session.places) && <span class="se-places" data-places={prochaine.session.places}>{placesEnMots(prochaine.session.places)}</span>}
+        </a>
+      )}
+    </div>
+  </section>
+
+  {billets.length > 0 && (
+    <section id="sessions" class="se-sessions" aria-labelledby="se-sessions-t" data-se-billets>
+      <div class="container-ff se-sessions-in">
+        <div class="se-entete">
+          <h2 id="se-sessions-t" class="se-h2 font-display">Prochaines sessions</h2>
+          {filtres.length > 1 && (
+            <div class="se-filtres" role="group" aria-label="Filtrer les sessions" data-se-filtres hidden>
+              <button type="button" class="se-filtre" aria-pressed="true" data-cat="">Toutes</button>
+              {filtres.map((c) => <button type="button" class="se-filtre" aria-pressed="false" data-cat={c}>{c}</button>)}
+            </div>
+          )}
+        </div>
+        <ol class="se-grille" tabindex="0" aria-label="Prochaines sessions, à faire défiler au téléphone">
+          {billets.map(({ formation: f, session: s }) => {
+            const d = dateDeSession(s);
+            const p = placesEnMots(s.places);
+            return (
+              <li class="se-billet" data-se-fin={finDe(s)} data-cat={f.categorie?.trim() ?? ''}>
+                <p class="se-date"><time datetime={s.debut} class="se-jour font-display tabular-nums">{d.jour}</time><span class="se-mois">{d.mois}</span></p>
+                <div class="se-corps">
+                  <a href={lien(f.slug)} class="se-nom">{f.nom}</a>
+                  <p class="se-muted">{[d.long.charAt(0).toUpperCase() + d.long.slice(1), s.horaires, s.lieu].filter(Boolean).join(', ')}</p>
+                  <p class="se-pied-billet">
+                    {f.prix && <span class="se-prix tabular-nums">{f.prix}</span>}
+                    {p && <span class="se-places" data-places={s.places}>{p}</span>}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  {formations.length > 0 && (
+    <section id="formations" class="se-formations" aria-labelledby="se-formations-t">
+      <div class="container-ff">
+        <h2 id="se-formations-t" class="se-h2 font-display">{site.wording.formations}</h2>
+        {fo?.intro && <p class="se-muted se-intro">{fo.intro}</p>}
+      </div>
+      <div class="se-colonnes" tabindex="0" aria-label="Formations par catégorie">
+        {categories.map((g) => (
+          <section class="se-colonne" aria-label={g.categorie}>
+            <h3 class="se-h3 font-display">{g.categorie}</h3>
+            <ul class="se-liste">
+              {g.formations.map((f) => {
+                const s = sessionsDe(f)[0];
+                return (
+                  <li class="se-ligne">
+                    <a href={lien(f.slug)} class="se-nom">{f.nom}</a>
+                    <p class="se-muted tabular-nums">{[f.prix ?? 'Prix sur demande', f.duree].filter(Boolean).join(', ')}</p>
+                    <p class="se-quand">{s ? `Prochaine session : ${dateDeSession(s).court}` : 'Toute l’année, à votre rythme'}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {avis.length > 0 && (
+    <section id="avis" class="se-avis container-ff" aria-labelledby="se-avis-t">
+      <h2 id="se-avis-t" class="se-h2 font-display">Ils ont eu leur permis</h2>
+      <ul class="se-avis-grille" tabindex="0" aria-label="Avis des élèves, à faire défiler au téléphone">
+        {avis.map((a) => (
+          <li class="se-avis-carte">
+            <blockquote><p>{a.text}</p></blockquote>
+            <p class="se-auteur">{a.author}{a.source ? `, ${a.source}` : ''}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="se-demande" aria-labelledby="se-demande-t">
+    <div class="container-ff se-demande-in">
+      <div class="se-col">
+        <h2 id="se-demande-t" class="se-h2 font-display">{site.wording.devis}</h2>
+        <p><a href={tel()} class="se-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+        {fullAddress() && <p><Icon name="MapPin" size={18} /> {fullAddress()}</p>}
+        <Horaires class="se-semaine tabular-nums" />
+        {fo?.examen && <p class="se-muted">Centre d’examen&nbsp;: {fo.examen}</p>}
+      </div>
+      <ContactForm compact idPrefix="inscription" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/sessions';
+
+  // Les sessions passées tombent le jour venu (le build les retire déjà) ; le filtre par catégorie. Sans script, tous les
+  // billets du build restent visibles.
+  onPage(() => {
+    const jour = isoDuJour();
+    for (const el of document.querySelectorAll<HTMLElement>('[data-se-fin]')) if ((el.dataset.seFin ?? '') < jour) el.hidden = true;
+    const bloc = document.querySelector<HTMLElement>('[data-se-billets]');
+    const f = bloc?.querySelector<HTMLElement>('[data-se-filtres]');
+    if (!bloc || !f) return;
+    f.hidden = false;
+    f.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-cat]');
+      if (!b) return;
+      for (const x of f.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b));
+      for (const li of bloc.querySelectorAll<HTMLElement>('.se-billet')) {
+        const passe = (li.dataset.seFin ?? '') < jour;
+        li.hidden = passe || (b.dataset.cat !== '' && li.dataset.cat !== b.dataset.cat);
+      }
+    });
+  });
+</script>
+
+<style>
+  .se-page { display: grid; gap: clamp(2.5rem, 7vh, 5rem); padding-block-end: 0; }
+  .se-tete { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 4vh, 2.5rem); padding-block-start: clamp(1.5rem, 5vh, 4rem); }
+  .se-identite { display: grid; gap: 0.9rem; align-content: start; }
+  .se-h1 { font-size: clamp(2.2rem, 7vw, 4.6rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .se-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 36ch; }
+  .se-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .se-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .se-tel:focus-visible, .se-lien:focus-visible, .se-nom:focus-visible, .se-prochaine:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .se-muted { color: var(--color-muted); }
+  .se-h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.04; letter-spacing: -0.01em; }
+  .se-h3 { font-size: clamp(1.2rem, 2.4vw, 1.5rem); line-height: 1.1; padding-block-end: 0.5rem; border-block-end: 2px solid var(--color-fg); }
+  /* La vitrine : la photo du client et, posé à cheval sur son bord bas, le billet de la prochaine session. */
+  /* Le billet déborde du premier écran sur le bloc des sessions : le premier plan qu'on détache du guichet. */
+  .se-tete { position: relative; z-index: 1; }
+  .se-vitrine { position: relative; display: grid; }
+  .se-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .se-prochaine { position: absolute; inset-inline-start: clamp(0.75rem, 3vw, 1.5rem); inset-block-end: -4.5rem; display: grid; gap: 0.2rem; max-inline-size: min(22rem, 85%); padding: 1rem 1.25rem; background: var(--color-surface); color: var(--color-fg); border: 1px solid var(--color-line); border-inline-start: 6px solid var(--color-accent); border-radius: var(--radius-card); box-shadow: var(--shadow-card); text-decoration: none; }
+  .se-vitrine:not(:has(.se-photo)) .se-prochaine { position: static; }
+  .se-prochaine-t { font-size: 0.9rem; font-weight: 700; color: var(--color-muted); }
+  .se-prochaine-d { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.05; }
+  .se-prochaine-f { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  /* Les billets : un vrai talon daté à gauche, le corps à droite ; deux par rangée dès le téléphone large. */
+  .se-sessions { padding-block: clamp(2rem, 6vh, 4rem); padding-block-start: clamp(4.5rem, 10vh, 6rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .se-sessions-in { display: grid; gap: 1.5rem; }
+  .se-entete { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; justify-content: space-between; }
+  .se-filtres { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .se-filtres[hidden] { display: none; }
+  .se-filtre { min-block-size: 44px; padding-inline: 1rem; background: var(--color-surface); color: var(--color-fg); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); font: inherit; font-weight: 600; cursor: pointer; }
+  .se-filtre[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .se-filtre:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  /* Au téléphone les billets se feuillettent au doigt (piste aimantée) ; à l'ordinateur, trois par rangée. */
+  .se-grille { display: grid; grid-auto-flow: column; grid-auto-columns: min(80%, 18rem); gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding-block-end: 0.75rem; }
+  .se-grille:focus-visible, .se-avis-grille:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .se-billet { scroll-snap-align: start; display: grid; grid-template-columns: 4.75rem minmax(0, 1fr); background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); overflow: hidden; }
+  .se-billet[hidden] { display: none; }
+  .se-date { display: grid; place-content: center; text-align: center; padding: 0.75rem 0.25rem; background: var(--color-accent); color: var(--color-on-accent, var(--color-bg)); border-inline-end: 2px dashed var(--color-bg-2); }
+  .se-jour { display: block; font-size: 1.9rem; line-height: 1; }
+  .se-mois { font-weight: 600; }
+  .se-corps { display: grid; gap: 0.35rem; align-content: start; padding: 0.9rem 1rem; }
+  .se-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-size: clamp(1.05rem, 1.8vw, 1.2rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .se-pied-billet { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+  .se-prix { font-weight: 700; }
+  .se-places { font-weight: 700; }
+  .se-places[data-places="0"] { color: var(--color-muted); text-decoration: line-through; }
+  /* Les formations en colonnes par catégorie ; au téléphone une piste qu'on fait glisser au doigt. */
+  .se-formations { display: grid; gap: 1.25rem; }
+  .se-intro { max-inline-size: 60ch; margin-block-start: 0.5rem; }
+  .se-colonnes { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 20rem); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: clamp(1.25rem, 4vw, 2.5rem); padding-block-end: 0.75rem; overscroll-behavior-x: contain; }
+  .se-colonnes:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+  .se-colonne { scroll-snap-align: start; display: grid; gap: 0.5rem; align-content: start; }
+  .se-liste { display: grid; }
+  .se-ligne { display: grid; gap: 0.15rem; padding-block: 0.75rem; border-block-end: 1px solid var(--color-line); }
+  .se-quand { font-weight: 600; }
+  .se-avis-grille { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 22rem); gap: 1rem; margin-block-start: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding-block-end: 0.75rem; }
+  .se-avis-carte { scroll-snap-align: start; display: grid; gap: 0.75rem; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .se-auteur { font-weight: 700; }
+  .se-demande { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .se-demande-in { display: grid; gap: 2rem; }
+  .se-col { display: grid; gap: 0.75rem; align-content: start; }
+  @media (min-width: 48rem) {
+    .se-demande-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 3rem; }
+  }
+  @media (min-width: 64rem) {
+    .se-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: 3rem; align-items: center; }
+    /* À l'ordinateur la photo à gauche, le billet de la prochaine session déborde à droite et en bas. */
+    .se-vitrine { order: -1; }
+    .se-prochaine { inset-inline-start: auto; inset-inline-end: -2.5rem; }
+    .se-colonnes { grid-auto-flow: row; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); overflow: visible; max-inline-size: var(--container); margin-inline: auto; inline-size: 100%; }
+    /* À l'ordinateur aussi les billets restent une rangée qu'on fait glisser : le guichet se feuillette. */
+    .se-grille { grid-auto-columns: 21rem; }
+    .se-prochaine { inset-block-end: -6.5rem; }
+    .se-sessions { padding-block-start: 8rem; }
+    .se-avis-grille { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; padding-block-end: 2.5rem; }
+    .se-avis-carte:nth-child(3n + 2) { transform: translateY(2.5rem); }
+  }
+</style>

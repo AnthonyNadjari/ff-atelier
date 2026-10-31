@@ -1,0 +1,283 @@
+{
+ "date": "2026-10-31",
+ "seuil": 0.65,
+ "seuilLinearite": 0.65,
+ "garder": 3,
+ "lignes": [
+  {
+   "url": "https://www.dezeen.com",
+   "cle": "dezeen.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.37",
+   "nouveaute": 0.372,
+   "linearite": 0.38,
+   "formes": "collant, piste, pile, collant, piste, collant…",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "deroule",
+    "valeur": 0.628,
+    "pareil": "déroulé : même ordre : héros, réalisations, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 27 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://37signals.com",
+   "cle": "37signals.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.527,
+   "linearite": 1,
+   "formes": "décalé, décalé, décalé, décalé, décalé, décalé…",
+   "proche": {
+    "nom": "fromagerie-ravanel-d",
+    "axe": "deroule",
+    "valeur": 0.473,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 6 et 5 pages de contenu"
+   }
+  },
+  {
+   "url": "https://craigmod.com",
+   "cle": "craigmod.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.90 > 0.65)",
+   "nouveaute": 0.356,
+   "linearite": 0.9,
+   "formes": "pile, pile, grille, colonnes, grille, colonnes…",
+   "proche": {
+    "nom": "encre-noire",
+    "axe": "disposition",
+    "valeur": 0.644,
+    "pareil": "disposition : les deux empilent (90 % et 93 % de la hauteur en bandes) ; même suite au téléphone : colonnes, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://www.hey.com",
+   "cle": "hey.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.95 > 0.65)",
+   "nouveaute": 0.302,
+   "linearite": 0.95,
+   "formes": "pile, pile, grille, pile, pile, pile…",
+   "proche": {
+    "nom": "dubois-plomberie",
+    "axe": "d",
+    "valeur": 0.698,
+    "pareil": "premier écran (ordinateur) : h1 au milieu hors de l'image, carte posée, 74 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.theverge.com",
+   "cle": "theverge.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de demo-informatique (0.75, déroulé)",
+   "nouveaute": 0.248,
+   "linearite": 0.5,
+   "formes": "piste, grille, grille, grille, grille, grille…",
+   "proche": {
+    "nom": "demo-informatique",
+    "axe": "deroule",
+    "valeur": 0.752,
+    "pareil": "déroulé : même ordre : héros, outil, pied de page ; même navigation : onglets ; 70 et 12 pages de contenu"
+   }
+  },
+  {
+   "url": "https://www.frieze.com",
+   "cle": "frieze.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.awwwards.com",
+   "cle": "awwwards.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 502",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.designboom.com",
+   "cle": "designboom.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de jardins-mael (0.65, déroulé)",
+   "nouveaute": 0.346,
+   "linearite": 0.33,
+   "formes": "piste, piste, pile, décalé, colonnes, grille…",
+   "proche": {
+    "nom": "jardins-mael",
+    "axe": "deroule",
+    "valeur": 0.654,
+    "pareil": "déroulé : même ordre : héros, réalisations, autre, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 22 et 5 pages de contenu ; même longueur (13,5 et 12 écrans)"
+   }
+  },
+  {
+   "url": "https://www.cosstores.com",
+   "cle": "cosstores.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.pressedcoffee.co",
+   "cle": "pressedcoffee.co",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.93 > 0.65)",
+   "nouveaute": 0.326,
+   "linearite": 0.93,
+   "formes": "décalé, plein cadre, colonnes, plein cadre, grille",
+   "proche": {
+    "nom": "https://convicts.nyc/",
+    "axe": "deroule",
+    "valeur": 0.674,
+    "pareil": "déroulé : même ordre : héros, autre, à propos ; même navigation à ancres"
+   }
+  },
+  {
+   "url": "https://toklas.co",
+   "cle": "toklas.co",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.31,
+   "linearite": 1,
+   "formes": "pile",
+   "proche": {
+    "nom": "https://agronomywork.shop/",
+    "axe": "deroule",
+    "valeur": 0.69,
+    "pareil": "déroulé : rien de saillant"
+   }
+  },
+  {
+   "url": "https://cure.no",
+   "cle": "cure.no",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.67 > 0.65)",
+   "nouveaute": 0.293,
+   "linearite": 0.67,
+   "formes": "piste, colonnes, chevauchement, colonnes, décalé, colonnes…",
+   "proche": {
+    "nom": "jardins-mael",
+    "axe": "deroule",
+    "valeur": 0.707,
+    "pareil": "déroulé : même ordre : héros, réalisations, services, autre, pied de page ; même navigation : menu vers des pages et ancres ; 32 et 5 pages de contenu"
+   }
+  },
+  {
+   "url": "https://www.thedustyknuckle.com",
+   "cle": "thedustyknuckle.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.284,
+   "linearite": 1,
+   "formes": "décalé",
+   "proche": {
+    "nom": "borie-des-chenes",
+    "axe": "disposition",
+    "valeur": 0.716,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://samgiambalvo.com",
+   "cle": "samgiambalvo.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.208,
+   "linearite": 1,
+   "formes": "pile, décalé, pile, décalé, pile, décalé…",
+   "proche": {
+    "nom": "fromagerie-ravanel-b",
+    "axe": "disposition",
+    "valeur": 0.792,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes) ; même suite au téléphone : pile, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://combination.studio",
+   "cle": "combination.studio",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.18,
+   "linearite": 1,
+   "formes": "décalé, pile",
+   "proche": {
+    "nom": "borie-des-chenes",
+    "axe": "deroule",
+    "valeur": 0.82,
+    "pareil": "déroulé : même navigation : accueil-menu sans défilement ; même longueur (1 et 1,2 écrans)"
+   }
+  },
+  {
+   "url": "https://www.atelierrue.com",
+   "cle": "atelierrue.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.87 > 0.65)",
+   "nouveaute": 0.122,
+   "linearite": 0.87,
+   "formes": "plein cadre, plein cadre, chevauchement",
+   "proche": {
+    "nom": "forge-delacroix",
+    "axe": "d",
+    "valeur": 0.878,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 91 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://memorystudio.ca",
+   "cle": "memorystudio.ca",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de https://elev8h2o.shop/ (0.89, déroulé)",
+   "nouveaute": 0.112,
+   "linearite": 0.5,
+   "formes": "chevauchement",
+   "proche": {
+    "nom": "https://elev8h2o.shop/",
+    "axe": "deroule",
+    "valeur": 0.888,
+    "pareil": "déroulé : même navigation : menu vers des pages"
+   }
+  },
+  {
+   "url": "https://www.ceramicaitalia.com",
+   "cle": "ceramicaitalia.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de https://driessenarchitectuur.nl/ (1.00, disposition)",
+   "nouveaute": 0,
+   "linearite": 0,
+   "formes": "piste",
+   "proche": {
+    "nom": "https://driessenarchitectuur.nl/",
+    "axe": "disposition",
+    "valeur": 1,
+    "pareil": "disposition : même suite à l'ordinateur : piste"
+   }
+  },
+  {
+   "url": "https://kinto.co.jp",
+   "cle": "kinto.co.jp",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 503",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://studioarhoj.com",
+   "cle": "studioarhoj.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 405",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  }
+ ]
+}

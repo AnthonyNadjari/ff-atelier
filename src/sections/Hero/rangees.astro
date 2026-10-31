@@ -1,0 +1,55 @@
+---
+/**
+ * Hero "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction, bloc 2) : PAS de titre géant ni de photo au premier écran. Comme la source, deux courts paragraphes
+ * en colonne étroite (34em) en haut à gauche, beaucoup de blanc à droite, et les rangées de photos (Services/rangees)
+ * commencent juste dessous, dans le premier écran.
+ * 1. Le h1 (business.tagline) en grand corps (1,5 à 2 rem, graisse 500), à l'encre : la source n'a pas de h1 visible ;
+ *    socle GOUT § 0 (« le métier et la ville dans le h1 ou la phrase juste dessous »).
+ * 2. La phrase grise de la source : le métier à la ville, « depuis <année> » en texte, puis les prestations du client
+ *    CITÉES EN LIENS à l'encre sur un filet clair (la source cite ses projets dans sa phrase d'ouverture) : plusieurs
+ *    pages, une par prestation (src/lib/rangees.ts, prestationsCitees).
+ * 3. Le second paragraphe : la note Google en lien (si elle est donnée), puis les portes EN LIENS dans la phrase, comme
+ *    « Search » chez la source : « Appeler » (tel:, le numéro est déjà en haut, dans la barre) et une porte par intention
+ *    (src/lib/actions.ts : Réserver, Commander, Devis…). Aucun bouton : rien ne doit peser plus que les photos.
+ * Mouvement : la colonne monte de 12 px et apparaît (0,6 s cubic-bezier(.32, .72, 0, 1), mesuré sur la source, la phrase
+ * 80 ms après le titre), une fois, en CSS ; en mouvement réduit, tout est en place.
+ * Rien d'inventé : sans prestation, pas de « Ce que nous faisons » ; sans note Google, pas de note ; sans année, pas de
+ * « depuis ».
+ */
+import { site, tel, metierEtVille, actions } from '@/lib/site';
+import { prestationsCitees } from '@/lib/rangees';
+
+const google = site.proof.google;
+const citees = prestationsCitees(site.services, 5);
+const portes = actions().filter((p) => p.kind !== 'call');
+const faits = metierEtVille().replace(/\.$/, '') + (site.business.since ? `, depuis ${site.business.since}` : '') + '.';
+const ext = (p: { external: boolean }) => (p.external ? { target: '_blank', rel: 'noopener' } : {});
+---
+
+<section id="hero" class="rg-hero">
+  <h1 class="rg-h1 rg-monte" set:html={site.business.tagline} />
+  <p class="rg-texte rg-monte" style="--rg-d: 80ms">
+    {faits}
+    {citees.length > 0 && (
+      <>
+        {' '}Ce que nous faisons&nbsp;: {citees.map((c) => <><a href={c.href} class="rg-lien">{c.texte}</a>{c.sep}</>)}.
+      </>
+    )}
+  </p>
+  <p class="rg-texte rg-monte" style="--rg-d: 160ms">
+    {google && <><a href={google.url} class="rg-lien" target="_blank" rel="noopener">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google</a>, {google.count} avis. </>}
+    <a href={tel()} class="rg-lien whitespace-nowrap" data-porte="call">Appeler</a>{portes.map((p) => <>, <a href={p.href} class="rg-lien" data-porte={p.kind} {...ext(p)}>{p.label.toLowerCase()}</a></>)}.
+  </p>
+</section>
+
+<style>
+  .rg-hero { padding: clamp(2.5rem, 6vw, 4rem) var(--rg-bord, 1rem) 0; }
+  .rg-h1 { margin: 0; max-width: 24ch; font-size: clamp(1.375rem, 1.1rem + 1vw, 2rem); line-height: 1.2; text-wrap: balance; }
+  .rg-texte { margin: 1rem 0 0; max-width: var(--rg-mesure, 34em); color: var(--muted); font-size: var(--rg-t, 0.9375rem); text-wrap: pretty; }
+
+  /* L'arrivée de la colonne (la classe .rise de la source) : CSS seul, une fois. */
+  .rg-monte { animation: rg-monte var(--motion-duration, 0.6s) var(--ease-brand, cubic-bezier(0.32, 0.72, 0, 1)) var(--rg-d, 0ms) both; }
+  @keyframes rg-monte { from { opacity: 0; transform: translateY(12px); } }
+  @media (prefers-reduced-motion: reduce) { .rg-monte { animation: none; } }
+</style>

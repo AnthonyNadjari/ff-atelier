@@ -1,0 +1,57 @@
+---
+/**
+ * L'atelier en rangée (style rangees, fiche docs/veille/styles/rangees.md) : le bloc « à propos » des pages projet de la
+ * source : la ligne en petit (about.title, sinon « L'atelier », à l'encre ; « Depuis <année> » en gris), une colonne de
+ * 34em avec l'histoire (about.story, deux paragraphes au plus, sinon la description) et la signature (about.team[0]) ;
+ * dessous, la RANGÉE des photos de l'atelier (portrait, équipe, espaces), tirée à la main (RangeeDePhotos).
+ * Posé par About/rangees (sa propre section) ou par Services/rangees (dernière rangée de l'index, quand le site n'a pas de
+ * section about).
+ * Rien d'inventé : sans photo, pas de rangée ; sans année, pas de « Depuis » ; sans équipe, pas de signature.
+ */
+import { site, paragraphs } from '@/lib/site';
+import RangeeDePhotos from '@/components/RangeeDePhotos.astro';
+
+interface Props {
+  niveau?: 'h2' | 'h3';
+  id?: string;
+  /** Rang de la rangée sur la page (motif des largeurs). */
+  index?: number;
+}
+const { niveau = 'h2', id = 'rg-apropos-titre', index = 1 } = Astro.props;
+const Titre = niveau;
+const a = site.about;
+const texte = paragraphs(a.story || site.business.description || '').slice(0, 2);
+const signature = a.team[0];
+const vues = new Set<string>();
+const photos = [a.portrait, ...a.team.map((m) => m.photo), ...a.espaces.map((e) => e.photo)]
+  .filter((p): p is { src: string; alt: string } => Boolean(p && p.src) && !vues.has(p!.src) && (vues.add(p!.src), true));
+---
+
+<div class="rg-atelier">
+  <Titre id={id} class="rg-ligne">
+    <span class="rg-titre" set:html={a.title ?? 'L’atelier'} />
+    {site.business.since && <span class="rg-detail">Depuis {site.business.since}</span>}
+  </Titre>
+  <div class="rg-colonne">
+    {texte.map((p) => <p class="rg-texte">{p}</p>)}
+    {signature && <p class="rg-texte rg-signe">{signature.name}, {signature.role.toLowerCase()}.</p>}
+  </div>
+  {photos.length > 0 && (
+    <div class="rg-photos">
+      <RangeeDePhotos photos={photos} label="L’atelier en photos" index={index} />
+    </div>
+  )}
+</div>
+
+<style>
+  .rg-ligne {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6em;
+    margin: 0 var(--rg-bord, 1rem) 0.5rem; font-size: var(--rg-t, 0.9375rem); line-height: 1.6; font-weight: 400;
+  }
+  .rg-titre { color: var(--fg); }
+  .rg-detail { color: var(--muted); }
+  .rg-colonne { padding-inline: var(--rg-bord, 1rem); max-width: calc(var(--rg-mesure, 34em) + 2 * var(--rg-bord, 1rem)); }
+  .rg-texte { margin: 0 0 0.75rem; color: var(--muted); font-size: var(--rg-t, 0.9375rem); text-wrap: pretty; }
+  .rg-signe { color: var(--fg); }
+  .rg-photos { margin-top: 1.25rem; }
+</style>

@@ -1,0 +1,100 @@
+---
+/**
+ * Page /forfaits (site.forfaits, src/lib/forfaits.ts) : architecture `forfaits-atelier` (la page Forfaits du Garage de la
+ * Route Nationale, les tarifs par gabarit du Garage de la République ; docs/veille/architectures/forfaits-atelier.md). Le
+ * tableau comparé : un forfait par ligne, un gabarit par colonne (ou le prix seul), ce qu'il comprend, le rendez-vous ; ce
+ * qu'il faut apporter ; les questions. Générée seulement dès 4 forfaits (lienForfaits).
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, forfaitsComplets, gabaritsUtilises, prixPour, lienForfaits } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienForfaits(site.forfaits?.liste, site.wording.forfaits) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const fo = site.forfaits!;
+const forfaits = forfaitsComplets(fo.liste);
+const gabarits = gabaritsUtilises(fo.gabarits, forfaits);
+const colonnes = gabarits.length > 0 ? gabarits : ['Prix'];
+const titre = site.wording.forfaits;
+const RDV = { sans: 'Sans rendez-vous', sur: 'Sur rendez-vous' } as const;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} : les forfaits, leurs prix et ce qu'ils comprennent.`} path="/forfaits" jsonLd={site.faq.length > 0 ? [faqPageLd(site.faq)!] : []}>
+  <Nav />
+  <main id="main" class="container-ff ft">
+    <header class="ft-tete">
+      <h1 class="ft-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}.</p>
+      {fo.avertissement && <p class="ft-muted">{fo.avertissement}</p>}
+    </header>
+    <div class="ft-cadre" tabindex="0" role="region" aria-label="Tableau des forfaits, à faire défiler">
+      <table class="ft-tableau">
+        <caption class="sr-only">Forfaits{gabarits.length > 0 ? ` : prix par gabarit (${gabarits.join(', ')})` : ' et leur prix'}, ce qu’ils comprennent</caption>
+        <thead>
+          <tr>
+            <th scope="col">Forfait</th>
+            {colonnes.map((g) => <th scope="col" class="ft-num">{g}</th>)}
+            <th scope="col">Comprend</th>
+          </tr>
+        </thead>
+        <tbody>
+          {forfaits.map((f) => (
+            <tr>
+              <th scope="row" class="ft-nom-c"><a href={`/forfaits/${f.slug}`} class="ft-nom">{f.nom}</a>{f.rendezVous && <span class="ft-rdv">{RDV[f.rendezVous]}</span>}</th>
+              {colonnes.map((g) => <td class="ft-num tabular-nums">{(gabarits.length > 0 ? prixPour(f, g) : prixPour(f)) || 'Sur devis'}</td>)}
+              <td class="ft-muted">{f.comprend.join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    {fo.apporter.length > 0 && (
+      <section aria-labelledby="ft-apporter" class="ft-apporter">
+        <h2 id="ft-apporter" class="ft-h2 font-display">À apporter</h2>
+        <ul class="ft-points">{fo.apporter.map((a) => <li>{a}</li>)}</ul>
+        {fo.pret && <p>{fo.pret}</p>}
+      </section>
+    )}
+    <p class="ft-appel">Votre voiture n’est pas dans la liste&nbsp;? <a href={tel()} class="ft-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    {site.faq.length > 0 && (
+      <section id="faq" aria-labelledby="ft-faq" class="ft-faq">
+        <h2 id="ft-faq" class="ft-h2 font-display">{site.wording.faqTitle ?? 'Vos questions'}</h2>
+        {site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ft { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 70rem; }
+  .ft-tete { display: grid; gap: 0.5rem; }
+  .ft-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .ft-muted { color: var(--color-muted); }
+  .ft-h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); line-height: 1.05; }
+  .ft-cadre { overflow-x: auto; }
+  .ft-cadre:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .ft-tableau { inline-size: 100%; min-inline-size: 36rem; border-collapse: collapse; }
+  .ft-tableau thead th { padding-block: 0.5rem; font-size: 0.9rem; font-weight: 700; color: var(--color-muted); text-align: start; border-block-end: 2px solid var(--color-fg); }
+  .ft-tableau thead th.ft-num { text-align: end; }
+  .ft-tableau tbody > tr > * { padding: 0.7rem 0.5rem 0.7rem 0; border-block-end: 1px solid var(--color-line); vertical-align: top; text-align: start; }
+  .ft-num { text-align: end; white-space: nowrap; font-weight: 700; }
+  .ft-tableau tbody td.ft-num { text-align: end; }
+  .ft-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .ft-rdv { display: block; font-weight: 400; font-size: 0.9rem; color: var(--color-muted); }
+  .ft-apporter { display: grid; gap: 0.5rem; }
+  .ft-points { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .ft-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ft-nom:focus-visible, .ft-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ft-appel { font-weight: 600; }
+  .ft-faq { display: grid; gap: 0.25rem; }
+  .ft-faq details { border-block-end: 1px solid var(--color-line); }
+  .ft-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .ft-faq summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ft-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>

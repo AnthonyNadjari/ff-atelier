@@ -4,6 +4,63 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 31 oct 2026, tour 21 (routine en ligne) : 1 style gardé sur 1 construit, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-31-tour21.jpg)) : le style `rangees`, repris d'Office Commun (officecommun.com,
+petit studio de design). Pas de photo en haut : la barre nue (nom, numéro, Contact), la phrase du métier à la ville avec les
+prestations en liens, puis **une rangée par chantier** (« nom » et commune sur une ligne, piste de photos à hauteur égale et
+largeurs emboîtées, qu'on tire au doigt, un fil d'encre qui suit), les avis en rangée, le contact en tiroir. Pourquoi lui : c'est
+le seul style gardé, et paysagistes, menuisiers, architectes d'intérieur vendent sur leurs chantiers.
+
+**Fait**
+- **Tri (2a quater, étape 0)** : **56 candidats** scannés avec `ff tri` en deux passes (onepagelove par genres, minimal.gallery,
+  vitrine Webflow, boulangeries et ateliers) : listes `styles/tri/liste-2026-10-31-tour21.txt` et `-b.txt`, résultats
+  `styles/tri/2026-10-31-tour21.json` et `-b.json`. 5 gardés par la machine, 47 refusés (presque tous linéaires ou trop proches),
+  4 refusés par le site (robots.txt, 503, 405). Écartés à l'œil : davesocozy.com et elev8h2o.shop (écran de chargement, rien de
+  mesuré), 11elevenbar.com (récit en vidéo qui bloque le défilement : GOUT § 3 et § 4), cafechezteta.com (au seuil de linéarité,
+  pilules).
+- **Style construit (1)** : `rangees` (officecommun.com) : direction (police Onest, libre), Nav/Hero/Services/Proof/About/Contact
+  `rangees`, composants `RangeeDePhotos`, `AvisEnRangee`, `AtelierEnRangee`, modèles `presets/rangees.json` et
+  `rangees-menuisier.json`, test, fiche avec « Construction » ([rangees.md](styles/rangees.md)). Premier juge neuf : ne tient pas à
+  l'ordinateur (photos floues, rangées courtes, contact à moitié vide, texte minuscule, avis en bas) ; repris ; **second juge neuf :
+  tient la comparaison, différent de l'usine, vendable. Gardé.** Ressemblance au plus 0,62 (téléphone), déroulé 0,61, linéarité 0,30.
+  Restes : à l'ordinateur les rangées s'arrêtent sur la marge au lieu de filer au bord ; vide entre citation et auteur des avis.
+- **Reprise `etabli`** (reportée du tour 20) : second juge neuf : ne tient toujours pas (série de photos sur feutre rouge
+  criard), différent de l'usine. Pas gardé ([fiche](styles/etabli.md)). `travee` non repris.
+- **Tour raté au sens de la skill** : 1 style gardé, il en faut 2. Pourquoi : sur 56 candidats, un seul était à la fois non
+  linéaire, loin de l'usine et lisible sans vidéo ; les galeries (onepagelove, minimal.gallery) penchent vers les pages d'une seule
+  colonne ; siteinspire (429), lapa.ninja et land-book (403), Framer Marketplace (429) et Awwwards bloqués depuis la session en ligne.
+- **Catalogue** : modèles `presets/` 96 → 98 fichiers (+ `rangees`, `rangees-menuisier`) ; styles gardés non linéaires ce tour : 1 sur 1.
+- **Mouvement** : profil nouveau `rangee-tiree-a-la-main` codé ([MOUVEMENTS.md](styles/MOUVEMENTS.md)).
+- **Architectures (2a ter)**, codées et prouvées :
+  - [sessions-places](architectures/sessions-places.md) (moto-auto-ecole.com, auto-école) : le billet de la prochaine session à
+    cheval sur la photo, les sessions datées en piste (prix, places restantes ou « Complet », filtre), `/formations/<slug>`.
+    Ressemblance au plus 0,60, linéarité 0,49.
+  - [forfaits-atelier](architectures/forfaits-atelier.md) (garagedelaroutenationale.fr, garagedelarepublique38.fr, garage) :
+    « Votre voiture ? » puis les forfaits en tickets (« Ce prix comprend »), barre du comptoir collée à l'ordinateur, les deux files
+    sans / sur rendez-vous, `/forfaits/<slug>`. Ressemblance au plus 0,62, linéarité 0,56. `deroule.mjs` reconnaît le « comptoir de forfaits ».
+- **Marché (2a)** : 9 sites de plus ([CE-QUI-VEND.md](marche/CE-QUI-VEND.md), **180 sites**). Aucun levier à 40 % ne manque à
+  l'usine. Le plus vendeur : studio anata (architecte d'intérieur, Lyon) : vraie réalisation en grand, « Architecte d'intérieur
+  Lyon » en titre, portes Particuliers / Professionnels, page tarifs, gérant qui parle à la première personne, 11 avis datés,
+  décennale écrite ; seul manque : le numéro en haut.
+- **Paires trop proches** (`ff ressemblance --registre --tous`) : 194, inchangé (aucun site existant refait, règle du 31 oct).
+  Aucun style ni architecture du tour n'y entre.
+- **Santé** : `npm ci`, Chromium présent. Tests : 3 rouges trouvés sur `rangees` (conventions, titre par `wording`, `onPage`)
+  et corrigés ; suite complète verte avant commit : 1 749 tests sur 114 fichiers. `tests/presets.test.mjs` assoupli : une variante
+  d'un style entier compte si un de ses modèles l'utilise.
+
+**Proposé**
+- Photos des essais, frein n° 1 pour le troisième tour : `ff photos-demo` rend des séries disparates ; il faudrait un tri par
+  lumière et par sujet, ou une clé Unsplash/Pexels pour les essais.
+- Galeries : chercher des sources qui ne bloquent pas la session en ligne (land-book, lapa.ninja et siteinspire refusent).
+- `rangees` : laisser les pistes filer au bord droit à l'ordinateur.
+
+**À décider** : rien de neuf.
+
+**Prochain tour commence par** : `travee`, puis `ocre`, `souffle`, `rideau` ; `etabli` seulement avec une série au fond neutre.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 31 oct 2026, tour 20 (routine en ligne) : 1 style gardé sur 3 construits, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-31.jpg)) : le style `rayon`, repris de Blank Inside (blankinside.co.uk, papeterie

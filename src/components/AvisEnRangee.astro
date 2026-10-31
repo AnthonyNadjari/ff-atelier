@@ -1,0 +1,83 @@
+---
+/**
+ * Les avis du client en UNE RANGÉE (style rangees, fiche docs/veille/styles/rangees.md) : la ligne en petit (« Avis » à
+ * l'encre, la note Google en gris, en lien vers la fiche), puis une piste de cases gris clair hautes comme une rangée de
+ * photos, deux largeurs qui alternent, le texte de l'avis à l'encre et, en bas, l'auteur, sa ville et la source en gris.
+ * Elle se tire à la main comme les rangées de photos (src/scripts/rangees.ts, sans le fil) : défilement natif au doigt,
+ * attrapée et tirée à la souris, focus et flèches au clavier ; jamais d'autoplay.
+ * Posée par Proof/rangees (sa propre section) ou par Services/rangees (deuxième rangée de l'index des chantiers, quand le
+ * site n'a pas de section proof : les avis restent haut dans la page, GOUT § 0).
+ * Rien d'inventé : avis recopiés seulement (huit au plus) ; sans avis ni note, rien ; ni étoile ni guillemet géant.
+ */
+import { site } from '@/lib/site';
+
+interface Props {
+  /** Niveau du titre « Avis » : h2 dans sa section, h3 dans l'index des rangées. */
+  niveau?: 'h2' | 'h3';
+  id?: string;
+}
+const { niveau = 'h2', id = 'rg-avis-titre' } = Astro.props;
+const Titre = niveau;
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 8);
+const note = google ? `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google, ${google.count} avis` : '';
+---
+
+{(avis.length > 0 || google) && (
+  <div class="rg-avis-bloc">
+    <Titre id={id} class="rg-ligne">
+      <span class="rg-titre">Avis</span>
+      {google && <a href={google.url} class="rg-detail" target="_blank" rel="noopener">{note}</a>}
+    </Titre>
+    {avis.length > 0 && (
+      <div data-rangee>
+        <ul class="rg-piste-avis" aria-label="Avis des clients" tabindex="0" data-rangee-piste>
+          {avis.map((a, i) => (
+            <li class:list={['rg-case', i % 3 === 0 ? 'rg-large' : 'rg-etroite']}>
+              <blockquote class="rg-citation"><p>{a.text}</p></blockquote>
+              <p class="rg-auteur">{a.author}{a.city && `, ${a.city}`}<span class="rg-source">, {a.source}{a.date && `, ${a.date}`}</span></p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+)}
+
+<style>
+  .rg-ligne {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6em;
+    margin: 0 var(--rg-bord, 1rem) 0.5rem; font-size: var(--rg-t, 0.9375rem); line-height: 1.6; font-weight: 400;
+  }
+  .rg-titre { color: var(--fg); }
+  .rg-detail { color: var(--muted); border-bottom: 1px solid var(--line); transition: color var(--motion-ui, 0.2s) ease, border-color var(--motion-ui, 0.2s) ease; }
+  .rg-detail:hover { color: var(--fg); border-bottom-color: var(--fg); }
+  .rg-piste-avis {
+    display: flex; gap: var(--rg-ecart, 0.5rem); margin: 0; padding: 0 0 0 var(--rg-bord, 1rem); list-style: none;
+    overflow-x: auto; overscroll-behavior-x: contain; touch-action: pan-x pan-y; scrollbar-width: none; cursor: grab;
+  }
+  .rg-piste-avis:global(.rg-tire) { cursor: grabbing; user-select: none; }
+  .rg-piste-avis::-webkit-scrollbar { display: none; }
+  .rg-piste-avis:focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+  /* La case : hauteur d'une rangée au moins, deux largeurs (grande et étroite), le texte en haut, l'auteur en bas ; la
+     dernière s'étire jusqu'au bord droit de l'écran quand la rangée est courte (comme les photos). */
+  .rg-case {
+    flex: none; display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem;
+    min-height: var(--rg-h, 11rem); padding: 1rem 1.1rem; background: var(--bg-2); color: var(--fg);
+  }
+  .rg-case:last-child { flex-grow: 1; }
+  .rg-large { width: min(84vw, 30rem); }
+  .rg-etroite { width: min(72vw, 21rem); }
+  .rg-citation { margin: 0; }
+  .rg-citation p { margin: 0; font-size: var(--rg-t, 0.9375rem); line-height: 1.55; text-wrap: pretty; }
+  .rg-auteur { margin: 0; font-size: 0.875em; color: var(--fg); }
+  .rg-source { color: var(--muted); }
+</style>
+
+<script>
+  // Le moteur des rangées (src/scripts/rangees.ts) s'arme lui-même par onPage() : il se relance après une navigation
+  // ClientRouter (tirage à la souris, fil, chargement anticipé), une seule fois par rangée.
+  import { onPage } from '@/scripts/page';
+  import { armerRangees } from '@/scripts/rangees';
+  onPage(armerRangees);
+</script>

@@ -109,11 +109,16 @@ export interface LayoutArchi {
  *                      producteursComplets) ;
  *  - departs         : trajets lisibles (departs.trajets[] : slug, destination, minutes entières > 0 ; src/lib/departs.ts,
  *                      trajetsComplets) ;
+ *  - formations      : formations lisibles (formations.liste[] : slug, nom ; src/lib/sessions.ts, formationsCompletes) ;
+ *  - sessions        : sessions datées du jour ou à venir, toutes formations (formations.liste[].sessions[] ; src/lib/sessions.ts,
+ *                      sessionsAVenir) ;
+ *  - forfaits        : forfaits à prix (forfaits.liste[] : slug, nom, prix ou un tarif par gabarit ; src/lib/forfaits.ts,
+ *                      forfaitsComplets) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet' | 'recoltes' | 'matieres' | 'producteurs' | 'departs';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet' | 'recoltes' | 'matieres' | 'producteurs' | 'departs' | 'formations' | 'sessions' | 'forfaits';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -174,6 +179,8 @@ export const ARCHITECTURE_IDS = [
   'nuancier-matieres',
   'mur-producteurs',
   'tableau-departs',
+  'sessions-places',
+  'forfaits-atelier',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1418,6 +1425,61 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Taxi, VTC, navette, ambulance ou transport de personnes, déménageur ou coursier à destinations fixes : le client demande d'abord combien de temps, combien, et à quelle heure on vient le chercher. 4 trajets avec leur durée, idéalement la distance, le prix et l'avance à prévoir. Pas pour un artisan qui vient chez le client (rayon-trajet), ni pour une tournée à jours fixes (tournee-semaine).",
   },
+  'sessions-places': {
+    id: 'sessions-places',
+    modele:
+      "Le site d'une auto-école est son guichet des sessions : en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone, l'inscription ; puis les prochaines sessions de toutes les formations en billets datés (le jour, la formation, les horaires, le prix, les places qui restent ou « Complet »), chacun vers sa formation, les sessions passées retirées au build et dans le navigateur ; puis les formations en colonnes par catégorie (voiture, deux-roues, code), chacune avec son prix et sa prochaine date ; les avis ; l'agence, les horaires, le centre d'examen et la demande ; /formations (avec les questions) et une page par formation (prérequis, ce qui est compris, pièces à fournir, toutes ses sessions, « S'inscrire »).",
+    sources: [
+      { fiche: 'docs/veille/architectures/sessions-places.md', site: 'moto-auto-ecole.com' },
+    ],
+    layout: {
+      // Coquille `sessions` (src/shells/sessions.astro).
+      shell: 'sessions',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // MAP : chaque agence a sa vitrine de formations à prix, chaque formation sa fiche (prérequis, pièces, évaluation de
+      // départ, centre d'examen) et ses sessions datées à places comptées. La coquille rend billets, formations, avis et
+      // demande : aucune section de fin de page d'usine.
+      sections: [],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'formations', min: 3, libelle: '3 formations au moins (formations.liste[] : slug, nom)' },
+      { mesure: 'sessions', min: 2, libelle: '2 sessions datées à venir au moins (formations.liste[].sessions[] : debut AAAA-MM-JJ)' },
+    ],
+    convientA:
+      "Auto-école, moto-école, bateau-école, centre de formation (secourisme, CACES, habilitations), stage de récupération de points, école de cuisine ou atelier à stages datés : le client demande d'abord quand est la prochaine session et s'il reste de la place. 3 formations et 2 sessions datées, idéalement les prix, les places restantes et les prérequis. Pas pour des cours chaque semaine (planning-semaine), ni pour un parcours à étapes sans dates (parcours-atelier), ni pour des événements sans inscription (cartes-empilees-agenda).",
+  },
+  'forfaits-atelier': {
+    id: 'forfaits-atelier',
+    modele:
+      "Le site d'un garage est son comptoir de forfaits : en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone, ce qui se fait sans rendez-vous ; puis « Votre voiture ? » (le gabarit choisi au doigt, sans script tous les prix) et les forfaits en tickets : le prix pour cette voiture, « Ce prix comprend » ligne à ligne (pièces, main-d'œuvre), pour quelles voitures, sans ou sur rendez-vous, chacun vers sa page ; puis ce qu'il faut apporter et le véhicule de prêt à côté des deux files (sans rendez-vous, sur rendez-vous) ; les avis ; l'adresse, les horaires et la demande ; /forfaits en tableau comparé (forfait par gabarit, avec les questions) et une page par forfait (le ticket, les autres forfaits).",
+    sources: [
+      { fiche: 'docs/veille/architectures/forfaits-atelier.md', site: 'garagedelaroutenationale.fr' },
+      { fiche: 'docs/veille/architectures/forfaits-atelier.md', site: 'garagedelarepublique38.fr' },
+    ],
+    layout: {
+      // Coquille `forfaits` (src/shells/forfaits.astro).
+      shell: 'forfaits',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Route Nationale : Accueil, Forfaits, Contact, le numéro dans la barre, les forfaits à prix dès l'accueil ; République :
+      // forfaits, tarifs d'atelier, prix par gabarit. La coquille rend le comptoir, les deux files, les avis et la demande.
+      sections: [],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'forfaits', min: 4, libelle: '4 forfaits à prix au moins (forfaits.liste[] : slug, nom, prix ou tarifs par gabarit)' },
+    ],
+    convientA:
+      "Garage, centre auto, carrossier, réparateur de pare-brise, station de lavage, mécanicien moto ou vélo, ramoneur à prix fixes : le client demande d'abord combien pour sa voiture et ce qui est compris. 4 forfaits à prix, idéalement ce que chacun comprend, le prix par gabarit et le rendez-vous. Pas pour des pannes à diagnostiquer appareil par appareil (appareils-pannes), ni pour des formules d'un même service (formules-comparees), ni pour des prix par créneau d'urgence (grille-urgence).",
+  },
 };
 
 
@@ -1488,6 +1550,8 @@ export interface SiteArchi {
   matieres?: { liste?: { slug?: string; nom?: string; photo?: unknown }[] };
   producteurs?: { liste?: { slug?: string; nom?: string; commune?: string; photo?: unknown }[] };
   departs?: { trajets?: { slug?: string; destination?: string; minutes?: number; photo?: unknown }[] };
+  formations?: { liste?: { slug?: string; nom?: string; photo?: unknown; sessions?: { debut?: string; fin?: string }[] }[] };
+  forfaits?: { liste?: { slug?: string; nom?: string; prix?: string; tarifs?: { gabarit?: string; prix?: string }[]; photo?: unknown }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1536,7 +1600,9 @@ export function photosDuClient(s: SiteArchi): number {
     (s.recoltes?.produits ?? []).filter((x) => x.photo).length +
     (s.matieres?.liste ?? []).filter((x) => x.photo).length +
     (s.producteurs?.liste ?? []).filter((x) => x.photo).length +
-    (s.departs?.trajets ?? []).filter((x) => x.photo).length
+    (s.departs?.trajets ?? []).filter((x) => x.photo).length +
+    (s.formations?.liste ?? []).filter((x) => x.photo).length +
+    (s.forfaits?.liste ?? []).filter((x) => x.photo).length
   );
 }
 
@@ -1819,6 +1885,33 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         n = (s.departs?.trajets ?? []).filter((t) => {
           const slug = (t.slug ?? '').trim();
           if (!slug || !(t.destination ?? '').trim() || !(typeof t.minutes === 'number' && Number.isInteger(t.minutes) && t.minutes > 0) || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      // Mêmes comptes que formationsCompletes, sessionsAVenir (src/lib/sessions.ts) et forfaitsComplets (src/lib/forfaits.ts),
+      // recopiés ; « aujourd'hui » en UTC (le build retire les sessions passées à l'heure de Paris).
+      case 'formations':
+      case 'sessions': {
+        const vus = new Set<string>();
+        const fs = (s.formations?.liste ?? []).filter((f) => {
+          const slug = (f.slug ?? '').trim();
+          if (!slug || !(f.nom ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        });
+        const jour = new Date().toISOString().slice(0, 10);
+        const iso = (x: string | undefined) => /^\d{4}-\d{2}-\d{2}$/.test(x ?? '');
+        n = e.mesure === 'formations' ? fs.length : fs.reduce((k, f) => k + (f.sessions ?? []).filter((x) => iso(x.debut) && ((iso(x.fin) && x.fin! >= x.debut! ? x.fin! : x.debut!) >= jour)).length, 0);
+        break;
+      }
+      case 'forfaits': {
+        const vus = new Set<string>();
+        n = (s.forfaits?.liste ?? []).filter((f) => {
+          const slug = (f.slug ?? '').trim();
+          const prix = (f.prix ?? '').trim() !== '' || (f.tarifs ?? []).some((t) => (t.gabarit ?? '').trim() && (t.prix ?? '').trim());
+          if (!slug || !(f.nom ?? '').trim() || !prix || vus.has(slug)) return false;
           vus.add(slug);
           return true;
         }).length;

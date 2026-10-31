@@ -133,3 +133,11 @@ jetable (a11y sans violation, la grille des pages produits n'est plus signalée)
 `ff ressemblance` : téléphone 0,53 (anna-vidal), ordinateur 0,61 (prospect-epi-dor-d), déroulé 0,41 (anna-vidal),
 disposition 0,48 (jardins-mael), linéarité 0,44 (ordinateur : décalé, colonnes, collants, grille ; téléphone : collant,
 pistes) ; navigation lue « annuaire de fiches ». Verdict du juge : à relancer.
+
+## Second juge neuf (31 oct 2026, tour 21)
+
+Sur l'essai repris : **ne tient pas la comparaison**, **différent de l'usine** (seul style à fiche produit collée à côté d'une
+grande photo), vendable à un coutelier avec ses vraies photos. Ce qui manque : la série de photos (feutre rouge saturé repris une
+quinzaine de fois, photos d'atelier sombres et basse définition, rien ne joue le rôle de l'aplat jaune de la source) ; la mention
+« Photo d'illustration » couvre les vignettes de moins de 100 px. À reprendre seulement avec une série au fond neutre unique.
+Pas gardé.

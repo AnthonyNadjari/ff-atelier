@@ -44,7 +44,9 @@
 // sur 3). Modèle : défilement horizontal > onglets (>= 50 % de la page) > journal daté (bloc d'au moins 4 dates du plus
 // récent au plus ancien, >= 35 % de la page) > plan ou schéma (au moins 4 liens posés en absolu sur un plan) > calendrier annuel (tableau à douze colonnes de mois,
 // >= 25 % de la page) > nuancier (au moins 4 liens qui portent chacun une photo carrée de même taille, >= 2 par rangée)
-// > tableau des départs (tableau à colonnes « Destination » et « Durée », au moins 4 lignes, >= 15 % de la page) > annuaire de
+// > tableau des départs (tableau à colonnes « Destination » et « Durée », au moins 4 lignes, >= 15 % de la page) > comptoir de
+// forfaits (au moins 4 tickets : un élément de liste qui porte un lien vers une fiche /<rubrique>/<slug>, un prix en euros et
+// sa propre liste d'au moins deux lignes annoncée par « comprend ») > annuaire de
 // fiches (au moins 6 liens vers des pages /<rubrique>/<fiche> dont la rubrique est dans le menu, hors /services, deux au moins
 // sur une rangée) > accueil-menu (<= 1,5 écran et >= 2 pages
 // liées du menu, du pied ou du corps de l'accueil) > plusieurs pages (>= 2 pages liées du menu ou du pied ET >= 2 pages de contenu dans dist/) > longue page
@@ -57,7 +59,7 @@ export const MOTS_ROLE = {
   heros: 'héros', preuve: 'avis', offres: 'services', realisations: 'réalisations', apropos: 'à propos', questions: 'questions',
   contact: 'contact', lieu: 'lieu/horaires', outil: 'outil', texte: 'texte long', appel: "bandeau d'appel", pied: 'pied de page', autre: 'autre',
 };
-export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets', 'journal daté', 'plan ou schéma', 'calendrier annuel', 'nuancier', 'tableau des départs', 'annuaire de fiches'];
+export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets', 'journal daté', 'plan ou schéma', 'calendrier annuel', 'nuancier', 'tableau des départs', 'comptoir de forfaits', 'annuaire de fiches'];
 export const POIDS_SUITE = 0.5;
 /** Pages qui ne comptent pas comme contenu (légal, erreur, remerciement). */
 export const PAGES_HORS_CONTENU = /(^|\/)(404|mentions-legales|confidentialite|politique-de-confidentialite|credits|cgv|cgu|merci|plan-du-site)(\.html|\/index\.html|\/)?$/i;
@@ -264,6 +266,16 @@ export function releverDeroule(opts = {}) {
       if (rs.length >= 6 && rs.some((r) => rs.some((q) => q !== r && Math.abs(q[1] - r[1]) < 6))) { annuaire = true; break; }
     }
   }
+  // Comptoir de forfaits (31 oct 2026, architecture forfaits-atelier) : au moins quatre tickets, chacun un élément de liste
+  // qui porte un lien vers une fiche /<rubrique>/<slug>, un prix en euros et sa propre liste d'au moins deux lignes annoncée
+  // par « comprend » (« Ce prix comprend ») : les forfaits d'un garage, piste au téléphone (aucune part de page exigée).
+  let tickets = 0;
+  for (const li of main.querySelectorAll('li')) {
+    if (!li.getClientRects().length || !li.querySelector(':scope ul li + li, :scope ol li + li')) continue;
+    if (!/\d\s?€/.test(li.textContent || '') || !/comprend/i.test(li.textContent || '')) continue;
+    const lienFiche = [...li.querySelectorAll('a[href]')].some((a) => { try { const u = new URL(a.href); return u.origin === location.origin && /^\/[a-z0-9-]+\/[a-z0-9-]+(\.html)?\/?$/.test(u.pathname); } catch { return false; } });
+    if (lienFiche) tickets++;
+  }
   let horizontal = docW > vw * 1.3;
   // Les blocs de premier niveau (els, enveloppes ouvertes) comptent aussi : une file qui défile en x sous une
   // enveloppe display:contents (coquilles panneaux et carnet au téléphone) est bien une zone de la page.
@@ -272,7 +284,7 @@ export function releverDeroule(opts = {}) {
     if (/(auto|scroll)/.test(s.overflowX) && e.clientHeight >= vh * 0.6 && e.clientWidth >= vw * 0.8 && e.scrollWidth >= e.clientWidth * 2) { horizontal = true; break; }
   }
 
-  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, partDeparts: Math.round(partDeparts * 100) / 100, annuaire, horizontal, pageForme: typeof window.__ffPageForme === 'function' ? window.__ffPageForme() : undefined };
+  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, partDeparts: Math.round(partDeparts * 100) / 100, tickets, annuaire, horizontal, pageForme: typeof window.__ffPageForme === 'function' ? window.__ffPageForme() : undefined };
 }
 
 /* ---------- fonctions pures ---------- */
@@ -412,6 +424,7 @@ export function modeleNavigation(s) {
   if ((s.partCalendrier ?? 0) >= 0.25) return 'calendrier annuel';
   if (s.nuancier) return 'nuancier';
   if ((s.partDeparts ?? 0) >= 0.15) return 'tableau des départs';
+  if ((s.tickets ?? 0) >= 4) return 'comptoir de forfaits';
   if (s.annuaire) return 'annuaire de fiches';
   const pages = s.pagesLiees ?? s.navPages ?? 0;
   if (Math.max(pages, s.pagesCorps ?? 0) >= 2 && (s.ecrans ?? 99) <= 1.5) return 'accueil-menu sans défilement';
@@ -438,7 +451,7 @@ export function empreinteDeroule(rel, pages = { html: 1, contenu: 0 }) {
     pagesCorps: (rel.corps?.pages || []).length,
     ecrans: Math.round(docH / vh * 10) / 10,
     partImage: Math.round(blocs.reduce((s, b) => s + b.partImage * b.hEcrans, 0) / somme * 100) / 100,
-    partOnglets: rel.partOnglets, partJournal: rel.partJournal, plan: rel.plan, partCalendrier: rel.partCalendrier, nuancier: rel.nuancier, partDeparts: rel.partDeparts, annuaire: rel.annuaire, horizontal: rel.horizontal,
+    partOnglets: rel.partOnglets, partJournal: rel.partJournal, plan: rel.plan, partCalendrier: rel.partCalendrier, nuancier: rel.nuancier, partDeparts: rel.partDeparts, tickets: rel.tickets, annuaire: rel.annuaire, horizontal: rel.horizontal,
   };
   site.modele = modeleNavigation(site);
   return { vw, vh, roles: suiteDeRoles(blocs), blocs, site };

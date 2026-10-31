@@ -1,0 +1,91 @@
+---
+/**
+ * Services "rangees" (style rangees, relevé sur officecommun.com le 31 oct 2026, fiche docs/veille/styles/rangees.md
+ * § Construction, bloc 3 et § Le geste signature) : LES RANGÉES. Une rangée par réalisation du client (site.realisations,
+ * vers /realisations/<slug>), sinon par prestation (vers /services/<slug>), sinon par type de photos de la galerie
+ * (src/lib/rangees.ts, rangeesDuSite). Chaque rangée : une ligne en petit, le nom à l'encre (lien vers sa page) et, en
+ * gris après lui, le lieu du chantier ou la phrase courte de la prestation (la source : « Karda · Product Design Studio »,
+ * ici sans point médian, GOUT § 2 : le gris suffit à séparer) ; puis la piste de photos à hauteur constante et de
+ * largeurs variées, tirée à la main, et son fil (src/components/RangeeDePhotos.astro). 64 px entre deux rangées, 128 px
+ * avant la première, comme la source. Le titre de la section (wording.servicesTitle) est lu par les lecteurs d'écran
+ * seulement : la source n'en montre aucun, les rangées parlent d'elles-mêmes.
+ * À l'ordinateur, survoler une ligne met son gris à l'encre (0,2 s ease, mesuré).
+ * Quand les rangées viennent des réalisations, les prestations qui ne sont citées nulle part ailleurs ont leurs liens dans
+ * la phrase du premier écran (Hero/rangees) ; ici, une dernière ligne « Et aussi » les rappelle si le hero n'est pas
+ * rangees (autre premier écran).
+ * L'INDEX ENTIER (reprise du 31 oct 2026) : quand le site n'a pas de section proof, les avis deviennent la TROISIÈME rangée (après
+ * deux chantiers)
+ * (src/components/AvisEnRangee.astro : haut dans la page, GOUT § 0) ; quand il n'a pas de section about, l'atelier devient
+ * la DERNIÈRE rangée (src/components/AtelierEnRangee.astro). L'accueil de presets/rangees.json est alors, comme la source,
+ * la phrase d'ouverture puis l'index, rien d'autre ; le contact est en tiroir (layout.contactDrawer, la vue « Contact » de
+ * la source).
+ * Rien d'inventé : une rangée sans photo garde sa ligne, sans piste ; sans réalisation, prestation ni photo, rien.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import { rangeesDuSite, prestationsCitees } from '@/lib/rangees';
+import RangeeDePhotos from '@/components/RangeeDePhotos.astro';
+import Titre from '@/components/Titre.astro';
+import AvisEnRangee from '@/components/AvisEnRangee.astro';
+import AtelierEnRangee from '@/components/AtelierEnRangee.astro';
+
+const rangees = rangeesDuSite(site);
+const desRealisations = site.realisations.length > 0;
+// L'ancre dit ce que sont les rangées : « realisations » (des chantiers) ou « services » ; avec des réalisations, un repère
+// #services reste dans la section pour les liens « /#services » d'un pied de page.
+const ancre = desRealisations ? 'realisations' : 'services';
+const types = new Set(site.layout.sections.map((x) => x.type));
+const avisIci = !types.has('proof') && (site.proof.testimonials.length > 0 || Boolean(site.proof.google));
+// Les avis après la deuxième rangée de chantiers (la première s'il n'y en a qu'une) : haut dans la page (le deuxième
+// écran), sans que l'index se lise comme un bloc d'avis.
+const rangAvis = Math.min(1, rangees.length - 1);
+const atelierIci = !types.has('about') && Boolean(site.about.story || site.business.description || site.about.portrait || site.about.team.length);
+const etAussi = desRealisations && site.layout.hero !== 'rangees' ? prestationsCitees(site.services, 8) : [];
+---
+
+{rangees.length > 0 && (
+  <section id={ancre} class="rg-section" aria-labelledby="rg-services-titre">
+    {ancre !== 'services' && <span id="services" class="rg-repere" aria-hidden="true"></span>}
+    <Titre id="rg-services-titre" class="sr-only" title={site.wording.servicesTitle} />
+    {site.layout.hero !== 'rangees' && <p class="rg-metier">{metierEtVille()}</p>}
+    <ul class="rg-liste">
+      {rangees.map((r, i) => (
+        <>
+          <li class="rg-item" id={r.cle}>
+            <h3 class="rg-ligne">
+              {r.href ? <a href={r.href} class="rg-titre">{r.titre}</a> : <span class="rg-titre">{r.titre}</span>}
+              {r.detail && <span class="rg-detail">{r.detail}</span>}
+            </h3>
+            <RangeeDePhotos photos={r.photos} label={r.titre} href={r.href} index={i} priority={i === 0} />
+          </li>
+          {i === rangAvis && avisIci && <li class="rg-item" id="proof"><AvisEnRangee niveau="h3" id="rg-avis-rangee" /></li>}
+        </>
+      ))}
+      {atelierIci && <li class="rg-item" id="about"><AtelierEnRangee niveau="h3" id="rg-atelier-rangee" index={rangees.length} /></li>}
+    </ul>
+    {etAussi.length > 0 && (
+      <p class="rg-aussi">Et aussi&nbsp;: {etAussi.map((c) => <><a href={c.href} class="rg-lien">{c.texte}</a>{c.sep}</>)}.</p>
+    )}
+  </section>
+)}
+
+<style>
+  .rg-repere { display: block; height: 0; }
+  /* Avec un autre premier écran que Hero/rangees (qui le dit déjà), le métier à la ville ouvre l'index, en gris. */
+  .rg-metier { margin: 0 var(--rg-bord, 1rem) clamp(2rem, 4vw, 3rem); color: var(--muted); font-size: var(--rg-t, 0.9375rem); }
+  .rg-section { padding: clamp(3rem, 9vw, 8rem) 0 clamp(3rem, 6vw, 4rem); }
+  .rg-liste { display: flex; flex-direction: column; gap: clamp(2.5rem, 5vw, 4rem); margin: 0; padding: 0; list-style: none; }
+  .rg-item { min-width: 0; scroll-margin-top: 2rem; }
+  /* La ligne de la source : le nom à l'encre, le détail en gris, sur la ligne de base, 8 px au-dessus des photos. */
+  .rg-ligne {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6em;
+    margin: 0 var(--rg-bord, 1rem) 0.5rem;
+    font-size: var(--rg-t, 0.9375rem); line-height: 1.6; font-weight: 400;
+  }
+  .rg-titre { color: var(--fg); }
+  a.rg-titre:focus-visible { outline: 1px solid var(--fg); outline-offset: 2px; }
+  .rg-detail { color: var(--muted); transition: color var(--motion-ui, 0.2s) ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .rg-item:hover .rg-detail { color: var(--fg); }
+  }
+  .rg-aussi { margin: clamp(3rem, 5vw, 4rem) var(--rg-bord, 1rem) 0; max-width: var(--rg-mesure, 34em); color: var(--muted); font-size: var(--rg-t, 0.9375rem); }
+</style>
