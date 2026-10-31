@@ -1,0 +1,714 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://vistamare.com/",
+  "nom": "vistamare",
+  "date": "2026-10-31",
+  "identite": {
+    "title": "Vistamare — Art Gallery",
+    "siteName": "Vistamare",
+    "lang": "it-IT",
+    "description": "Vistamare è una galleria d'arte con sede a Milano e Pescara.",
+    "technologies": [
+      "Nuxt"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f8f8f8",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 200,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "cookie policy",
+        "x": 234.171875,
+        "y": 716.421875,
+        "cx": 0.1915961371527778,
+        "cy": 0.8049131944444444,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.07,
+        "texte": "We and selected third parties use cookies or similar technologies for technical purposes and, with your consent, for functionality as specified in the cookie policy. You can freely give, deny, or with",
+        "selecteur": "div#iubenda-cs-banner"
+      },
+      "barreBas": null,
+      "scrollHeight": 2903,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.pb-2xs",
+        "famille": "\"Neue Montreal\"",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.4px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Neue Montreal\"",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.4px"
+      },
+      "bouton": {
+        "selecteur": "button.cursor-pointer",
+        "famille": "\"Neue Montreal\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "nav": {
+        "selecteur": "a.cursor-pointer",
+        "famille": "\"Neue Montreal\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Neue Montreal",
+          "url": "../fonts/NeueMontreal-Regular.woff2",
+          "feuille": "vistamare.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://vistamare.com/fonts/NeueMontreal-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Neue Montreal",
+          "n": 88
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f8f8f8",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 4180320
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 93502.125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#484848",
+          "n": 47,
+          "poids": 1411
+        },
+        {
+          "hex": "#aaaaaa",
+          "n": 25,
+          "poids": 674
+        },
+        {
+          "hex": "#1f219b",
+          "n": 11,
+          "poids": 622
+        },
+        {
+          "hex": "#c4c4c4",
+          "n": 5,
+          "poids": 71
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 4180320,
+          "part": 0.978
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 93502.125,
+          "part": 0.022
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#484848",
+          "n": 47,
+          "poids": 1411,
+          "part": 0.508
+        },
+        {
+          "hex": "#aaaaaa",
+          "n": 25,
+          "poids": 674,
+          "part": 0.243
+        },
+        {
+          "hex": "#1f219b",
+          "n": 11,
+          "poids": 622,
+          "part": 0.224
+        },
+        {
+          "hex": "#c4c4c4",
+          "n": 5,
+          "poids": 71,
+          "part": 0.026
+        }
+      ],
+      "contraste": 19.77
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.m:sticky",
+          "ecrans": 3.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "outline-color 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 5
+        },
+        {
+          "valeur": "animation banner-slide-up 0.3s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#iubenda-cs-banner",
+        "score": 3,
+        "animations": [
+          "animation banner-slide-up 0.3s ease-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.grid-layout",
+      "sections": [
+        {
+          "selecteur": "header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 2903,
+          "ecrans": 3.2,
+          "mots": 20,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main.m:py-0",
+          "titre": "IMMAGINI DEL VUOTO: dalla camera oscura alla camera chiara",
+          "top": 0,
+          "hauteur": 2903,
+          "ecrans": 3.2,
+          "mots": 366,
+          "images": 16,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header",
+        "hauteur": 2903,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Exhibitions",
+            "href": "/exhibitions",
+            "bouton": false
+          },
+          {
+            "texte": "Artists",
+            "href": "/artists",
+            "bouton": false
+          },
+          {
+            "texte": "Fairs",
+            "href": "/fairs",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Italian",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "English",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram (opens in new tab)",
+            "href": "https://www.instagram.com/galleriavistamare/",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook (opens in new tab)",
+            "href": "https://www.facebook.com/galleriavistamare/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.min-h-footer",
+        "liens": [
+          {
+            "texte": "Vistamare Milano",
+            "href": "/galleries/milano",
+            "bouton": false
+          },
+          {
+            "texte": "Vistamare Pescara",
+            "href": "/galleries/pescara",
+            "bouton": false
+          },
+          {
+            "texte": "Iscriviti",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Cookie Policy",
+            "href": "/#cookie-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy (opens in new tab)",
+            "href": "https://www.iubenda.com/privacy-policy/17016339",
+            "bouton": false
+          },
+          {
+            "texte": "Website by Giga (opens in new tab)",
+            "href": "https://gigadesignstudio.com/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Facebook (opens in new tab)",
+          "href": "https://www.facebook.com/galleriavistamare/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#iubenda-cs-banner",
+          "position": "fixed",
+          "hauteur": 229,
+          "largeur": 408,
+          "enBas": true,
+          "mots": 67
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/vistamare-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f8f8f8",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 163,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "cookie policy",
+        "x": 12,
+        "y": 632,
+        "cx": 0.46510416666666665,
+        "cy": 0.7705864928909952,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.31,
+        "texte": "We and selected third parties use cookies or similar technologies for technical purposes and, with your consent, for functionality as specified in the cookie policy. You can freely give, deny, or with",
+        "selecteur": "div#iubenda-cs-banner"
+      },
+      "barreBas": null,
+      "scrollHeight": 4562,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.pb-2xs",
+        "famille": "\"Neue Montreal\"",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.36px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Neue Montreal\"",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.36px"
+      },
+      "bouton": {
+        "selecteur": "button.cursor-pointer",
+        "famille": "\"Neue Montreal\"",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.3px"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "\"Neue Montreal\"",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.3px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Neue Montreal",
+          "url": "../fonts/NeueMontreal-Regular.woff2",
+          "feuille": "vistamare.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://vistamare.com/fonts/NeueMontreal-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Neue Montreal",
+          "n": 77
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f8f8f8",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 1779180
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 101985
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#484848",
+          "n": 42,
+          "poids": 1373
+        },
+        {
+          "hex": "#aaaaaa",
+          "n": 24,
+          "poids": 667
+        },
+        {
+          "hex": "#1f219b",
+          "n": 11,
+          "poids": 622
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 6,
+      "fonds": [
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 1779180,
+          "part": 0.946
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 101985,
+          "part": 0.054
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#484848",
+          "n": 42,
+          "poids": 1373,
+          "part": 0.516
+        },
+        {
+          "hex": "#aaaaaa",
+          "n": 24,
+          "poids": 667,
+          "part": 0.251
+        },
+        {
+          "hex": "#1f219b",
+          "n": 11,
+          "poids": 622,
+          "part": 0.234
+        }
+      ],
+      "contraste": 19.77
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "outline-color 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 5
+        },
+        {
+          "valeur": "animation banner-slide-up 0.3s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#iubenda-cs-banner",
+        "score": 3,
+        "animations": [
+          "animation banner-slide-up 0.3s ease-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.m:py-0",
+      "sections": [
+        {
+          "selecteur": "div.min-h-[calc(100vh-var(--spacing-footer))]",
+          "titre": "IMMAGINI DEL VUOTO: dalla camera oscura alla camera chiara",
+          "top": 43,
+          "hauteur": 3768,
+          "ecrans": 4.5,
+          "mots": 266,
+          "images": 16,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.min-h-footer",
+          "titre": null,
+          "top": 3811,
+          "hauteur": 751,
+          "ecrans": 0.9,
+          "mots": 100,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer.min-h-footer",
+        "liens": [
+          {
+            "texte": "Vistamare Milano",
+            "href": "/galleries/milano",
+            "bouton": false
+          },
+          {
+            "texte": "Vistamare Pescara",
+            "href": "/galleries/pescara",
+            "bouton": false
+          },
+          {
+            "texte": "Iscriviti",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Cookie Policy",
+            "href": "/#cookie-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy (opens in new tab)",
+            "href": "https://www.iubenda.com/privacy-policy/17016339",
+            "bouton": false
+          },
+          {
+            "texte": "Website by Giga (opens in new tab)",
+            "href": "https://gigadesignstudio.com/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#iubenda-cs-banner",
+          "position": "fixed",
+          "hauteur": 262,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 67
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Vistamare",
+  "dureeS": 20.8
+}

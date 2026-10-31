@@ -1,0 +1,30 @@
+# Eshop Berthillon — https://berthillon.fr/
+Titre « Eshop Berthillon || Berthillon Paris », `lang="fr"`, description « Boutique propulsée par PrestaShop », technologie lue : aucune reconnue. Démontage automatique du 2026-10-31 (`ff demonter`, mesures brutes dans `berthillon.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Berthillon Paris » ; pas de média plein écran (7 image(s) dans l'écran) ; bouton principal « DÉCOUVRIR NOS GLACES » en bas au centre (378, 624 px) ; 234 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Berthillon Paris » ; pas de média plein écran (4 image(s) dans l'écran) ; bouton principal « DÉCOUVRIR NOS GLACES » à mi-hauteur au centre (95, 436 px) ; 202 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 9 lien(s) — Tel : 01 43 54 31 61, Connexion, [shopping_cart Panier 0], A PROPOS, GLACES, SORBETS, DESSERTS GLACÉS, DOUCEURS, CONTACT ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header#header` (0,2 écran, 172 mots, 1 img) → `section#wrapper` « Elaborées sur l'Ile Saint Louis depuis … » (5,0 écrans, 453 mots, 71 img) → `footer#footer` (0,9 écran, 110 mots, 5 img). Calques hors flux (fixes/absolus) : `span#elementor-device-mode` (absolute, 1 px), `div.ui-helper-hidden-accessible` (absolute, 1 px, collé en bas).
+Pied de page : 27 lien(s) — Livraison partout en France avec Chronof, Venez chercher vos glaces dans notre bou, Paiement CB, Visa, Mastercard via Stripe, Boutique sur l'Ile Saint Louis à Paris, , 29-31 rue Saint-Louis en l'île Paris 750, 01 43 54 31 61, eshop@berthillonparis.com, Livraison, Mentions légales, Paiement sécurisé (+17). Téléphone cliquable : oui (2, tel:01 43 54 31 61). Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Livraison partout en France avec Chronof » (https://berthillonparis.com/content/1-livraison), « Livraison » (https://berthillonparis.com/content/1-livraison), « Commandes » (https://berthillonparis.com/historique-commandes).
+En 3 secondes : à juger sur `captures/berthillon-d.webp` (mesuré : fond du premier écran #ffffff, 7 image(s) et 234 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **PlayfairDisplay-Medium**, 32 px / 20 px téléphone, graisse 400, interlignage 1,19 ; corps **Roboto-Regular**, 14 px / 14 px téléphone, graisse 400, interlignage 1,36 ; boutons **Roboto-Regular**, 12 px / 12 px téléphone, graisse 400, interlignage 1,46 ; nav **PlayfairDisplay-Bold**, 16 px / 12 px téléphone, graisse 400, interlignage 1,09, capitales.
+Sources `@font-face` : auto-hébergée (PlayfairDisplay-Bold, Roboto-Regular, Roboto-Medium, Roboto-Bold, PlayfairDisplay-Medium, Material Icons, FontAwesome, ceicons, Font Awesome 6 Free) ; inline (data:) (swiper-icons) ; fichiers chargés : https://berthillonparis.com/modules/creativeelements/views/fonts/Roboto-Regular.ttf, https://berthillonparis.com/modules/creativeelements/views/fonts/PlayfairDisplay-Bold.ttf, https://berthillonparis.com/modules/creativeelements/views/lib/ceicons/fonts/ceicons.woff2?8goggd, https://berthillonparis.com/modules/creativeelements/views/fonts/PlayfairDisplay-Medium.ttf, https://berthillonparis.com/themes/berthillon-paris/assets/fonts/material-icons/570eb83859dc23dd0eec423a49e147fe.woff2, https://berthillonparis.com/themes/berthillon-paris/assets/fonts/Roboto-Medium.ttf. Familles en usage sur le texte visible : Roboto-Regular ×96, Roboto-Medium ×49, PlayfairDisplay-Bold ×18, PlayfairDisplay-Medium ×10, Roboto-Bold ×4, Material Icons ×3. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #989898 (contraste 2,88:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (77 %), #fbfbfb (9 %), #f4ecf4 (6 %), #fff9f2 (5 %), #000000 (2 %) ; textes par nombre de caractères : #120917 (31 %), #ffffff (25 %), #989898 (18 %), #a990d0 (12 %), #59329b (5 %). Images : 71 `<img>` visibles, 20 fond(s) en image, 2 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Swiper (window.Swiper), jQuery (window.jQuery), AOS (window.AOS). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `background 0.3s ease` ×41, `border-radius 0.3s ease` ×41, `border 0.3s ease` ×39, `box-shadow 0.3s ease` ×39, `opacity 0.4s ease` ×32, `all 0.2s ease` ×23, `all 1s ease` ×4, `all 0.3s linear` ×4, `all 0.3s ease-out` ×4, `transform 0.5s ease` ×3. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/berthillon-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section#wrapper` « Elaborées sur l'Ile Saint Louis depuis … » (5,0 écrans, 453 mots, 71 image(s)).
+2. L'élément le plus animé : `div.elementor-section-wrap` (5 transition(s) : opacity 0.4s ease ; background 0.3s ease).
+3. Le bloc le plus singulier par sa structure : `section#wrapper` « Elaborées sur l'Ile Saint Louis depuis … » (seule à contenir <ol>, <video>, <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Livraison partout en France avec Chronof », « Livraison », « Commandes »).
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : PlayfairDisplay-Medium, PlayfairDisplay-Bold ; boutons pilule : 0/8 ordinateur, 0/8 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
